@@ -1,0 +1,11 @@
+{
+  "name": "FKBC Coaches Console",
+  "short_name": "FKBC Console",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#0a0e14",
+  "orientation": "any",
+  "description": "Featherstone Kickboxing Club coach timetable, lesson planner, live timer and coach chat."
+}
