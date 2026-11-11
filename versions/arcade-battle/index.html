@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#070b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>FKBC Fight Arcade</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <section id="title" class="screen active">
+    <div class="title-panel">
+      <div class="fkbc">FKBC</div>
+      <h1>FIGHT ARCADE</h1>
+      <p class="tag">16-BIT DOJO MASTERS CUP</p><div class="insert-coin">PRESS START • FKBC TOURNAMENT EDITION</div>
+      <p class="story">Five coaches. One championship. Fight through the FKBC roster in a classic one-on-one arcade tournament.</p>
+      <div class="menu">
+        <button data-mode="arcade" class="primary">ARCADE MODE</button>
+        <button data-mode="versus">VS BATTLE</button>
+        <button data-mode="training">TRAINING</button>
+        <button id="howBtn">MOVES / OPTIONS</button>
+      </div>
+      <p class="small">Best of 3 rounds · 99 second clock · 6-button controls · special motions · throws · blocking · supers</p>
+    </div>
+  </section>
+
+  <section id="select" class="screen">
+    <div class="select-shell">
+      <header><button class="back" data-back>‹</button><div><h2 id="selectTitle">SELECT YOUR FIGHTER</h2><p id="selectSub">Choose a coach</p></div></header>
+      <div id="roster" class="roster"></div>
+    </div>
+  </section>
+
+  <section id="moves" class="screen">
+    <div class="moves-panel">
+      <header><button class="back" data-back>‹</button><h2>MOVE LIST</h2></header>
+      <div class="move-grid">
+        <div><h3>Normal attacks</h3><p><b>LP / MP / HP</b> standing punches</p><p><b>LK</b> body kick</p><p><b>MK</b> thrust side kick</p><p><b>HK</b> head kick</p><p><b>Back + HK</b> back kick</p><p><b>Forward + HP+HK</b> throw</p></div>
+        <div><h3>Crouching / jumping</h3><p><b>Down + P</b> crouch punch</p><p><b>Down + HP</b> crouch uppercut</p><p><b>Down + K</b> crouch kick</p><p><b>Down + HK</b> trip / sweep</p><p><b>Jump + P/K</b> jump punch / kick</p><p><b>Hold away</b> high block · <b>Down+away</b> low block</p></div>
+        <div><h3>Specials</h3><p><b>↓ ↘ → + P</b> fireball</p><p><b>↓ ↙ ← + K</b> tornado kick</p><p><b>→ ↓ ↘ + HP</b> rising uppercut</p><p><b>← charge → + K</b> rush kick</p><p><b>↓ ↘ → ↓ ↘ → + HP</b> super fireball (full meter)</p></div>
+        <div><h3>Keyboard / gamepad</h3><p>Arrows = movement</p><p>J/K/L = LP/MP/HP</p><p>U/I/O = LK/MK/HK</p><p>T = throw · P = pause</p><p>Standard gamepads supported.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faceoff" class="screen">
+    <div class="faceoff-shell">
+      <div class="face fighter-card"><img id="faceA"><div id="nameA"></div></div>
+      <div class="vs">VS</div>
+      <div class="face fighter-card"><img id="faceB"><div id="nameB"></div></div>
+      <div id="stageLabel" class="stage-label"></div>
+    </div>
+  </section>
+
+  <section id="fight" class="screen no-pad">
+    <div id="viewport">
+      <div id="stage">
+        <canvas id="game" width="1280" height="720"></canvas>
+        <div id="touch">
+          <div class="dpad">
+            <button data-dir="up" class="up">▲</button>
+            <button data-dir="left" class="left">◀</button>
+            <button data-dir="down" class="down">▼</button>
+            <button data-dir="right" class="right">▶</button>
+          </div>
+          <div class="actions">
+            <button data-atk="lp" class="p1">LP</button><button data-atk="mp" class="p2">MP</button><button data-atk="hp" class="p3">HP</button>
+            <button data-atk="lk" class="k1">LK</button><button data-atk="mk" class="k2">MK</button><button data-atk="hk" class="k3">HK</button>
+          </div>
+          <button id="throwBtn" class="shoulder throw">THROW</button>
+          <button id="pauseBtn" class="shoulder pause">Ⅱ</button>
+        </div>
+        <div id="pauseOverlay" class="overlay hidden"><h2>PAUSED</h2><button id="resumeBtn">RESUME</button><button id="quitBtn">QUIT</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="result-panel"><h2 id="resultTitle"></h2><img id="resultImg"><p id="resultText"></p><div class="menu"><button id="continueBtn" class="primary">CONTINUE</button><button data-home>MAIN MENU</button></div></div>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
