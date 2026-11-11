@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "FKBC Coach Console",
+  "short_name": "FKBC",
+  "description": "Plan the session, brief the coaches and run work/rest rounds.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0e12",
+  "theme_color": "#101116",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
