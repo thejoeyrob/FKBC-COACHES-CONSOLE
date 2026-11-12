@@ -155,6 +155,49 @@ body{background:#06080c}
 .doneStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.doneStats div{background:rgba(255,255,255,.05);border-radius:16px;padding:12px 4px}.doneStats b{display:block;font-size:1.5rem}.doneStats small{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.62rem}
 .doneCoaches{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:16px 0 4px}.doneCoaches img{width:48px;height:48px;border-radius:14px;object-fit:cover;object-position:center 8%;background:#0c1118;border:1px solid rgba(255,255,255,.12)}
 @media(max-width:560px){.timerMeta{gap:12px!important}.timerMeta strong{font-size:1rem!important}}
+/* v35 planner */
+.timerStage.ph-demo{--ph:#f4c52a;--phGlow:rgba(244,197,42,.3)}
+.lessonList{gap:14px}
+.sec2{position:relative;border-radius:24px;background:linear-gradient(180deg,rgba(25,33,46,.92),rgba(13,18,26,.96));border:1px solid rgba(255,255,255,.08);border-left:6px solid var(--accent);padding:14px;box-shadow:0 14px 34px rgba(0,0,0,.3)}
+.sec2Head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px}
+.sec2 .secNum{width:38px;height:38px;border-radius:12px;background:var(--accent);color:#07090d;font-weight:1000;display:grid;place-items:center}
+.typeSel{width:100%;height:46px;border-radius:14px;background:#0b1118;color:#fff;border:1px solid var(--line);font:900 1.02rem system-ui;padding:0 12px;min-width:0}
+.typeStatic{font-weight:900;font-size:1.05rem;color:#c9d1db}
+.sec2Right{display:flex;align-items:center;gap:10px}
+.sec2 .coachPickBtn{min-height:44px;padding:4px 10px 4px 4px;border-radius:14px;display:flex;align-items:center;gap:7px;background:#0b1118;border:1px solid var(--line);color:#fff;font-weight:900}
+.sec2 .coachPickBtn img{width:36px;height:36px;border-radius:10px;object-fit:cover;object-position:center 8%}
+.secTotal{text-align:right;min-width:54px}.secTotal b{display:block;font:900 1.35rem/1 Impact,'Arial Black',sans-serif;font-variant-numeric:tabular-nums}.secTotal small{color:var(--muted);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em}
+.titleInput{width:100%;height:48px;border-radius:14px;background:#0b1118;border:1px solid var(--line);color:#fff;padding:0 14px;font-size:1rem;margin-top:12px;outline:none}.titleInput:focus{border-color:var(--accent)}
+.modeSeg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;background:#0b1118;border:1px solid var(--line);border-radius:16px;margin-top:10px}
+.modeSeg button{min-height:42px;border:0;border-radius:12px;background:transparent;color:#aab4c2;font:900 .95rem system-ui}.modeSeg button.on{background:var(--accent);color:#07090d;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.fRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:10px;margin-top:10px}
+.f2{display:block;min-width:0}.f2 small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.62rem;font-weight:900;margin:0 0 5px 2px}
+.f2 select,.stepper input{width:100%;height:46px;border-radius:13px;background:#0b1118;color:#fff;border:1px solid var(--line);font:800 1rem system-ui;padding:0 10px;text-align:center;min-width:0}
+.stepper{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:5px}.stepper button{height:46px;border-radius:13px;border:1px solid var(--line);background:#19222f;color:#fff;font:900 1.3rem system-ui}.stepper input{-moz-appearance:textfield}.stepper input::-webkit-inner-spin-button{display:none}
+.swapChk{display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid var(--line);cursor:pointer}
+.swapChk input{width:26px;height:26px;accent-color:var(--accent);flex:none;margin-top:1px}.swapChk b{display:block}.swapChk small{display:block;color:var(--muted);margin-top:3px;line-height:1.35}
+.secSum{margin-top:11px;color:#b9c3cf;font-size:.87rem;line-height:1.45}.secSum:empty{display:none}.secSum b{color:#fff}
+.techBox{margin-top:10px}.techBox summary{cursor:pointer;color:#c9d1db;font-weight:800;padding:6px 2px}.techBox summary em{color:var(--muted);font-weight:500;font-style:normal}
+.techInput{width:100%;border-radius:14px;background:#0b1118;border:1px solid var(--line);color:#fff;padding:11px 13px;font:inherit;resize:vertical;outline:none}
+.sec2 .rowActions{display:flex;justify-content:flex-end;gap:6px;margin-top:12px;grid-column:auto;padding:0}
+.sec2.isBreak{border-left-color:#8f9aa8;background:linear-gradient(180deg,rgba(22,28,38,.85),rgba(14,18,25,.9))}
+.sec2.isBreak .sec2Body{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:end}.sec2.isBreak .titleInput{margin-top:0}.sec2.isBreak .fRow{margin-top:0}
+.briefPre{white-space:pre-wrap;font:600 .86rem/1.5 ui-monospace,Menlo,monospace;color:#dfe5ec;margin:0}
+@media(max-width:560px){.sec2Head{grid-template-columns:auto minmax(0,1fr)}.sec2Right{grid-column:1/-1;justify-content:space-between}}
+
+/* v35 home + layout fixes */
+.heroH1{font:900 clamp(2rem,7vw,3.6rem)/.95 Impact,'Arial Black',sans-serif;text-transform:uppercase;margin:14px 0 2px;letter-spacing:.01em}.heroH1 em{color:var(--red3);font-style:normal}
+.homeLogo{width:min(300px,64vw)!important;max-height:92px!important}
+.coachLine{display:flex!important;grid-template-columns:none!important;overflow-x:auto;scroll-snap-type:x proximity;gap:0;align-items:flex-end;margin:6px -8px 0!important;padding:8px 8px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-bottom:1px solid rgba(255,255,255,.1);position:relative}
+.coachLine::-webkit-scrollbar{display:none}
+.coachLine .coachMini.lineup{flex:0 0 auto;height:min(54vw,270px)!important;width:auto;background:none!important;border:0!important;box-shadow:none!important;position:relative;scroll-snap-align:center;padding:0;overflow:visible;margin:0 -8px;transition:transform .2s}
+.coachLine .coachMini.lineup:hover{transform:translateY(-6px) scale(1.03);z-index:3}
+.coachLine .coachMini.lineup img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.coachLine .coachMini.lineup span{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:rgba(8,11,16,.85);border:1px solid rgba(255,255,255,.16);padding:3px 10px;border-radius:99px;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+@media(min-width:900px){.coachLine{justify-content:center;overflow:visible}.coachLine .coachMini.lineup{height:330px!important;margin:0 -14px}}
+@media(max-width:560px){#fkbcConsoleBar{grid-template-columns:minmax(0,1fr) auto!important}#fkbcConsoleBar .consoleWho{position:static!important;grid-column:auto!important;margin:0!important;justify-self:end}}
+.lessonMeta{grid-template-columns:minmax(0,1fr) auto!important}.durationPill{white-space:nowrap;padding:0 16px!important}
+#fkbcConsoleBar .modeBtn{padding:0 6px!important;font-size:.88rem}
 /* v32 */
 .timerTitle,.timerDetail,.timerMode,.roundLabel,.timerMeta{text-shadow:0 2px 14px rgba(0,0,0,.95),0 0 3px rgba(0,0,0,.9)}
 @media(max-width:899px){#chatView{padding-bottom:calc(var(--safeBottom) + 100px)}}
@@ -194,7 +237,7 @@ body{background:#06080c}
     <div id="liveBanner" class="liveBanner"><div><strong>Live session edit</strong><div class="eyebrow" id="liveBannerText">Timer paused while editing.</div></div><div style="display:flex;gap:7px"><button class="btn small" id="resumeLive">Resume</button><button class="btn small" id="cancelLiveEdit">Cancel</button></div></div>
     <div class="lessonMeta"><input id="lessonName" value="Kickboxing Class" aria-label="Lesson name"><div class="durationPill" id="lessonDuration">0 min</div></div>
     <div id="lessonList" class="lessonList"></div>
-    <div class="planFooter"><button class="btn red" id="addSection">＋ Add Section</button><button class="btn" id="addBreak">＋ Break</button><button class="btn" id="smartPlan">✨ Smart Time</button><button class="btn" id="lessonNotesBtn">Notes</button></div>
+    <div class="planFooter"><button class="btn red" id="addSection">＋ Add Section</button><button class="btn" id="addBreak">＋ Break</button><button class="btn" id="smartPlan">⏱ Fit to time</button><button class="btn" id="briefBtn">📋 Brief</button><button class="btn" id="lessonNotesBtn">Notes</button></div>
   </div>
 
   <div id="libraryView" class="view">
@@ -246,7 +289,7 @@ body{background:#06080c}
 <div id="notesModal" class="modal"><div class="modalBox"><div class="modalHead"><h3>Lesson Notes / Briefing</h3><button class="btn small" data-close="notesModal">Close</button></div><div class="modalBody"><textarea id="lessonNotes" style="width:100%;min-height:220px;border:1px solid var(--line);border-radius:15px;background:var(--panel2);color:var(--text);padding:13px" placeholder="Focus points, safety reminders, equipment, coaching notes..."></textarea></div><div class="modalFoot"><button class="btn red" id="saveNotes">Save Notes</button></div></div></div>
 <div id="smartModal" class="modal"><div class="modalBox" style="width:min(520px,100%)"><div class="modalHead"><h3>Smart Lesson Timing</h3><button class="btn small" data-close="smartModal">Close</button></div><div class="modalBody"><p style="color:var(--muted)">Choose the target class length. Breaks are included and key technical sections receive more time.</p><div class="planFooter"><button class="btn" data-smart="30">30 min</button><button class="btn red" data-smart="45">45 min</button><button class="btn" data-smart="60">60 min</button><button class="btn" data-smart="75">75 min</button><button class="btn" data-smart="120">120 min</button></div></div></div></div>
 <div id="runEditModal" class="modal"><div class="modalBox" style="width:min(560px,100%)"><div class="modalHead"><h3>Edit Lesson While Running</h3><button class="btn small" data-close="runEditModal">Cancel</button></div><div class="modalBody"><p style="color:var(--muted)">Open the planner without losing the active section.</p><div class="planFooter"><button class="btn" id="editPause">⏸ Pause timer</button><button class="btn red" id="editRun">▶ Keep running</button></div></div></div></div>
-<div id="tutorialModal" class="modal"><div class="modalBox"><div class="modalHead"><h3>FKBC Planner Tutorial</h3><button class="btn small" data-close="tutorialModal">Close</button></div><div class="modalBody tutorial"><p><strong>Build:</strong> Every section edits directly on the planner. Change category, description, coach and time without opening a separate edit screen.</p><p><strong>Rounds:</strong> Use the Rounds button on a work section to split it into timed rounds and changeovers/rests. The section duration is calculated automatically.</p><p><strong>Grading:</strong> Toggle Grading on a single section. Choose a belt and pick/type a syllabus technique; other sections remain standard.</p><p><strong>Quick Type:</strong> Tap a technique/detail field and the strike buttons appear immediately above the on-screen keyboard. Change the visible buttons in Settings.</p><p><strong>Timer:</strong> Full-body coach art enters on the left. Tap the timer background to hide or reveal controls. Previous, pause, restart, ±30 sec, next and End Lesson remain available.</p><p><strong>Live edit:</strong> Use Edit on the timer and choose whether to pause or keep running while you adjust the planner.</p></div></div></div>
+<div id="tutorialModal" class="modal"><div class="modalBox"><div class="modalHead"><h3>How the planner works</h3><button class="btn small" data-close="tutorialModal">Close</button></div><div class="modalBody tutorial"><p><strong>Sections:</strong> pick a type (Warm Up, Technique, Pad Work, Sparring, Fitness, Cool Down), give it a description and a coach.</p><p><strong>Time:</strong> one block of minutes. <strong>Rounds:</strong> number of rounds, round length and rest. <strong>Pad swap</strong> (Technique / Pad Work / Partner Work): rounds each, demo time, work time and swap-over time.</p><p><strong>Swap after every round</strong> ticked: demo → partner A works → swap → partner B works, then the next technique (e.g. 1:00 + 2:00 + 0:30 + 2:00 = 5:30 each). Unticked: A does every round with a new technique each time, then swap, then B does them all.</p><p><strong>Techniques:</strong> optionally list one per line so the timer shows the technique name each round.</p><p><strong>Fit to time</strong> adjusts blocks and round counts to a target length. <strong>Brief</strong> gives the team a timed running order to copy or share.</p><p><strong>Timer:</strong> the coach slides in for their part and out at the end. Bell on every change, klaxon at 10 seconds, beeps for the last 3.</p></div></div></div>
 
 <div id="quickTray" class="quickTray"><div class="quickInner"><div class="quickHead"><div><strong>Quick Type</strong><div style="font-size:.72rem;color:#9eabba">Tap words to build combinations</div></div><button class="btn small dark" id="closeQuick">Done</button></div><div id="quickChips" class="chipRow"></div></div></div>
 
@@ -269,16 +312,6 @@ const SCHEDULE=[
  {day:'Wednesday',sessions:[{name:'Junior Class',start:'18:30',end:'19:15',color:'#2fd16f'},{name:'Advanced Juniors',start:'19:30',end:'20:15',color:'#3b89ff'},{name:'Adults Class',start:'20:30',end:'21:15',color:'#9e50ff'}]},
  {day:'Friday',sessions:[{name:'Juniors Class',start:'18:30',end:'19:30',color:'#2fd16f'},{name:'Ladies Fitness',start:'19:30',end:'20:30',color:'#ea45bf'}]}
 ];
-const CATEGORIES={
- 'Warm Up':['Dynamic movement & mobility','Jogging around the mats','On-the-spot aerobic exercises','Stretch + activation'],
- 'Stretch':['Static stretching','Dynamic stretch','Mobility work'],
- 'Technique':['Boxing combination','Kick technique','Defence + counter','Footwork / movement'],
- 'Pad Work':['Technique combinations','Demonstration + partner rounds','High-intensity pad work','Power / accuracy rounds'],
- 'Partner Work':['Paired technique work','Reaction drill','Attack / defend drill','Combination exchange'],
- 'Sparring':['Footwork-focused sparring','Boxing-only sparring','Specific shot setup sparring','Open sparring'],
- 'Fitness':['Kickboxing conditioning','Shuttle / sprint work','Circuit training','Bag intervals'],
- 'Cool Down':['Stretch + mobility','Breathing / reset','Recovery mobility']
-};
 const LS='fkbc_v21_pro';
 const $=id=>document.getElementById(id);
 const uid=()=>Math.random().toString(36).slice(2,10);
@@ -286,8 +319,128 @@ const clone=o=>JSON.parse(JSON.stringify(o));
 const coach=id=>COACHES.find(c=>c.id===id)||COACHES[0];
 const belt=name=>BELTS.find(b=>b[0]===name)||BELTS[0];
 const formatSec=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
-function secDuration(s){if(s.kind==='break')return (+s.mins||2)*60;if(s.roundsEnabled)return Math.max(1,+s.roundCount||1)*Math.max(10,+s.roundSec||120)+Math.max(0,(+s.roundCount||1)-1)*Math.max(0,+s.restSec||60);return (+s.mins||5)*60}
-function newSection(kind='work'){return {id:uid(),kind,grading:false,category:kind==='break'?'Break':'Warm Up',detail:kind==='break'?'Water / reset / equipment change':'Dynamic movement & mobility',coach:'joe',mins:kind==='break'?2:10,belt:'White',technique:'',roundsEnabled:false,roundCount:2,roundSec:120,restSec:60}}
+/* ===== v35 SECTION MODEL ===== */
+const TYPES={
+ 'Warm Up':{c:'#f4c52a',modes:['time','rounds'],def:'time',mins:8,ph:'e.g. Jog, dynamic mobility, shadow boxing'},
+ 'Technique':{c:'#ff8a1f',modes:['time','rounds','partner'],def:'partner',mins:10,ph:'e.g. Jab / cross / hook'},
+ 'Pad Work':{c:'#f01936',modes:['time','rounds','partner'],def:'partner',mins:15,ph:'e.g. Power combinations'},
+ 'Partner Work':{c:'#4f7cff',modes:['time','rounds','partner'],def:'partner',mins:10,ph:'e.g. Attack / defend drill'},
+ 'Sparring':{c:'#9d55f0',modes:['time','rounds'],def:'rounds',mins:10,count:4,work:120,rest:60,ph:'e.g. Footwork sparring'},
+ 'Fitness':{c:'#2ac768',modes:['time','rounds'],def:'rounds',mins:10,count:6,work:60,rest:30,ph:'e.g. Bag intervals, circuits'},
+ 'Cool Down':{c:'#3492ff',modes:['time','rounds'],def:'time',mins:5,ph:'e.g. Stretch + breathing'}
+};
+const MODE_LABEL={time:'Time',rounds:'Rounds',partner:'Pad swap'};
+const OPT={mins:[1,2,3,4,5,6,8,10,12,15,18,20,25,30,40],work:[30,45,60,75,90,120,150,180,240,300],rest:[0,10,15,20,30,45,60,90,120],demo:[0,30,45,60,75,90,120,180],chg:[0,10,15,20,30,45,60,90]};
+function newSection(kind='work',type='Warm Up'){
+ if(kind==='break')return {id:uid(),v2:1,kind:'break',type:'Break',title:'Water / reset',coach:'joe',mode:'time',mins:2};
+ const T=TYPES[type]||TYPES['Warm Up'];
+ return {id:uid(),v2:1,kind:'work',type,title:'',coach:'joe',mode:T.def,mins:T.mins,roundCount:T.count||5,roundSec:T.work||120,restSec:T.rest??30,demoSec:60,changeSec:30,swapEvery:true,techniques:''}}
+/* upgrade sections saved by older versions (category/detail/grading/roundsEnabled) */
+function normSec(s){
+ if(s.v2)return s;s.v2=1;
+ if(s.kind==='break'){s.type='Break';s.title=s.title||s.detail||'Water / reset';s.mode='time';s.mins=+s.mins||2;return s}
+ s.type=TYPES[s.category]?s.category:'Warm Up';
+ s.title=s.grading?(s.technique||s.detail||''):(s.detail||'');
+ s.mode=s.roundsEnabled?'rounds':'time';
+ s.mins=+s.mins||TYPES[s.type].mins;s.roundCount=+s.roundCount||4;s.roundSec=+s.roundSec||120;s.restSec=s.restSec==null?60:+s.restSec;
+ s.demoSec=60;s.changeSec=30;s.swapEvery=true;s.techniques=s.techniques||'';return s}
+const techList=s=>(s.techniques||'').split('\n').map(x=>x.trim()).filter(Boolean);
+function sectionPhases(s,si=0){
+ normSec(s);const out=[];
+ if(s.kind==='break')return [{sectionIndex:si,type:'break',category:'Break',title:s.title||'Break',detail:'Recover / reset',coach:null,duration:Math.max(5,(+s.mins||2)*60),roundLabel:'Break'}];
+ const T=TYPES[s.type]||TYPES['Warm Up'];const cid=coach(s.coach).id;const title=(s.title||'').trim()||s.type;
+ const N=Math.max(1,Math.min(30,+s.roundCount||1)),work=Math.max(10,+s.roundSec||120),techs=techList(s);
+ const base={sectionIndex:si,category:s.type,coach:cid};
+ const tn=i=>techs[i]||title;
+ if(s.mode==='partner'){
+  const demo=Math.max(0,+s.demoSec||0),chg=Math.max(0,+s.changeSec||0),pads=s.type==='Pad Work';
+  const D=i=>{if(demo>0)out.push({...base,type:'demo',category:s.type+' · Demo',title:tn(i),detail:'Demonstration — watch and listen',duration:demo,roundLabel:'Demo',dots:[i,N]})};
+  const W=(i,p)=>out.push({...base,type:'work',title:tn(i),detail:pads?`Partner ${p} hitting · Partner ${p==='A'?'B':'A'} holding pads`:`Partner ${p} working`,duration:work,roundLabel:`Technique ${i+1} / ${N}`,dots:[i,N]});
+  const C=()=>{if(chg>0)out.push({...base,type:'rest',category:'Change over',title:pads?'Swap pads':'Swap partners',detail:'Quick change — be ready',duration:chg,roundLabel:'Swap'})};
+  if(s.swapEvery){for(let i=0;i<N;i++){D(i);W(i,'A');C();W(i,'B')}}
+  else{for(const p of ['A','B']){for(let i=0;i<N;i++){D(i);W(i,p)}if(p==='A')C()}}
+  return out}
+ if(s.mode==='rounds'){
+  const rest=Math.max(0,+s.restSec||0);
+  for(let i=0;i<N;i++){out.push({...base,type:'work',title:tn(i),detail:s.type,duration:work,roundLabel:`Round ${i+1} / ${N}`,dots:[i,N]});if(i<N-1&&rest>0)out.push({...base,type:'rest',category:'Rest',title:'Rest',detail:`Next: ${tn(i+1)}`,duration:rest,roundLabel:'Rest'})}
+  return out}
+ return [{...base,type:'work',title,detail:s.type,duration:Math.max(10,(+s.mins||5)*60),roundLabel:'Work'}]}
+function secDuration(s){return sectionPhases(s).reduce((a,p)=>a+p.duration,0)}
+function buildPhases(){return state.lesson.sections.flatMap((s,i)=>sectionPhases(s,i))}
+const categoryColor=s=>s.kind==='break'?'#8f9aa8':(TYPES[normSec(s).type]||TYPES['Warm Up']).c;
+function secSummary(s){normSec(s);if(s.kind==='break'||s.mode==='time')return '';
+ const f=formatSec,N=Math.max(1,+s.roundCount||1),tot=f(secDuration(s));
+ if(s.mode==='rounds'){const r=+s.restSec||0;return `${N} × ${f(s.roundSec)}${r?` with ${f(r)} rest`:''} = <b>${tot}</b>`}
+ const d=+s.demoSec||0,w=f(s.roundSec),c=+s.changeSec||0;
+ if(s.swapEvery)return `Each technique: ${d?f(d)+' demo + ':''}${w} work + ${f(c)} swap + ${w} work = <b>${f(d+2*(+s.roundSec)+c)}</b> × ${N} = <b>${tot}</b>`;
+ return `Partner A: ${N} rounds${d?` (${f(d)} demo before each)`:''} → ${f(c)} swap → Partner B: ${N} rounds = <b>${tot}</b>`}
+function renderPlanner(){
+ $('lessonName').value=state.lesson.name;
+ const tot=totalLessonSec();$('lessonDuration').textContent=Math.floor(tot/60)+(tot%60?':'+String(tot%60).padStart(2,'0'):'')+' min';
+ $('liveBanner').classList.toggle('show',state.run.active&&state.run.editing);$('liveBannerText').textContent=state.run.playing?'Timer is continuing in the background.':'Timer paused while editing.';
+ const sel=(cls,arr,cur,fmt)=>`<select class="${cls}">${[...new Set([...arr,+cur])].sort((a,b)=>a-b).map(v=>`<option value="${v}" ${+cur===v?'selected':''}>${fmt(v)}</option>`).join('')}</select>`;
+ const field=(l,h)=>`<label class="f2"><small>${l}</small>${h}</label>`;
+ const step=(cls,cur,min,max)=>`<div class="stepper"><button type="button" class="stepDn" data-t="${cls}">−</button><input class="${cls}" type="number" inputmode="numeric" min="${min}" max="${max}" value="${cur}"><button type="button" class="stepUp" data-t="${cls}">+</button></div>`;
+ const mf=v=>v+' min',sf=v=>v===0?'None':formatSec(v);
+ $('lessonList').innerHTML=state.lesson.sections.map((s,i)=>{normSec(s);const brk=s.kind==='break',c=coach(s.coach),T=TYPES[s.type]||{},acc=categoryColor(s),total=secDuration(s);
+  const head=`<header class="sec2Head"><div class="secNum">${i+1}</div>${brk?`<div class="typeStatic">Break</div>`:`<select class="typeSel" aria-label="Type">${Object.keys(TYPES).map(k=>`<option ${k===s.type?'selected':''}>${k}</option>`).join('')}</select>`}<div class="sec2Right">${brk?'':`<button class="coachBtn coachPickBtn"><img src="${c.portrait}" alt=""><span>${c.name}</span></button>`}<div class="secTotal"><b>${formatSec(total)}</b><small>total</small></div></div></header>`;
+  if(brk)return `<article class="sec2 isBreak" data-id="${s.id}" style="--accent:${acc}">${head}<div class="sec2Body"><input class="titleInput" value="${escapeAttr(s.title)}" placeholder="Water / reset"><div class="fRow">${field('Length',sel('minsSel',OPT.mins,s.mins,mf))}</div></div><div class="rowActions"><button class="btn small addAfter">＋</button><button class="btn small moveUp">↑</button><button class="btn small moveDown">↓</button><button class="btn small deleteSec">×</button></div></article>`;
+  const seg=`<div class="modeSeg">${T.modes.map(m=>`<button type="button" class="${s.mode===m?'on':''}" data-mode="${m}">${MODE_LABEL[m]}</button>`).join('')}</div>`;
+  let body='';
+  if(s.mode==='time')body=`<div class="fRow">${field('Length',sel('minsSel',OPT.mins,s.mins,mf))}</div>`;
+  else if(s.mode==='rounds')body=`<div class="fRow">${field('Rounds',step('roundCount',s.roundCount,1,30))}${field('Round length',sel('workSel',OPT.work,s.roundSec,formatSec))}${field('Rest between',sel('restSel',OPT.rest,s.restSec,sf))}</div>`;
+  else body=`<div class="fRow">${field('Rounds each',step('roundCount',s.roundCount,1,30))}${field('Demo',sel('demoSel',OPT.demo,s.demoSec,sf))}${field('Work time',sel('workSel',OPT.work,s.roundSec,formatSec))}${field('Swap over',sel('chgSel',OPT.chg,s.changeSec,sf))}</div><label class="swapChk"><input type="checkbox" class="swapEvery" ${s.swapEvery?'checked':''}><span><b>Swap after every round</b><small>${s.swapEvery?'Demo → A works → swap → B works, then the next technique.':'A does all the rounds (new technique each round), then swap and B does them all.'}</small></span></label>`;
+  const tech=s.mode!=='time'?`<details class="techBox" ${techList(s).length?'open':''}><summary>Technique per round <em>(optional)</em></summary><textarea class="techInput" rows="3" placeholder="One technique per line — round 1, round 2…">${escapeHtml(s.techniques||'')}</textarea></details>`:'';
+  return `<article class="sec2" data-id="${s.id}" style="--accent:${acc}">${head}<div class="sec2Body"><input class="titleInput" value="${escapeAttr(s.title)}" placeholder="${escapeAttr(T.ph||'Description')}">${seg}${body}<div class="secSum">${secSummary(s)}</div>${tech}</div><div class="rowActions"><button class="btn small addAfter">＋</button><button class="btn small moveUp">↑</button><button class="btn small moveDown">↓</button><button class="btn small deleteSec">×</button></div></article>`}).join('');
+ persist()}
+function insertAfter(id){const idx=state.lesson.sections.findIndex(s=>s.id===id);const arr=[];if(state.settings.autoBreak&&idx>=0&&state.lesson.sections[idx]?.kind!=='break')arr.push(newSection('break'));arr.push({...newSection('work','Pad Work'),coach:state.lesson.leadCoach||'joe'});state.lesson.sections.splice(idx+1,0,...arr);renderPlanner()}
+(function(){
+ const L=()=>$('lessonList');const find=el=>{const c=el.closest('.sec2');return c?state.lesson.sections.find(x=>x.id===c.dataset.id):null};
+ L().addEventListener('click',e=>{const c=e.target.closest('.sec2');if(!c)return;const id=c.dataset.id,s=find(e.target);if(!s)return;
+  if(e.target.closest('.coachBtn'))return openCoachModal(id);
+  if(e.target.closest('.addAfter'))return insertAfter(id);if(e.target.closest('.moveUp'))return moveSec(id,-1);if(e.target.closest('.moveDown'))return moveSec(id,1);if(e.target.closest('.deleteSec'))return deleteSec(id);
+  const m=e.target.closest('[data-mode]');if(m){s.mode=m.dataset.mode;return renderPlanner()}
+  const st=e.target.closest('.stepUp,.stepDn');if(st){s.roundCount=Math.max(1,Math.min(30,(+s.roundCount||1)+(st.classList.contains('stepUp')?1:-1)));renderPlanner()}});
+ L().addEventListener('change',e=>{const s=find(e.target);if(!s)return;const t=e.target,v=+t.value;
+  if(t.classList.contains('typeSel')){const T=TYPES[t.value];s.type=t.value;if(!T.modes.includes(s.mode))s.mode=T.def;if(T.count){s.roundCount=T.count;s.roundSec=T.work;s.restSec=T.rest}s.mins=T.mins;if(s.mode===T.def)s.mode=T.def}
+  else if(t.classList.contains('minsSel'))s.mins=v;else if(t.classList.contains('workSel'))s.roundSec=v;else if(t.classList.contains('restSel'))s.restSec=v;else if(t.classList.contains('demoSel'))s.demoSec=v;else if(t.classList.contains('chgSel'))s.changeSec=v;
+  else if(t.classList.contains('swapEvery'))s.swapEvery=t.checked;else if(t.classList.contains('roundCount'))s.roundCount=Math.max(1,Math.min(30,v||1));else return;
+  renderPlanner()});
+ L().addEventListener('input',e=>{const s=find(e.target);if(!s)return;if(e.target.classList.contains('titleInput')){s.title=e.target.value;persist()}else if(e.target.classList.contains('techInput')){s.techniques=e.target.value;persist()}});
+ L().addEventListener('focusin',e=>{if(e.target.classList.contains('titleInput')||e.target.classList.contains('techInput')){const c=e.target.closest('.sec2');openQuick(c.dataset.id,e.target)}});
+})();
+/* ----- fit to time ----- */
+function smartPlan(target){
+ const S=state.lesson.sections,tgt=target*60,work=S.filter(s=>s.kind!=='break');if(!work.length)return;
+ S.filter(s=>s.kind==='break').forEach(b=>b.mins=2);
+ const ts=work.filter(s=>s.mode==='time');
+ if(ts.length){const fixed=S.filter(s=>!ts.includes(s)).reduce((a,s)=>a+secDuration(s),0),avail=tgt-fixed;
+  if(avail>=ts.length*120){const w={'Warm Up':.9,'Technique':1.3,'Pad Work':1.5,'Partner Work':1.2,'Sparring':1.3,'Fitness':1.15,'Cool Down':.7};const ws=ts.map(s=>w[s.type]||1),sum=ws.reduce((a,b)=>a+b,0);
+   let secs=ts.map((s,i)=>Math.max(120,Math.round(avail*ws[i]/sum/30)*30));ts.forEach((s,i)=>s.mins=Math.max(2,Math.round(secs[i]/60)))}}
+ for(let g=0;g<80;g++){const diff=tgt-totalLessonSec();const cand=work.filter(s=>s.mode!=='time');if(!cand.length)break;
+  const big=cand.reduce((a,b)=>secDuration(a)>=secDuration(b)?a:b),unit=secDuration(big)/Math.max(1,big.roundCount);
+  if(diff>=unit*.6&&big.roundCount<30)big.roundCount++;else if(diff<=-unit*.6&&big.roundCount>1)big.roundCount--;else break}
+ renderPlanner()}
+const mk=(type,o={})=>({...newSection('work',type),...o});
+function applyClassTemplate(name,mins){const n=name.toLowerCase();state.lesson.name=name;state.lesson.notes='';
+ state.lesson.sections=[mk('Warm Up',{title:'Jog, mobility, shadow boxing',coach:'joe'}),newSection('break'),
+  n.includes('fitness')?mk('Fitness',{title:'Bag intervals / circuits',coach:'gracie'}):mk('Pad Work',{title:'Technique of the night',mode:'partner',roundCount:4,coach:'joe'}),newSection('break'),
+  n.includes('fitness')?mk('Fitness',{title:'Conditioning finisher',coach:'jack'}):mk('Pad Work',{title:'Power combinations',mode:'rounds',roundCount:4,restSec:30,coach:'jack'}),newSection('break'),
+  mk('Cool Down',{title:'Stretch + breathing',coach:'gracie'})];
+ smartPlan(mins);persist();showView('planner')}
+function loadTemplate(k){const t={juniorPads:['Junior Pad Session',60],adultPads:['Adult Pad Session',120],sparring:['Focused Sparring Session',45],ladies:['Ladies Fitness Class',60]}[k];if(!t)return;
+ if(k==='sparring'){state.lesson.name=t[0];state.lesson.notes='';state.lesson.sections=[mk('Warm Up',{title:'Footwork + shadow boxing',coach:'joe'}),mk('Technique',{title:'Footwork / movement',mode:'partner',roundCount:3,coach:'paul'}),newSection('break'),mk('Sparring',{title:'Footwork-focused sparring',coach:'john'}),newSection('break'),mk('Sparring',{title:'Open sparring',coach:'bigjohn'}),mk('Cool Down',{title:'Stretch + mobility',coach:'gracie'})];smartPlan(t[1]);persist();showView('planner');return}
+ applyClassTemplate(t[0],t[1])}
+/* ----- team brief ----- */
+function briefText(){const S=state.lesson.sections;let at=0;const f=x=>String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0');
+ const lines=S.map((s,i)=>{normSec(s);const d=secDuration(s),h=`${f(at)}  ${s.type}${s.title?' — '+s.title:''}  (${formatSec(d)}${s.kind==='break'?'':', '+coach(s.coach).name})`;const sum=secSummary(s).replace(/<[^>]+>/g,'');const tl=techList(s);at+=d;return h+(sum?'\n        '+sum:'')+(tl.length?'\n        Techniques: '+tl.join(' · '):'')});
+ return `${state.lesson.name}\nTotal ${formatSec(totalLessonSec())}\n\n${lines.join('\n')}${state.lesson.notes?'\n\nNotes: '+state.lesson.notes:''}`}
+document.body.insertAdjacentHTML('beforeend','<div id="briefModal" class="modal"><div class="modalBox"><div class="modalHead"><h3>Team brief</h3><button class="btn small" data-close="briefModal">Close</button></div><div class="modalBody"><pre id="briefPre" class="briefPre"></pre></div><div class="modalFoot"><button class="btn" id="briefCopy">Copy</button><button class="btn red" id="briefShare">Share</button></div></div></div>');
+$('briefModal').addEventListener('click',e=>{if(e.target===$('briefModal')||e.target.dataset.close)closeModal('briefModal')});
+$('briefBtn').onclick=()=>{$('briefPre').textContent=briefText();openModal('briefModal')};
+$('briefCopy').onclick=()=>{try{navigator.clipboard.writeText(briefText());$('briefCopy').textContent='Copied ✓';setTimeout(()=>$('briefCopy').textContent='Copy',1500)}catch(e){}};
+$('briefShare').onclick=()=>{const tx=briefText();if(navigator.share)navigator.share({title:state.lesson.name,text:tx}).catch(()=>{});else{try{navigator.clipboard.writeText(tx);alert('Brief copied.')}catch(e){}}};
+
 function defaults(){return {theme:'dark',lesson:{name:'Kickboxing Class',leadCoach:'joe',notes:'',sections:[newSection()]},settings:{sound:true,warning:true,autoBreak:true,coachArt:true,hideUi:true,vibration:true,soundType:'bell',mixMode:'mix',volume:100,countdown:true,quick:QUICK_ALL.slice(0,15)},library:clone(BASE_LIBRARY),syllabus:clone(DEFAULT_SYLLABUS),saved:[],run:{active:false,phaseIndex:0,remaining:0,total:0,playing:false,elapsed:0,phaseStartedAt:0,endAt:0,editing:false,pausedForEdit:false},libTab:'grading',libBelt:'White'}}
 let state=load();let activeInput=null;let activeSectionId=null;let quickOpen=false;let timerTick=null;let phases=[];let wakeLock=null;let currentView='home';
 function load(){try{const x=JSON.parse(localStorage.getItem(LS));if(!x)return defaults();const d=defaults();return {...d,...x,settings:{...d.settings,...(x.settings||{})},lesson:{...d.lesson,...(x.lesson||{})},library:{...d.library,...(x.library||{})},syllabus:{...d.syllabus,...(x.syllabus||{})},run:{...d.run,...(x.run||{})}}}catch(e){return defaults()}}
@@ -296,7 +449,6 @@ function setTheme(t){state.theme=t;document.body.classList.toggle('light',t==='l
 function showView(name){currentView=name;document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(name+'View')?.classList.add('active');document.querySelectorAll('.navBtn[data-go]').forEach(b=>b.classList.toggle('active',b.dataset.go===name));if(name==='planner')renderPlanner();if(name==='library')renderLibrary();if(name==='timetable')renderTimetable();if(name==='coaches')renderProfiles();if(name==='settings')renderSettings();window.scrollTo({top:0,behavior:'instant'})}
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.go==='planner'&&currentView==='home'&&!state.run.active){/* keep current draft */}showView(b.dataset.go)}));
 function totalLessonSec(){return state.lesson.sections.reduce((a,s)=>a+secDuration(s),0)}
-function categoryColor(s){if(s.kind==='break')return '#aeb5c0';if(s.grading)return belt(s.belt)[1];return {'Warm Up':'#f01936','Stretch':'#f4c52a','Technique':'#f4c52a','Pad Work':'#ef7e18','Partner Work':'#4169e1','Sparring':'#9548df','Fitness':'#2ac768','Cool Down':'#3492ff'}[s.category]||'#f01936'}
 function beltHtml(name){const b=belt(name);return `<span class="beltGraphic" style="--belt:${b[1]}"><i></i></span>`}
 function renderHome(){
  $('homeCoachLine').innerHTML=COACHES.map(c=>`<button class="coachMini" data-homecoach="${c.id}"><img src="${c.portrait}" alt="${c.name}"><span>${c.name}</span></button>`).join('');
@@ -304,14 +456,6 @@ function renderHome(){
 }
 function findNextClass(){const now=new Date();const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];for(let d=0;d<8;d++){const dt=new Date(now);dt.setDate(now.getDate()+d);const dn=dayNames[dt.getDay()];const day=SCHEDULE.find(x=>x.day===dn);if(!day)continue;for(const s of day.sessions){const [h,m]=s.start.split(':').map(Number);const when=new Date(dt);when.setHours(h,m,0,0);if(when>now)return {day:dn,session:s,date:when}}}return null}
 function classDuration(start,end){const [sh,sm]=start.split(':').map(Number),[eh,em]=end.split(':').map(Number);return (eh*60+em)-(sh*60+sm)}
-function applyClassTemplate(name,mins){state.lesson.name=name;state.lesson.notes='';const warm=Math.min(10,Math.max(6,Math.round(mins*.14)));const cool=Math.min(8,Math.max(5,Math.round(mins*.1)));const breakM=2;const body=Math.max(10,mins-warm-cool-breakM*2);state.lesson.sections=[{...newSection(),category:'Warm Up',detail:'Dynamic movement & mobility',mins:warm,coach:'joe'},newSection('break'),{...newSection(),category:name.toLowerCase().includes('fitness')?'Fitness':'Pad Work',detail:name.toLowerCase().includes('fitness')?'Kickboxing conditioning':'Demonstration + partner rounds',mins:Math.round(body*.55),coach:name.toLowerCase().includes('ladies')?'gracie':'joe'}, {...newSection(),category:name.toLowerCase().includes('adult')?'Technique':'Pad Work',detail:name.toLowerCase().includes('adult')?'Technique focus':'High-intensity pad work',mins:Math.max(5,body-Math.round(body*.55)),coach:'jack'},newSection('break'),{...newSection(),category:'Cool Down',detail:'Stretch + mobility',mins:cool,coach:'gracie'}];persist();showView('planner')}
-function renderPlanner(){
- $('lessonName').value=state.lesson.name;$('lessonDuration').textContent=Math.round(totalLessonSec()/60)+' min';$('liveBanner').classList.toggle('show',state.run.active&&state.run.editing);$('liveBannerText').textContent=state.run.playing?'Timer is continuing in the background.':'Timer paused while editing.';
- $('lessonList').innerHTML=state.lesson.sections.map((s,i)=>{const c=coach(s.coach);const accent=categoryColor(s);const breakSec=s.kind==='break';const catOpts=Object.keys(CATEGORIES).map(k=>`<option ${k===s.category?'selected':''}>${k}</option>`).join('');const beltOpts=BELTS.map(b=>`<option value="${b[0]}" ${b[0]===s.belt?'selected':''}>${b[0]} Belt</option>`).join('');const datalist=s.grading?(state.syllabus[s.belt]||[]):CATEGORIES[s.category]||[];const datalistHtml=datalist.map(x=>`<option value="${escapeHtml(x)}"></option>`).join('');const total=Math.round(secDuration(s));return `<article class="lessonSection ${breakSec?'breakSec':''} ${s.roundsOpen?'roundsOpen':''}" data-id="${s.id}" style="--accent:${accent}"><div class="secGrid"><div class="secNum">${i+1}</div><div class="secInfo"><small>${breakSec?'Recovery':s.grading?s.belt+' Belt':s.category}</small><strong>${escapeHtml(breakSec?s.detail:(s.grading?(s.technique||s.detail||'Grading technique'):(s.detail||s.category)))}</strong>${!breakSec?`<label class="gradeLine"><input class="gradeToggle" type="checkbox" ${s.grading?'checked':''}>Grading mode</label>`:''}</div><div class="categoryWrap">${breakSec?`<input class="fieldish" value="Break" disabled>`:s.grading?`<select class="sectionSelect beltSelect">${beltOpts}</select>`:`<select class="sectionSelect categorySelect">${catOpts}</select>`}</div><div class="detailWrap"><input class="sectionInput detailInput" list="list-${s.id}" value="${escapeAttr(s.grading?(s.technique||s.detail||''):s.detail)}" placeholder="${s.grading?'Technique / form':'Drill / activity'}"><datalist id="list-${s.id}">${datalistHtml}</datalist></div><div class="coachWrap"><div class="coachTime">${breakSec?`<button class="coachPickBtn" disabled><span>No coach</span></button>`:`<button class="coachPickBtn coachBtn"><img src="${c.portrait}" alt="${c.name}"><span>${c.name}</span></button>`}<div class="timeWrap">${s.roundsEnabled?`<button class="timeSelect" disabled>${formatSec(total)}</button>`:`<select class="timeSelect">${[1,2,3,4,5,6,8,10,12,15,18,20,25,30,40].map(m=>`<option value="${m}" ${+s.mins===m?'selected':''}>${m} min</option>`).join('')}</select>`}</div></div></div><div class="rowActions"><button class="btn small addAfter">＋</button>${!breakSec?`<button class="btn small roundsToggle">${s.roundsEnabled?'Rounds ✓':'Rounds'}</button>`:''}<button class="btn small moveUp">↑</button><button class="btn small moveDown">↓</button><button class="btn small deleteSec">×</button></div></div>${!breakSec?`<div class="roundDrawer"><div class="roundGrid"><label class="roundField"><small>Use rounds</small><input class="roundEnable" type="checkbox" ${s.roundsEnabled?'checked':''}></label><label class="roundField"><small>Rounds</small><input class="roundCount" type="number" min="1" max="20" value="${s.roundCount||2}"></label><label class="roundField"><small>Work time</small><select class="roundSec">${[30,45,60,90,120,180,240,300].map(v=>`<option value="${v}" ${+s.roundSec===v?'selected':''}>${formatSec(v)}</option>`).join('')}</select></label><label class="roundField"><small>Change / rest</small><select class="restSec">${[0,15,30,45,60,90,120].map(v=>`<option value="${v}" ${+s.restSec===v?'selected':''}>${formatSec(v)}</option>`).join('')}</select></label></div><div class="roundSummary">Calculated section time: <strong>${formatSec(total)}</strong>. Rest/changeover occurs between rounds only.</div></div>`:''}</article>`}).join('');
- bindSectionEvents();persist()
-}
-function bindSectionEvents(){document.querySelectorAll('.lessonSection').forEach(card=>{const id=card.dataset.id;const s=state.lesson.sections.find(x=>x.id===id);if(!s)return;card.querySelector('.gradeToggle')?.addEventListener('change',e=>{s.grading=e.target.checked;if(s.grading){s.belt=s.belt||'White';s.technique=s.technique||state.syllabus[s.belt]?.[0]||''}renderPlanner()});card.querySelector('.categorySelect')?.addEventListener('change',e=>{s.category=e.target.value;s.detail=CATEGORIES[s.category]?.[0]||'';renderPlanner()});card.querySelector('.beltSelect')?.addEventListener('change',e=>{s.belt=e.target.value;s.technique=state.syllabus[s.belt]?.[0]||s.technique;renderPlanner()});card.querySelector('.detailInput')?.addEventListener('input',e=>{if(s.grading){s.technique=e.target.value;s.detail=e.target.value}else s.detail=e.target.value;persist();card.querySelector('.secInfo strong').textContent=e.target.value||s.category});card.querySelector('.detailInput')?.addEventListener('focus',e=>openQuick(id,e.target));card.querySelector('.timeSelect')?.addEventListener('change',e=>{s.mins=+e.target.value;renderPlanner()});card.querySelector('.coachBtn')?.addEventListener('click',()=>openCoachModal(id));card.querySelector('.addAfter').addEventListener('click',()=>insertAfter(id));card.querySelector('.moveUp').addEventListener('click',()=>moveSec(id,-1));card.querySelector('.moveDown').addEventListener('click',()=>moveSec(id,1));card.querySelector('.deleteSec').addEventListener('click',()=>deleteSec(id));card.querySelector('.roundsToggle')?.addEventListener('click',()=>{s.roundsOpen=!s.roundsOpen;renderPlanner()});card.querySelector('.roundEnable')?.addEventListener('change',e=>{s.roundsEnabled=e.target.checked;renderPlanner()});card.querySelector('.roundCount')?.addEventListener('change',e=>{s.roundCount=Math.max(1,Math.min(20,+e.target.value||1));renderPlanner()});card.querySelector('.roundSec')?.addEventListener('change',e=>{s.roundSec=+e.target.value;renderPlanner()});card.querySelector('.restSec')?.addEventListener('change',e=>{s.restSec=+e.target.value;renderPlanner()})})}
-function insertAfter(id){const idx=state.lesson.sections.findIndex(s=>s.id===id);const arr=[];if(state.settings.autoBreak&&idx>=0&&state.lesson.sections[idx]?.kind!=='break')arr.push(newSection('break'));arr.push({...newSection(),coach:state.lesson.leadCoach||'joe'});state.lesson.sections.splice(idx+1,0,...arr);renderPlanner()}
 function moveSec(id,d){const i=state.lesson.sections.findIndex(s=>s.id===id),n=i+d;if(i<0||n<0||n>=state.lesson.sections.length)return;const [x]=state.lesson.sections.splice(i,1);state.lesson.sections.splice(n,0,x);renderPlanner()}
 function deleteSec(id){if(state.lesson.sections.length<=1){state.lesson.sections=[newSection()]}else state.lesson.sections=state.lesson.sections.filter(s=>s.id!==id);renderPlanner()}
 function escapeHtml(x=''){return String(x).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}function escapeAttr(x=''){return escapeHtml(x).replace(/"/g,'&quot;')}
@@ -337,17 +481,14 @@ function importLesson(file){const rd=new FileReader();rd.onload=()=>{try{const d
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='importLessonFile'&&e.target.files[0]){importLesson(e.target.files[0]);e.target.value=''}});
 function saveLesson(){state.lesson.name=$('lessonName')?.value||state.lesson.name;state.saved.unshift({name:state.lesson.name,duration:totalLessonSec(),lesson:clone(state.lesson),savedAt:Date.now()});state.saved=state.saved.slice(0,30);persist();renderSaved();openModal('savedModal')}
 $('saveTop').onclick=saveLesson;$('homeSaved').onclick=()=>{renderSaved();openModal('savedModal')};$('lessonName').addEventListener('input',e=>{state.lesson.name=e.target.value;persist()});$('addSection').onclick=()=>{const last=state.lesson.sections[state.lesson.sections.length-1];if(state.settings.autoBreak&&last?.kind!=='break')state.lesson.sections.push(newSection('break'));state.lesson.sections.push({...newSection(),coach:state.lesson.leadCoach||'joe'});renderPlanner()};$('addBreak').onclick=()=>{state.lesson.sections.push(newSection('break'));renderPlanner()};$('smartPlan').onclick=()=>openModal('smartModal');document.querySelectorAll('[data-smart]').forEach(b=>b.onclick=()=>{smartPlan(+b.dataset.smart);closeModal('smartModal')});
-function smartPlan(targetMin){const works=state.lesson.sections.filter(s=>s.kind!=='break');const breaks=state.lesson.sections.filter(s=>s.kind==='break');if(!works.length)return;breaks.forEach(b=>{b.mins=2;b.roundsEnabled=false});const breakSec=breaks.reduce((a,b)=>a+secDuration(b),0);let avail=Math.max(works.length*120,targetMin*60-breakSec);const weight={'Warm Up':.85,'Stretch':.65,'Technique':1.2,'Pad Work':1.45,'Partner Work':1.2,'Sparring':1.35,'Fitness':1.15,'Cool Down':.7};const ws=works.map(s=>weight[s.category]||1),sum=ws.reduce((a,b)=>a+b,0);let secs=ws.map(w=>Math.max(120,Math.round(avail*w/sum/30)*30));let diff=avail-secs.reduce((a,b)=>a+b,0);let k=0;while(Math.abs(diff)>=30&&k<500){const i=k%secs.length;if(diff>0){secs[i]+=30;diff-=30}else if(secs[i]>120){secs[i]-=30;diff+=30}k++}works.forEach((s,i)=>{s.roundsEnabled=false;s.mins=Math.max(2,Math.round(secs[i]/60))});renderPlanner()}
 $('lessonNotesBtn').onclick=()=>{$('lessonNotes').value=state.lesson.notes||'';openModal('notesModal')};$('saveNotes').onclick=()=>{state.lesson.notes=$('lessonNotes').value;persist();closeModal('notesModal')};$('librarySave').onclick=()=>{persist();alert('Library saved on this device.')};
 document.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>loadTemplate(b.dataset.template));
-function loadTemplate(k){const t={juniorPads:{name:'Junior Pad Session',mins:60},adultPads:{name:'Adult Pad Session',mins:120},sparring:{name:'Focused Sparring Session',mins:45},ladies:{name:'Ladies Fitness Class',mins:60}}[k];if(!t)return;applyClassTemplate(t.name,t.mins);if(k==='sparring'){state.lesson.sections=[{...newSection(),category:'Warm Up',detail:'Dynamic movement & mobility',mins:8,coach:'joe'},{...newSection(),category:'Technique',detail:'Footwork / movement',mins:8,coach:'paul'},{...newSection(),category:'Sparring',detail:'Footwork-focused sparring',mins:10,coach:'john',roundsEnabled:true,roundCount:4,roundSec:120,restSec:60},newSection('break'),{...newSection(),category:'Sparring',detail:'Open sparring',mins:10,coach:'bigjohn',roundsEnabled:true,roundCount:4,roundSec:120,restSec:60},{...newSection(),category:'Cool Down',detail:'Stretch + mobility',mins:5,coach:'gracie'}];persist();renderPlanner()}}
 $('planNextClass').onclick=()=>{const next=findNextClass();if(next)applyClassTemplate(next.session.name,classDuration(next.session.start,next.session.end))};
-function buildPhases(){const out=[];state.lesson.sections.forEach((s,si)=>{const c=s.kind==='break'?null:coach(s.coach);const title=s.kind==='break'?'Break':s.grading?(s.technique||s.detail||`${s.belt} Belt`):(s.detail||s.category);if(s.kind==='break'){out.push({sectionIndex:si,type:'break',category:'Break',title:s.detail||'Break',detail:'Recover / reset',coach:null,duration:secDuration(s),roundLabel:'Break'})}else if(s.roundsEnabled){const n=Math.max(1,+s.roundCount||1);for(let r=1;r<=n;r++){out.push({sectionIndex:si,type:'work',category:s.grading?`${s.belt} Belt`:s.category,title,detail:s.grading?`${s.belt} grading focus`:s.category,coach:c.id,duration:+s.roundSec||120,roundLabel:`Round ${r} / ${n}`});if(r<n&&+s.restSec>0)out.push({sectionIndex:si,type:'rest',category:'Change / Rest',title:'Change Partners',detail:title,coach:c.id,duration:+s.restSec||60,roundLabel:'Rest'})}}else out.push({sectionIndex:si,type:'work',category:s.grading?`${s.belt} Belt`:s.category,title,detail:s.grading?`${s.belt} grading focus`:s.category,coach:c.id,duration:secDuration(s),roundLabel:'Work'})});return out}
 function startLesson(){phases=buildPhases();if(!phases.length)return;state.run={active:true,phaseIndex:0,remaining:phases[0].duration,total:phases[0].duration,playing:true,elapsed:0,endAt:Date.now()+phases[0].duration*1000,editing:false,pausedForEdit:false};persist();showTimer();playStart();requestWake()}
 function showTimer(){phases=buildPhases();$('timerView').classList.add('show');document.body.style.overflow='hidden';renderTimer();startTick()}
 function hideTimer(){ $('timerView').classList.remove('show');document.body.style.overflow='';stopTick() }
 function startTick(){stopTick();timerTick=setInterval(updateTimer,100)}function stopTick(){if(timerTick)clearInterval(timerTick);timerTick=null}
-function updateTimer(){if(!state.run.active||!state.run.playing)return;const now=Date.now();const rem=Math.max(0,Math.ceil((state.run.endAt-now)/1000));const diff=state.run.remaining-rem;if(diff>0)state.run.elapsed+=diff;state.run.remaining=rem;if(rem<=10&&state.run.total>12&&state.settings.warning&&!state.run.warned){state.run.warned=true;playWarn();if(state.settings.vibration&&navigator.vibrate)navigator.vibrate([120,70,120])}if(rem>0&&rem<=3&&state.run.total>6&&state.settings.countdown!==false&&state.run.tickAt!==rem){state.run.tickAt=rem;Sfx.play('bleep')}if(rem<=0){nextPhase(true);return}if((state.run.endAt-now)<=900&&state.run.total>=4)$('runner').classList.add('out');renderTimer(false);persist()}
+function updateTimer(){if(!state.run.active||!state.run.playing)return;const now=Date.now();const rem=Math.max(0,Math.ceil((state.run.endAt-now)/1000));const diff=state.run.remaining-rem;if(diff>0)state.run.elapsed+=diff;state.run.remaining=rem;if(rem<=10&&state.run.total>12&&state.settings.warning&&!state.run.warned&&phase().type==='work'){state.run.warned=true;playWarn();if(state.settings.vibration&&navigator.vibrate)navigator.vibrate([120,70,120])}if(rem>0&&rem<=3&&state.run.total>6&&phase().type!=='break'&&state.settings.countdown!==false&&state.run.tickAt!==rem){state.run.tickAt=rem;Sfx.play('bleep')}if(rem<=0){nextPhase(true);return}if((state.run.endAt-now)<=900&&state.run.total>=4)$('runner').classList.add('out');renderTimer(false);persist()}
 function phase(){return phases[state.run.phaseIndex]}
 function setPhase(i,autoplay=true){if(i<0||i>=phases.length)return false;state.run.phaseIndex=i;const p=phases[i];state.run.total=p.duration;state.run.remaining=p.duration;state.run.warned=false;state.run.endAt=Date.now()+p.duration*1000;if(autoplay)state.run.playing=true;renderTimer();persist();return true}
 function nextPhase(auto=false){if(state.run.phaseIndex>=phases.length-1){finishLesson(auto);return}setPhase(state.run.phaseIndex+1,true);playStart()}
@@ -370,10 +511,9 @@ window.addEventListener('beforeunload',persist);document.addEventListener('visib
  const baseRT=renderTimer;
  renderTimer=function(a){baseRT(a);try{enhanceTimer()}catch(e){}};
  function enhanceTimer(){const p=phase();if(!p)return;const st=$('timerStage');
-  st.classList.remove('ph-work','ph-rest','ph-break');st.classList.add(p.type==='rest'?'ph-rest':p.type==='break'?'ph-break':'ph-work');
+  st.classList.remove('ph-work','ph-rest','ph-break','ph-demo');st.classList.add('ph-'+(p.type||'work'));
   st.classList.toggle('urgent',state.run.playing&&state.run.remaining<=10&&state.run.total>12);
-  const m=(p.roundLabel||'').match(/Round (\d+) \/ (\d+)/);
-  $('roundDots').innerHTML=m?Array.from({length:+m[2]},(_,i)=>`<i class="${i<+m[1]-1?'done':i===+m[1]-1?'now':''}"></i>`).join(''):'';
+  $('roundDots').innerHTML=p.dots?Array.from({length:p.dots[1]},(_,i)=>`<i class="${i<p.dots[0]?'done':i===p.dots[0]?'now':''}"></i>`).join(''):'';
   const left=phases.slice(state.run.phaseIndex+1).reduce((a,x)=>a+x.duration,0)+state.run.remaining;
   const d=new Date(Date.now()+left*1000);$('timerEnds').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
  }
@@ -383,7 +523,9 @@ window.addEventListener('beforeunload',persist);document.addEventListener('visib
   o.innerHTML=`<div class="doneCard"><div class="eyebrow">Lesson complete</div><h2>${escapeHtml(state.lesson.name)}</h2><div class="doneStats"><div><b>${formatSec(state.run.elapsed||totalLessonSec())}</b><small>Time</small></div><div><b>${state.lesson.sections.filter(s=>s.kind!=='break').length}</b><small>Sections</small></div><div><b>${cs.length}</b><small>Coaches</small></div></div><div class="doneCoaches">${cs.map(c=>`<img src="${c.portrait}" alt="${escapeHtml(c.name)}">`).join('')}</div><p>Great session. Well coached. 🥊</p><button class="btn red" id="doneClose" style="width:100%">Done</button></div>`;
   document.body.appendChild(o);document.getElementById('doneClose').onclick=()=>o.remove();};
  const baseRH=renderHome;
- renderHome=function(){baseRH();let c=$('resumeCard');const nx=document.querySelector('.nextCardHome');
+ renderHome=function(){baseRH();
+  $('homeCoachLine').innerHTML=COACHES.map(c=>`<button class="coachMini lineup" data-homecoach="${c.id}"><img src="${c.full}" alt="${c.name}" loading="lazy"><span>${c.name}</span></button>`).join('');$('homeCoachLine').querySelectorAll('.coachMini').forEach(b=>b.onclick=()=>showView('coaches'));
+  const tag=document.querySelector('.homeTag');if(tag&&!document.getElementById('heroH1'))tag.insertAdjacentHTML('afterend','<h1 id="heroH1" class="heroH1">Plan it. <em>Time it.</em> Coach it.</h1>');let c=$('resumeCard');const nx=document.querySelector('.nextCardHome');
   if(state.run.active&&nx){if(!c){c=document.createElement('div');c.id='resumeCard';c.className='resumeCard';nx.parentNode.insertBefore(c,nx)}
    c.innerHTML=`<div><div class="eyebrow" style="color:#7dffb0">Lesson in progress</div><strong>${escapeHtml(state.lesson.name)}</strong></div><button class="btn red small" id="resumeBtn">Return to timer</button>`;$('resumeBtn').onclick=()=>{Sfx.unlock();showTimer()}}
   else if(c)c.remove()};
