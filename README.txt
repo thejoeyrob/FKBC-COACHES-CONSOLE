@@ -1,4 +1,4 @@
-FKBC COACHES CONSOLE v32
+FKBC COACHES CONSOLE v35
 
 Access PIN: FKBC1      Admin timetable code: 2403 (not shown in the app)
 
@@ -21,3 +21,13 @@ WHAT CHANGED IN v32
 
 BEFORE TEACHING: start Spotify, switch back to FKBC, Settings > tap Test Bell. Keep FKBC on screen
 (the screen is kept awake during a lesson). Spotify mixing could not be tested on a physical iPad here.
+
+v35 PLANNER (simplified sections)
+- One row per section: Type + description + coach, then Time / Rounds / Pad swap.
+- Time: a single block. Rounds: rounds, round length, rest. Pad swap (Technique, Pad Work, Partner Work):
+  rounds each, demo (default 1:00), work (2:00), swap over (0:30) and "Swap after every round".
+  Ticked: demo > A works > swap > B works per technique (1:00+2:00+0:30+2:00 = 5:30).
+  Unticked: A does every round (new technique each), swap, then B does them all.
+- Sparring / Fitness default to rounds + rest; Warm Up / Cool Down default to a single block.
+- Optional technique list (one per line) shows on the timer each round. Brief = timed running order to copy/share.
+- Timer: amber demo, red work, blue swap/rest, green break; coach slides in and out; klaxon at 10s on work only.
