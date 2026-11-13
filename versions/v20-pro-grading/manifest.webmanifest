@@ -1,0 +1,23 @@
+{
+  "name": "Featherstone Kickboxing Lesson Planner Pro",
+  "short_name": "FKBC Planner",
+  "description": "Featherstone Kickboxing Club lesson planning, grading syllabus, timetable and live class timer.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
