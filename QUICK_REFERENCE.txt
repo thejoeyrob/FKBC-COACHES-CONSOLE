@@ -1,0 +1,324 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║          FKBC COACHES CONSOLE ELITE - QUICK REFERENCE CARD                ║
+║                                                                            ║
+║          Print this or save to your phone for quick access!              ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+🎯 FEATURES AT A GLANCE
+════════════════════════════════════════════════════════════════════════════
+
+TIMER CONTROLS (During Session)
+  ⏱️  Start/Pause:    Tap "Start" or "Pause"
+  ⏭️  Next Phase:     Tap "Next Phase" or swipe forward
+  ⏮️  Previous:       Tap "Back" or swipe back
+  ⌛ Adjust Time:     Tap duration, use +/- buttons
+  🔧 Edit Drill:      Tap "Edit" (pauses session)
+  📋 Resume:          "Resume" button after edit
+
+GRADING DURING SESSION
+  📊 Enable:          Tap 📊 button in header (Grading ON)
+  👤 Select Student:  Tap student name in roster
+  ⭐ Score Skill:     Tap skill → select score (1-5)
+  💬 Add Note:        Tap again, add comment
+  👁️  View Class:     "View Class" shows all students + scores
+  💾 Auto-Save:       All grades saved to device
+
+COACH SELECTION
+  🧑 Add Coach:       Planner → Select Coach → Choose from 8
+  🎨 Color Coding:    Each coach has distinct color
+  🎭 Animations:      Coach slides in/out with phases
+  🗣️  Display Names:  Customizable in Settings
+
+TIMER PHASES & COLORS
+  🟡 Amber = Demo        (Coach demonstrates technique)
+  🔴 Red = Work          (Students practice)
+  🔵 Blue = Swap/Rest    (Changeover or recovery)
+  🟢 Green = Break       (Water, setup next drill)
+  🔊 Klaxon = Warning    (10 seconds remaining on work phase)
+
+AUDIO SYSTEM
+  🔔 Bell Setup:        Settings → Timer & Class
+  🎵 Mix Mode:          Bell plays with Spotify (default)
+  🎚️  Volume:            0-100% slider in Settings
+  🔊 Test Bell:         "Test Bell" button (verify volume)
+  📳 Silent Check:       Ensure device not in silent mode
+
+KEYBOARD SHORTCUTS (Most Devices)
+  ESC:        Close game / Pause on timer
+  ENTER:      Start session / Confirm
+  SPACE:      Play/Pause
+  ←/→:        Previous/Next phase
+  ↑/↓:        Adjust time
+  G:          Toggle Grading mode
+  T:          Open Timer
+  P:          Open Planner
+  S:          Open Settings
+
+AFTER SESSION (Finish Screen)
+  📝 Coach Notes:       Add reflection (optional)
+  💾 Save Session:      Auto-saved, also "Save & End"
+  📊 View Grades:       Summary card with all student scores
+  📤 Export:            Share session as .fkbc.json
+  🔄 New Session:       Start another class
+  📱 View History:      See all past sessions
+
+════════════════════════════════════════════════════════════════════════════
+
+🎮 FIGHT ARCADE QUICK START
+════════════════════════════════════════════════════════════════════════════
+
+LAUNCH GAME
+  🎮 Button:            Tap "LAUNCH FIGHT ARCADE" (welcome screen)
+  ⏱️  Load Time:         2-5 seconds
+  🎬 Full Screen:       Loads in separate view
+  ✕ Close:             Tap X button (top right)
+
+MODES
+  ⚔️  Arcade Fight:      Joe vs AI dummy (best of 3)
+  🏋️  Training:         Practice moves + frame data
+  🌃 Streets:          Horizontal combat scenario
+
+CONTROLS (Fight Game)
+  Move:         ASDW or Arrows (Keyboard) / D-pad or Stick (Gamepad)
+  Jump:         W or ↑
+  Crouch:       S or ↓
+  Punch:        J (Light) K (Medium) L (Heavy)
+  Kick:         U (Light) I (Medium) O (Heavy)
+  Guard:        Shift (hold) or Triggers (Gamepad)
+  Pause:        ESC or PAUSE button
+  Reset:        R (Keyboard)
+  Close:        ESC or Close button
+
+JOE'S SPECIAL MOVES
+  Projectile:   ↓ → + Punch     (Traveling projectile)
+  Tornado:      ↙ ↗ + Kick      (Spinning 3-hit)
+  Side Kick:    ↓ → + Kick      (Advancing knockdown)
+  Rising:       ↓ ← + Punch     (Invulnerable startup)
+
+TIPS
+  🥊 Practice Mode:     Use Training mode to learn combos
+  📊 Frame Display:     Training mode shows hit frames
+  🏆 High Score:        Arcade mode tracks best wins
+  🎮 Gamepad Ready:     Connect before launching game
+
+════════════════════════════════════════════════════════════════════════════
+
+⚙️  SETTINGS GUIDE
+════════════════════════════════════════════════════════════════════════════
+
+TIMER & CLASS
+  🔔 Bell Volume:       0-100% (default 70%)
+  🎵 Mix Mode:          "Mix" (bell + music) or "Bell Priority"
+  ⏰ Demo Duration:      Default 1:00 (editable)
+  💪 Work Duration:     Default 2:00 (editable)
+  🔄 Swap Duration:     Default 0:30 (editable)
+  🎯 Klaxon Warning:    10 seconds (on 12s+ phases)
+
+COACHES
+  🎨 Add Coach:         Create custom coach profile
+  📸 Photo:             Upload portrait (320×360px)
+  🖼️  Full Body:        Upload full image (400×600px)
+  🎭 Display Name:      What appears in timer
+  🌈 Color:             Accent color for recognition
+
+GRADING
+  👥 Student Roster:    Add/edit student names
+  📊 Skills:            Default 10, add custom if needed
+  📈 Scale:             Default 1-5, change if needed
+  💾 Export:            CSV, JSON, or PDF format
+  📥 Import:            Restore grades from backup
+
+APPEARANCE
+  🌙 Dark Mode:         Auto (system), On, or Off
+  📱 Layout:            Default responsive, can lock
+  🔤 Text Size:         Adjust for readability
+  🎨 Accent Color:      Customize theme color
+
+APP & DATA
+  💾 Export All Data:   Full backup (JSON)
+  📥 Import Backup:     Restore from JSON file
+  🗑️  Clear Cache:       Remove stored assets
+  🔄 Check Updates:     Manual update check
+  ℹ️  About:             Version & build info
+
+════════════════════════════════════════════════════════════════════════════
+
+🐛 QUICK TROUBLESHOOTING
+════════════════════════════════════════════════════════════════════════════
+
+Bell won't play:
+  ✓ Check device volume (not in silent mode)
+  ✓ Settings → Bell volume (increase if low)
+  ✓ Tap "Test Bell" button to verify
+  ✓ Try "Bell Priority" mode instead of "Mix"
+
+Spotify keeps pausing:
+  ✓ Switch to "Mix" mode (music should continue)
+  ✓ Make sure FKBC is active/visible
+  ✓ Check Spotify app settings
+  ✓ Restart both FKBC and Spotify
+
+Grades not saving:
+  ✓ Enable Grading mode (📊 button)
+  ✓ Check IndexedDB (Browser DevTools → Application)
+  ✓ Export grades before closing app
+  ✓ Restart app and retry
+
+Game won't load:
+  ✓ Check internet connection
+  ✓ Wait 5-10 seconds (game may be loading)
+  ✓ Reload page and try again
+  ✓ Clear browser cache (Settings → Clear Cache)
+  ✓ Try different browser
+
+Timer not syncing with music:
+  ✓ Timer is local (device), not synced to Spotify
+  ✓ Count down matches Spotify time
+  ✓ If off: press "Adjust Time" to correct
+  ✓ Use separate timer for Spotify time
+
+════════════════════════════════════════════════════════════════════════════
+
+📊 GRADING SCALE QUICK REFERENCE
+════════════════════════════════════════════════════════════════════════════
+
+Default 1-5 Scale:
+  1 = Needs Work       (Beginner, requires coaching)
+  2 = Developing       (Some proficiency, inconsistent)
+  3 = Proficient       (Solid basics, ready to progress)
+  4 = Advanced         (Excellent technique, minor refinements)
+  5 = Expert           (Perfect execution, can teach others)
+
+Skills Tracked (10 Categories):
+  • Stance & Balance    - Feet position, weight distribution
+  • Footwork            - Movement, distance control
+  • Jab                 - Speed, accuracy, power
+  • Cross               - Follow-through, power transfer
+  • Hooks               - Arc, timing, angle
+  • Kicks               - Technique, balance, power
+  • Defense             - Guard, head movement, blocks
+  • Takedowns           - Technique, control, safety
+  • Cardio              - Breathing, pace management
+  • Mental Game         - Focus, composure, strategy
+
+════════════════════════════════════════════════════════════════════════════
+
+💾 DATA BACKUP & RECOVERY
+════════════════════════════════════════════════════════════════════════════
+
+Before Device Change:
+  1. Settings → App & Data
+  2. Tap "Export All Data"
+  3. Email or save .json file to cloud
+  4. Install app on new device
+  5. Settings → App & Data → "Import from Backup"
+  6. Select saved .json file
+  7. All data restored!
+
+If App Crashes:
+  1. Reopen app
+  2. "Recover Session" card appears
+  3. Tap to resume from where you left off
+  4. All grades saved automatically
+
+Regular Backups:
+  → Export at end of each week
+  → Store in cloud (Google Drive, Dropbox, etc.)
+  → Keep 2-3 recent backups
+
+════════════════════════════════════════════════════════════════════════════
+
+🌐 OFFLINE USAGE
+════════════════════════════════════════════════════════════════════════════
+
+After First Load:
+  ✓ App works without internet
+  ✓ All timers function normally
+  ✓ Coach photos display (cached)
+  ✓ Grades save locally
+  ✓ Bell & sounds work
+
+What Requires Internet:
+  ✗ Game sideload (download only)
+  ✗ Importing from online sources
+  ✗ Cloud sync (not included)
+  ✗ Sharing via URL (manual export instead)
+
+Verification:
+  → Airplane mode: Turn ON
+  → App still works: Everything cached
+  → Check online when done: Sync, export, etc.
+
+════════════════════════════════════════════════════════════════════════════
+
+📱 DEVICE-SPECIFIC TIPS
+════════════════════════════════════════════════════════════════════════════
+
+iPhone/iPad (iOS):
+  ✓ Open in Safari
+  ✓ Share → Add to Home Screen
+  ✓ Keep in dark mode (better readability)
+  ✓ Bell over Spotify: Settings → Mix mode
+  ✓ Screen stays awake during session (feature)
+
+Android Phone:
+  ✓ Open in Chrome
+  ✓ Menu → Install app
+  ✓ Allow notifications (optional)
+  ✓ Bell over Spotify: May need separate device
+  ✓ Gamepad support: Xbox-style buttons
+
+Tablet (iPad/Android):
+  ✓ Full-screen layout (best experience)
+  ✓ Landscape mode recommended (wider timer)
+  ✓ Landscape lock in settings
+  ✓ Larger touch buttons (easier)
+
+Computer (Desktop/Mac):
+  ✓ Chrome, Safari, Firefox all work
+  ✓ Keyboard shortcuts available
+  ✓ Install as desktop app (Chrome)
+  ✓ Full screen mode (F11)
+  ✓ Game playable with mouse
+
+════════════════════════════════════════════════════════════════════════════
+
+🎯 BEST PRACTICES
+════════════════════════════════════════════════════════════════════════════
+
+Before Teaching:
+  ✓ Start Spotify first (keeps playing)
+  ✓ Switch to FKBC app
+  ✓ Settings → Test Bell (verify volume)
+  ✓ Keep app on-screen (screen awake feature)
+
+During Lesson:
+  ✓ Use Planner view (see full session structure)
+  ✓ Enable Grading for important sessions
+  ✓ Use Technique list (display during timer)
+  ✓ Pause to edit (don't lose time)
+  ✓ Note any issues (coach reflection)
+
+After Lesson:
+  ✓ End Session (saves all data)
+  ✓ View grades (check student progress)
+  ✓ Export session (backup + sharing)
+  ✓ Export grades (CSV for records)
+  ✓ Review feedback (use for next plan)
+
+Weekly:
+  ✓ Export all data (cloud backup)
+  ✓ Review student trends (adjust coaching)
+  ✓ Plan next week (use templates)
+  ✓ Update coach profiles (if needed)
+
+════════════════════════════════════════════════════════════════════════════
+
+                    🥋 Ready to Coach! 🥋
+
+           Questions? Check README_ELITE.md or INTEGRATION_GUIDE.md
+           Still need help? Browser console shows detailed logs (F12)
+
+════════════════════════════════════════════════════════════════════════════
