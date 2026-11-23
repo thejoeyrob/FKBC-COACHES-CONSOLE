@@ -1,0 +1,12 @@
+{
+  "appId": "com.fkbc.coachesconsole",
+  "appName": "FKBC Coaches Console",
+  "webDir": "www",
+  "backgroundColor": "#05070b",
+  "ios": { "contentInset": "never", "backgroundColor": "#05070b", "allowsLinkPreview": false },
+  "android": { "backgroundColor": "#05070b", "allowMixedContent": false },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 1200, "backgroundColor": "#05070b", "showSpinner": false, "launchAutoHide": true },
+    "StatusBar": { "style": "DARK", "backgroundColor": "#05070b" }
+  }
+}
