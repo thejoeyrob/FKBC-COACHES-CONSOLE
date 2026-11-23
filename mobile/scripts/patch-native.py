@@ -30,8 +30,8 @@ g = os.path.join(M, 'android/app/build.gradle')
 if os.path.exists(g):
     t = open(g).read()
     if 'FKBC_KEYSTORE' not in t:
-        t = re.sub(r'versionCode \d+', 'versionCode (System.getenv("FKBC_VERSION_CODE") ?: "1").toInteger()', t, 1)
-        t = re.sub(r'versionName "[^"]*"', 'versionName (System.getenv("FKBC_VERSION_NAME") ?: "1.0")', t, 1)
+        t = re.sub(r'versionCode \d+', 'versionCode = Integer.parseInt(System.getenv("FKBC_VERSION_CODE") ?: "1")', t, count=1)
+        t = re.sub(r'versionName "[^"]*"', 'versionName = System.getenv("FKBC_VERSION_NAME") ?: "1.0"', t, count=1)
         t = t.replace('    buildTypes {\n        release {',
             '    signingConfigs {\n        release {\n            if (System.getenv("FKBC_KEYSTORE")) {\n                storeFile file(System.getenv("FKBC_KEYSTORE"))\n'
             '                storePassword System.getenv("FKBC_KEYSTORE_PASSWORD")\n                keyAlias System.getenv("FKBC_KEY_ALIAS")\n'
