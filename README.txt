@@ -1,4 +1,4 @@
-FKBC COACHES CONSOLE v35
+FKBC COACHES CONSOLE v36
 
 Access PIN: FKBC1      Admin timetable code: 2403 (not shown in the app)
 
@@ -31,3 +31,15 @@ v35 PLANNER (simplified sections)
 - Sparring / Fitness default to rounds + rest; Warm Up / Cool Down default to a single block.
 - Optional technique list (one per line) shows on the timer each round. Brief = timed running order to copy/share.
 - Timer: amber demo, red work, blue swap/rest, green break; coach slides in and out; klaxon at 10s on work only.
+
+v36 LIBRARY + STYLES
+- Lesson style (Kickboxing / Boxing / Muay Thai / Fitness) chosen when you start a new lesson or from the chips in the planner.
+- Library tab: built-in drills and combinations per style and section type, plus a belt-by-belt kickboxing grading syllabus
+  (a general traditional progression - edit it to match your club's requirements). Add your own items (one per line),
+  remove or hide any item, Reset a list, Export / Import the library.
+- Grading is a section type: pick the belt, tap Library, tick syllabus techniques; rounds are set to match and each
+  technique appears on the timer (demo, work, swap).
+- Every section has a Library button. Saving the same lesson again updates it; Copy makes a duplicate.
+- Quick words now sit under the field you are typing in (never over the keyboard). Turn off in Settings.
+- Settings > Backup & storage: export / restore everything.
+- App is dark-only (light mode removed). Logo shows on every screen. Library, Saved Lessons and Settings are reachable on phones.
