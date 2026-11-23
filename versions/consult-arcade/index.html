@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#07111f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="FKBC Consult" />
+  <title>FKBC Coaching Consult</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-nav="home" aria-label="FKBC Coaching Consult home">
+        <span class="brand-mark">FKBC</span>
+        <span class="brand-sub">COACHING CONSULT</span>
+      </button>
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-btn active" data-nav="home"><span>⌂</span><b>Home</b></button>
+        <button class="nav-btn" data-nav="sessions"><span>▦</span><b>Sessions</b></button>
+        <button class="nav-btn" data-nav="plans"><span>☷</span><b>Plans</b></button>
+        <button class="nav-btn" data-nav="timer"><span>◴</span><b>Timer</b></button>
+        <button class="nav-btn" data-nav="coaches"><span>◉</span><b>Coaches</b></button>
+        <button class="nav-btn arcade-nav" data-nav="arcade"><span>✚</span><b>Arcade</b></button>
+      </nav>
+      <div class="top-actions">
+        <button id="installBtn" class="install-btn hidden">Install</button>
+        <button class="avatar-btn" data-nav="coaches"><span class="avatar">FK</span><span class="avatar-copy"><b>Coach</b><small>Do more. Teach better.</small></span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="view active" id="view-home">
+        <div class="hero-grid">
+          <article class="arcade-hero">
+            <img src="fkbc-arcade-promo.png" alt="FKBC Fight Arcade preview" />
+            <div class="hero-overlay">
+              <div class="hero-kicker">NEW • BUILT INTO FKBC COACHING CONSULT</div>
+              <h1>Train smarter.<br><em>Play harder.</em></h1>
+              <p>A fast arcade challenge between coaching sessions. Beat six FKBC bosses and take the top score.</p>
+              <div class="hero-actions">
+                <button class="primary" data-nav="arcade">▶ Play Fight Arcade</button>
+                <button class="secondary" data-nav="plans">Open Coaching Tools</button>
+              </div>
+            </div>
+          </article>
+          <aside class="score-card glass">
+            <div class="card-head"><div><small>ARCADE</small><h2>High Scores</h2></div><span class="trophy">🏆</span></div>
+            <ol id="homeScoreList" class="score-list"></ol>
+            <button class="text-btn" data-nav="arcade">Try to make the board →</button>
+          </aside>
+        </div>
+
+        <div class="section-title"><div><span></span><h2>Coaching tools</h2></div><p>Plan better. Coach smarter. Make a bigger impact.</p></div>
+        <div class="tool-grid">
+          <button class="tool-card lesson" data-nav="plans"><div class="tool-icon">✓</div><div><h3>Lesson Planner</h3><p>Build warm-ups, technique, drills, partner work and cool-downs in one clean flow.</p></div><span>›</span></button>
+          <button class="tool-card timing" data-nav="timer"><div class="tool-icon">◴</div><div><h3>Round Timer</h3><p>Quick presets, custom rounds, rest periods and large-screen class mode.</p></div><span>›</span></button>
+          <button class="tool-card sessions" data-nav="sessions"><div class="tool-icon">▦</div><div><h3>Sessions</h3><p>See what is next, duplicate previous sessions and mark classes complete.</p></div><span>›</span></button>
+          <button class="tool-card team" data-nav="coaches"><div class="tool-icon">◎</div><div><h3>Coaches</h3><p>Joe, Jack, Paul, Justin, Gracie, Big John, John and Eden in one view.</p></div><span>›</span></button>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="glass panel">
+            <div class="card-head"><div><small>NEXT UP</small><h2>Recent sessions</h2></div><button class="icon-btn" data-nav="sessions">›</button></div>
+            <div id="recentSessions" class="session-stack"></div>
+          </article>
+          <article class="glass panel current-plan">
+            <div class="card-head"><div><small>ACTIVE PLAN</small><h2 id="currentPlanTitle">Spring Fundamentals</h2></div><button class="icon-btn" data-nav="plans">›</button></div>
+            <p id="currentPlanSummary">Technique • Drills • Partner work • Sparring</p>
+            <div class="progress"><span id="planProgress"></span></div>
+            <div class="progress-copy"><b id="planProgressText">3 of 8 sessions</b><span id="planProgressPct">38%</span></div>
+          </article>
+          <article class="glass panel boss-preview">
+            <div class="card-head"><div><small>FIGHT ARCADE</small><h2>Boss ladder</h2></div><span>⚡</span></div>
+            <div id="homeBossLadder" class="mini-bosses"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-sessions">
+        <div class="page-head"><div><small>COACHING</small><h1>Sessions</h1><p>Fast class setup with minimal taps.</p></div><button class="primary" id="newSessionBtn">+ New session</button></div>
+        <div class="workspace two-col">
+          <article class="glass panel">
+            <div class="card-head"><h2>Schedule</h2><button class="text-btn" id="clearCompletedBtn">Clear completed</button></div>
+            <div id="sessionList" class="session-stack"></div>
+          </article>
+          <article class="glass panel quick-form">
+            <h2>Quick add</h2>
+            <label>Session name<input id="sessionName" value="Kids Class" /></label>
+            <div class="field-row"><label>Duration<select id="sessionDuration"><option>30</option><option selected>45</option><option>60</option><option>90</option></select></label><label>Coach<select id="sessionCoach"></select></label></div>
+            <label>Focus<select id="sessionFocus"><option>Fundamentals</option><option>Line Work</option><option>Partner / Pad</option><option>Sparring</option><option>Fitness</option><option>Competition</option></select></label>
+            <button class="primary full" id="addSessionBtn">Add to schedule</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-plans">
+        <div class="page-head"><div><small>COACHING</small><h1>Lesson Planner</h1><p>Build a class in the order it will actually be coached.</p></div><button class="primary" id="savePlanBtn">Save plan</button></div>
+        <div class="planner-shell">
+          <aside class="glass planner-sidebar">
+            <h3>Plan sections</h3>
+            <button class="planner-add" data-section="Warm-up">+ Warm-up</button>
+            <button class="planner-add" data-section="Line Work">+ Line Work</button>
+            <button class="planner-add" data-section="Partner / Pad">+ Partner / Pad</button>
+            <button class="planner-add" data-section="Sparring">+ Sparring</button>
+            <button class="planner-add" data-section="Fitness">+ Fitness</button>
+            <button class="planner-add" data-section="Break">+ Break</button>
+          </aside>
+          <article class="glass plan-builder">
+            <div class="plan-meta"><label>Plan name<input id="planName" value="Spring Fundamentals" /></label><label>Class length<select id="planLength"><option>30</option><option selected>45</option><option>60</option><option>90</option></select></label></div>
+            <div id="planItems" class="plan-items"></div>
+            <div class="plan-total"><span>Total planned time</span><b id="planTotal">0 min</b></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-timer">
+        <div class="page-head"><div><small>CLASS MODE</small><h1>Round Timer</h1><p>Large, simple, glove-friendly controls.</p></div></div>
+        <div class="timer-layout">
+          <article class="timer-stage glass">
+            <div class="round-label" id="roundLabel">ROUND 1 / 5</div>
+            <div class="timer-display" id="timerDisplay">03:00</div>
+            <div class="timer-state" id="timerState">READY</div>
+            <div class="timer-controls"><button class="secondary" id="timerReset">Reset</button><button class="primary big" id="timerStart">Start</button><button class="secondary" id="timerSkip">Skip</button></div>
+          </article>
+          <aside class="glass timer-settings">
+            <h2>Timer setup</h2>
+            <label>Rounds<input id="roundsInput" type="number" min="1" max="20" value="5"></label>
+            <label>Round length<input id="roundLengthInput" type="number" min="15" max="900" value="180"></label>
+            <label>Rest length<input id="restLengthInput" type="number" min="0" max="300" value="60"></label>
+            <div class="preset-row"><button data-preset="5,120,30">5 × 2:00</button><button data-preset="5,180,60">5 × 3:00</button><button data-preset="10,60,20">10 × 1:00</button></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-coaches">
+        <div class="page-head"><div><small>TEAM</small><h1>Coaches</h1><p>Quick access to the people behind the session.</p></div></div>
+        <div id="coachGrid" class="coach-grid"></div>
+      </section>
+
+      <section class="view" id="view-arcade">
+        <div class="arcade-page-head">
+          <div><small>FKBC BONUS MODE</small><h1>Fight Arcade</h1><p>Beat the coaches. Chase the high score.</p></div>
+          <div class="arcade-actions"><button class="secondary" id="howToBtn">How to play</button><button class="primary" id="newRunBtn">New run</button></div>
+        </div>
+        <div class="rotate-note">Rotate your device to landscape for the full controller layout.</div>
+
+        <div class="console-wrap" id="consoleWrap">
+          <aside class="console-side left-side">
+            <div class="shoulder">L</div>
+            <div class="dpad" aria-label="Directional controls">
+              <button class="d-up control" data-control="up">▲</button>
+              <button class="d-left control" data-control="left">◀</button>
+              <button class="d-mid" aria-hidden="true"></button>
+              <button class="d-right control" data-control="right">▶</button>
+              <button class="d-down control" data-control="down">▼</button>
+            </div>
+            <div class="mini-controls"><button id="pauseBtn">SELECT</button><button id="newRunMini">START</button></div>
+          </aside>
+
+          <section class="game-column">
+            <div class="game-bezel">
+              <canvas id="gameCanvas" width="960" height="540" aria-label="FKBC Fight Arcade game"></canvas>
+              <div class="game-overlay" id="gameOverlay">
+                <div class="overlay-card">
+                  <span class="eyebrow">FKBC FIGHT ARCADE</span>
+                  <h2 id="overlayTitle">READY?</h2>
+                  <p id="overlayText">Beat Gracie, Jack, John, Justin, Joe and final boss Paul.</p>
+                  <button class="primary" id="overlayAction">Fight!</button>
+                </div>
+              </div>
+            </div>
+            <div class="boss-strip" id="bossStrip"></div>
+          </section>
+
+          <aside class="console-side right-side">
+            <div class="shoulder">R</div>
+            <div class="face-buttons">
+              <button class="face x control" data-control="special"><span>X</span><small>SPECIAL</small></button>
+              <button class="face y control" data-control="block"><span>Y</span><small>BLOCK</small></button>
+              <button class="face b control" data-control="kick"><span>B</span><small>KICK</small></button>
+              <button class="face a control" data-control="punch"><span>A</span><small>PUNCH</small></button>
+            </div>
+            <div class="options-dot">●</div>
+          </aside>
+        </div>
+
+        <div class="arcade-lower">
+          <article class="glass panel">
+            <div class="card-head"><div><small>LOCAL</small><h2>High scores</h2></div><span class="trophy">🏆</span></div>
+            <ol id="arcadeScoreList" class="score-list"></ol>
+          </article>
+          <article class="glass panel controls-guide">
+            <div class="card-head"><div><small>CONTROLS</small><h2>Fight basics</h2></div></div>
+            <p><kbd>←</kbd><kbd>→</kbd> move • <kbd>A</kbd> punch • <kbd>B</kbd> kick • <kbd>Y</kbd> block • <kbd>X</kbd> special</p>
+            <p>Keyboard: arrows + J / K / L / I. Touch controls work directly on the console.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="highScoreDialog" class="modal">
+    <form method="dialog" id="highScoreForm">
+      <span class="eyebrow">NEW HIGH SCORE</span>
+      <h2 id="finalScoreTitle">You made the board</h2>
+      <p id="finalScoreCopy"></p>
+      <label>Your name<input id="playerName" maxlength="12" autocomplete="nickname" placeholder="Enter name" required></label>
+      <menu><button value="cancel" class="secondary">Skip</button><button value="default" class="primary" id="saveScoreBtn">Save score</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="helpDialog" class="modal">
+    <form method="dialog">
+      <span class="eyebrow">HOW TO PLAY</span>
+      <h2>Six fights. One high score.</h2>
+      <p>Move in and out of range, block incoming attacks, then use punches, kicks and a charged special. Each boss gets tougher. Your remaining health, speed and combo efficiency all affect score.</p>
+      <p><b>Boss order:</b> Gracie → Jack → John → Justin → Joe → Paul.</p>
+      <menu><button value="default" class="primary">Got it</button></menu>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
