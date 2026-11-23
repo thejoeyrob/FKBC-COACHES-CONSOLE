@@ -1,4 +1,4 @@
-FKBC COACHES CONSOLE v36
+FKBC COACHES CONSOLE v37
 
 Access PIN: FKBC1      Admin timetable code: 2403 (not shown in the app)
 
@@ -43,3 +43,12 @@ v36 LIBRARY + STYLES
 - Quick words now sit under the field you are typing in (never over the keyboard). Turn off in Settings.
 - Settings > Backup & storage: export / restore everything.
 - App is dark-only (light mode removed). Logo shows on every screen. Library, Saved Lessons and Settings are reachable on phones.
+
+v37 LOOK + WORKFLOW
+- Painted backgrounds from your FKBC art (gym interior, night-street panorama, arena) behind glass panels; line icons replace emoji.
+- Timer: painted backdrop per phase; the Edit panel now opens above the timer (it was hidden behind it), with Pause & edit,
+  Keep running, Jump to any round, End lesson. Section-coloured progress line along the bottom.
+- New lesson is blank (style chosen first) and the previous lesson is saved automatically to Saved Lessons.
+- Rounds follow the technique list (typing or picking techniques sets the rounds; untick to set rounds by hand).
+- Proper belt icons; colour-coded sections and a lesson overview bar; belt icon shows on grading sections and on the timer.
+- John and Eden artwork given the same bold outline as the other coaches. For a perfect match, regenerate those two in the same style as Joe/Jack/Paul.
