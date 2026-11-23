@@ -1,0 +1,53 @@
+name: Android build
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mobile/**', 'index.html', 'assets/**', '.github/workflows/android.yml']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      FKBC_VERSION_CODE: ${{ github.run_number }}
+      FKBC_VERSION_NAME: '1.0'
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      FKBC_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      FKBC_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      FKBC_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npm run sync
+      - name: Use upload keystore when the secrets exist
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/fkbc-upload.keystore"
+            echo "FKBC_KEYSTORE=$RUNNER_TEMP/fkbc-upload.keystore" >> "$GITHUB_ENV"
+            echo "Signing the release bundle with your upload key."
+          else
+            echo "No keystore secret - the release bundle will be UNSIGNED (fine for a test build, not for Play)."
+          fi
+      - name: Build debug APK and release bundle
+        working-directory: mobile/android
+        run: ./gradlew --no-daemon assembleDebug bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fkbc-android-debug-apk
+          path: mobile/android/app/build/outputs/apk/debug/*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fkbc-android-release-aab
+          path: mobile/android/app/build/outputs/bundle/release/*.aab

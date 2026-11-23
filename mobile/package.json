@@ -1,0 +1,28 @@
+{
+  "name": "fkbc-coaches-console-mobile",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Capacitor wrapper that packages the FKBC Coaches Console web app for the Apple App Store and Google Play.",
+  "scripts": {
+    "web": "node scripts/copy-web.js",
+    "sync": "npm run web && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "ios": "npm run sync && npx cap open ios",
+    "assets": "python3 scripts/make-icons.py"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/ios": "^8.6.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
+    "@capacitor-community/keep-awake": "^8.0.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
