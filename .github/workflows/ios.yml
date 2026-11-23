@@ -36,6 +36,23 @@ jobs:
       - name: Compile check (simulator, no signing)
         working-directory: mobile/ios/App
         run: xcodebuild -project App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+      - name: Check the Apple secrets exist
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_to_testflight }}
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          missing=""
+          for v in APPLE_TEAM_ID ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8; do
+            if [ -z "${!v}" ]; then missing="$missing $v"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error title=Apple secrets missing::Not found as repository Actions secrets:$missing. Add them at Settings > Secrets and variables > Actions > Repository secrets (not Variables, not Dependabot, not an Environment). Names must match exactly."
+            exit 1
+          fi
+          echo "All four Apple secrets are present."
       - name: Archive, sign and upload to TestFlight
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_to_testflight }}
         working-directory: mobile/ios/App
