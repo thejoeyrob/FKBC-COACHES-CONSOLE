@@ -32,7 +32,7 @@ Store build requirements (checked November 2026): Google Play needs apps to targ
 2. **Bundle / package ID** – currently `com.fkbc.coachesconsole`. It becomes permanent once the app is published, so change it now if you want a different one (e.g. one that matches the club's website). Change it in `capacitor.config.json`, `android/app/build.gradle` (`namespace` and `applicationId`) and the Xcode project, or ask me to do it.
 3. **Support contact / website URL** for the store pages.
 4. **App name** – "FKBC Coaches Console" (30 characters max on both stores).
-5. **Review access** – the app opens on an access-code screen (`FKBC1`). Reviewers need this in the "App Review notes" (see below) or the app will be rejected as unusable.
+5. **Review access** – the app opens on an access-code screen (use the current club access code). Reviewers need this in the "App Review notes" (see below) or the app will be rejected as unusable.
 
 ## 2. Android (Google Play)
 
@@ -64,7 +64,7 @@ Store build requirements (checked November 2026): Google Play needs apps to targ
    * **App Privacy:** choose **Data Not Collected**.
    * **Age rating:** answer "None" to every content question → 4+.
    * **Export compliance:** already answered ("no non-exempt encryption") in `Info.plist`.
-   * **App Review notes** (paste): *"This is a tool for kickboxing coaches. On first launch enter access code FKBC1 and tap any coach profile. Then use Planner to build a lesson and the red Start button to run the timer. Lessons are stored on the device; the app has no accounts and no network features."*
+   * **App Review notes** (paste): *"This is a tool for kickboxing coaches. On first launch enter access code <YOUR ACCESS CODE> and tap any coach profile. Then use Planner to build a lesson and the red Start button to run the timer. Lessons are stored on the device; the app has no accounts and no network features."*
 
 > **Apple review risk (guideline 4.2 "minimum functionality"):** Apple can reject apps that are just a website in a frame. This one works fully offline, has a native audio session, keeps the screen awake and has real functionality (planner, timer, library, grading), which helps – but it is not guaranteed. If rejected, reply with the points above; adding native haptics/notifications would strengthen it.
 

@@ -403,8 +403,8 @@ Edit in Console Settings:
 ## 🛡️ Security & Privacy
 
 - **Local Storage Only**: All data stays on your device (no cloud sync)
-- **PIN Protection**: Access PIN required (default: FKBC1)
-- **Admin Code**: Timetable admin code (default: 2403)
+- **PIN Protection**: Access PIN required (set by the club owner)
+- **Admin Code**: Timetable admin code (set by the club owner)
 - **Data Export**: You control backups (Settings → Export all data)
 - **Data Import**: Restore from backup anytime (Settings → Import from backup)
 

@@ -172,7 +172,7 @@ fight-game/ (sideload, NOT loaded in main bundle)
 
 ## 🔒 Security & Data
 
-- **PIN protection** (Access PIN: FKBC1, Admin code: 2403)
+- **PIN protection** (access and admin codes are set by the club owner)
 - **No cloud sync** (local device only, manual export/import)
 - **User can backup:** Settings → Export all data
 - **User can restore:** Import from backup JSON file
