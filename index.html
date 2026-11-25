@@ -225,6 +225,9 @@ body{background:#06080c}
 .libAdd{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:14px}.libAdd textarea{border-radius:13px;background:#0b1118;border:1px solid var(--line);color:#fff;padding:10px 13px;font:inherit;resize:vertical;outline:none;min-height:50px}.libAdd .btn{align-self:stretch}
 .libGroup{margin:0 0 14px}.libGroup h4{margin:0 0 6px;font:900 .72rem system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--red3)}.libGroup h4 em{color:var(--muted);font-style:normal;margin-left:6px}
 .libItem{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:5px}.libItem span{min-width:0;overflow-wrap:anywhere}
+.libAdd{display:flex;flex-direction:column;gap:8px}.libAddRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.libAddLbl{font:800 .7rem system-ui;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.libGroupSel{flex:1 1 150px;min-width:0;width:auto}.libGroupNew{flex:1 1 150px;width:auto}.libGroupNew[hidden]{display:none}.libHint{margin:0 0 10px;color:var(--muted);font-size:.82rem}
+.libItem{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}.libItem .grip{flex:none;color:var(--muted);font-style:normal;opacity:.55;margin-right:2px}.libItem>span{flex:1}.libItem.dragging{background:rgba(220,38,38,.22)!important;border-color:var(--red3)!important;box-shadow:0 10px 26px rgba(0,0,0,.5);transform:scale(1.02);position:relative;z-index:5}body.libDragging{-webkit-user-select:none;user-select:none;overflow-anchor:none}body.libDragging .libItem:not(.dragging){transition:none}
+.pickGroupWrap{display:inline-flex;align-items:center;gap:6px;margin-left:8px;flex-wrap:wrap}.pickGroupWrap .libGroupSel{flex:0 1 150px}
 .libDel{width:34px;height:34px;flex:none;border-radius:10px;border:1px solid var(--line);background:#161d27;color:#ff7a8a;font:900 1.2rem system-ui}
 .libFoot{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .pickBox{width:min(640px,100%)!important;display:flex;flex-direction:column;max-height:92dvh}.pickBox .modalBody{overflow:auto;flex:1}
@@ -686,17 +689,25 @@ window.addEventListener('beforeunload',persist);document.addEventListener('visib
 /* ===== v36: library, style, picker, new-lesson, saved lessons, quick words ===== */
 const FK=window.FKLIB;
 const styleOf=()=>FK.STYLES.find(s=>s.id===(state.lesson.style||'kickboxing'))||FK.STYLES[0];
-state.libUser=state.libUser||{};state.libHide=state.libHide||{};state.libStyle=state.libStyle||'kickboxing';state.libCat=state.libCat||'Warm Up';state.libBelt=state.libBelt||'White';
+state.libUser=state.libUser||{};state.libHide=state.libHide||{};state.libMove=state.libMove||{};state.libOrder=state.libOrder||{};state.libLast=state.libLast||{};state.libStyle=state.libStyle||'kickboxing';state.libCat=state.libCat||'Warm Up';state.libBelt=state.libBelt||'White';
 const libKey=(a,b)=>a+'/'+b;
 function libDefaults(key){if(key.startsWith('syll/')){const b=key.slice(5);return FK.SYLL[b]||[]}const [st,cat]=key.split('/');return ((FK.LIB[st]||{})[cat])||[]}
 const itemObj=x=>typeof x==='string'?{t:x}:x;
 const gradeTitle=b=>FK.GRADE[b]||`${b} belt grading`;
 const lvlChip=x=>x&&x.l?`<b class="lvl ${x.l[0]}">${x.l}</b>`:'';
 function tipsHtml(s){const rows=techList(s).map(l=>{const m=(s.meta||{})[l];return m&&m.tip?`<div class="tipRow"><b>${escapeHtml(l)}</b>${m.l&&m.l!=='All'?` <span class="lvl ${m.l[0]}">${m.l}</span>`:''}<span>${escapeHtml(m.tip)}</span></div>`:''}).filter(Boolean);return rows.length?`<div class="tipBox"><div class="tipHead">Coach tips <em>· never shown on the timer</em></div>${rows.join('')}</div>`:''}
-function libGroups(key){const hide=new Set(state.libHide[key]||[]);const gs=libDefaults(key).map(([g,items])=>[g,items.map(itemObj).filter(x=>!hide.has(x.t))]).filter(g=>g[1].length);const mine=state.libUser[key]||[];if(mine.length)gs.push(['My additions',mine.map(itemObj),true]);return gs}
-function libAdd(key,text){const add=String(text).split(/\n+/).map(x=>x.trim()).filter(Boolean);if(!add.length)return 0;const all=new Set(libGroups(key).flatMap(g=>g[1].map(i=>i.t)));const cur=state.libUser[key]=state.libUser[key]||[];let n=0;add.forEach(x=>{if(!all.has(x)){cur.push(x);all.add(x);n++}else{const h=state.libHide[key]||[];if(h.includes(x))state.libHide[key]=h.filter(y=>y!==x),n++}});persist();return n}
-function libRemove(key,item){const mine=state.libUser[key]||[];if(mine.includes(item))state.libUser[key]=mine.filter(x=>x!==item);else{state.libHide[key]=[...(state.libHide[key]||[]),item]}persist()}
-function libReset(key){delete state.libUser[key];delete state.libHide[key];persist()}
+const HOME='My additions';
+function libBase(key){const hide=new Set(state.libHide[key]||[]);const gs=libDefaults(key).map(([g,items])=>[g,items.map(itemObj).filter(x=>!hide.has(x.t))]);(state.libUser[key]||[]).forEach(u=>{const o=itemObj(u),g=o.g||HOME;let f=gs.find(x=>x[0]===g);if(!f){f=[g,[]];gs.push(f)}f[1].push({t:o.t,l:o.l,tip:o.tip,mine:1})});return gs}
+function libGroups(key){const base=libBase(key);const mv=state.libMove[key]||{},ord=state.libOrder[key]||[];const gs=base.map(([g])=>[g,[]]);const at=g=>{let f=gs.find(x=>x[0]===g);if(!f){f=[g,[]];gs.push(f)}return f[1]};base.forEach(([g,items])=>items.forEach(x=>at(mv[x.t]||g).push(x)));const ix=new Map(ord.map((x,i)=>[x,i]));gs.forEach(g=>{g[1]=g[1].map((x,n)=>[x,n]).sort((a,b)=>{const A=ix.has(a[0].t)?ix.get(a[0].t):1e9+a[1],B=ix.has(b[0].t)?ix.get(b[0].t):1e9+b[1];return A-B}).map(a=>a[0])});return gs.filter(g=>g[1].length)}
+function libGroupNames(key){const n=libBase(key).map(g=>g[0]);libGroups(key).forEach(g=>{if(!n.includes(g[0]))n.push(g[0])});if(!n.includes(HOME))n.push(HOME);return n}
+function libAdd(key,text,group){const add=String(text).split(/\n+/).map(x=>x.trim()).filter(Boolean);if(!add.length)return 0;const g=(group||'').trim().slice(0,40);const all=new Set(libBase(key).flatMap(x=>x[1].map(i=>i.t)));const cur=state.libUser[key]=state.libUser[key]||[];let n=0;add.forEach(x=>{if(!all.has(x)){cur.push(g&&g!==HOME?{t:x,g}:x);all.add(x);n++}else{const h=state.libHide[key]||[];if(h.includes(x))state.libHide[key]=h.filter(y=>y!==x),n++}if(g&&state.libMove[key]&&state.libMove[key][x])delete state.libMove[key][x]});if(g){state.libLast[key]=g}persist();return n}
+function libAddItems(key,arr){(arr||[]).forEach(u=>{const o=itemObj(u);if(o&&o.t)libAdd(key,o.t,o.g)})}
+function libRemove(key,item){const mine=state.libUser[key]||[];if(mine.some(u=>itemObj(u).t===item))state.libUser[key]=mine.filter(u=>itemObj(u).t!==item);else{state.libHide[key]=[...(state.libHide[key]||[]),item]}if(state.libMove[key])delete state.libMove[key][item];persist()}
+function libReset(key){delete state.libUser[key];delete state.libHide[key];delete state.libMove[key];delete state.libOrder[key];persist()}
+function libSaveLayout(key,layout){const base={};libBase(key).forEach(([g,items])=>items.forEach(x=>base[x.t]=g));const mv={},ord=[];layout.forEach(([g,items])=>items.forEach(t=>{ord.push(t);if(base[t]!==g)mv[t]=g}));state.libMove[key]=mv;state.libOrder[key]=ord;persist()}
+function groupSelect(id,key){const names=libGroupNames(key);const last=state.libLast[key];const sel=names.includes(last)?last:names[0];return `<select id="${id}" class="libInput libGroupSel">${names.map(n=>`<option value="${escapeAttr(n)}" ${n===sel?'selected':''}>${escapeHtml(n)}</option>`).join('')}<option value="__new">＋ New section…</option></select><input id="${id}New" class="libInput libGroupNew" placeholder="New section name" maxlength="40" hidden>`}
+function groupValue(id){const s=$(id);if(!s)return '';if(s.value==='__new')return ($(id+'New').value||'').trim();return s.value}
+function groupWire(id){const s=$(id);if(!s)return;s.onchange=()=>{const n=$(id+'New');n.hidden=s.value!=='__new';if(!n.hidden)n.focus()}}
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
 /* ---- Library view ---- */
 let libQuery='';
@@ -713,23 +724,60 @@ function renderLibrary(){
  <section class="panel"><div class="panelBody">
   ${isG&&FK.GRADE[state.libBelt]?`<p class="libNote"><b>${FK.GRADE[state.libBelt]}</b> — from the club grading sheet. Junior / Senior tags and coach tips show here and in the lesson plan; <b>coach tips are never shown on the timer</b>.</p>`:''}
   <div class="libTools"><input id="libSearch" class="libInput" placeholder="Search ${count} items…" value="${escapeAttr(libQuery)}"><button class="btn small" id="libReset">Reset list</button></div>
-  <div class="libAdd"><textarea id="libNew" rows="2" placeholder="Add to ${isG?state.libBelt+' belt syllabus':st==='grading'?'':FK.CATS.includes(state.libCat)?state.libCat:''} – one item per line (paste a list if you like)"></textarea><button class="btn red" id="libAddBtn">＋ Add</button></div>
-  ${groups.length?groups.map(([g,items,mine])=>`<div class="libGroup"><h4>${escapeHtml(g)} <em>${items.length}</em></h4>${items.map(x=>`<div class="libItem"><span>${lvlChip(x)}${escapeHtml(x.t)}${x.tip?`<em class="tip">${escapeHtml(x.tip)}</em>`:''}</span><button class="libDel" data-del="${escapeAttr(x.t)}" aria-label="Remove">×</button></div>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">Nothing here yet. Add your own above, or tap Reset list to restore the built-in items.</p>'}
+  <div class="libAdd"><textarea id="libNew" rows="2" placeholder="Add to ${isG?state.libBelt+' belt syllabus':FK.CATS.includes(state.libCat)?state.libCat:'the library'} – one item per line (paste a list if you like)"></textarea><div class="libAddRow"><label class="libAddLbl">Section</label>${groupSelect('libGroup',key)}<button class="btn red" id="libAddBtn">＋ Add</button></div></div>
+  ${groups.length&&!q?'<p class="libHint">Press and hold an item, then drag it up or down — or into another section.</p>':''}
+  ${groups.length?groups.map(([g,items,mine])=>`<div class="libGroup" data-g="${escapeAttr(g)}"><h4>${escapeHtml(g)} <em>${items.length}</em></h4>${items.map(x=>`<div class="libItem" data-t="${escapeAttr(x.t)}"><i class="grip" aria-hidden="true">⠿</i><span>${lvlChip(x)}${escapeHtml(x.t)}${x.tip?`<em class="tip">${escapeHtml(x.tip)}</em>`:''}</span><button class="libDel" data-del="${escapeAttr(x.t)}" aria-label="Remove">×</button></div>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">Nothing here yet. Add your own above, or tap Reset list to restore the built-in items.</p>'}
   <div class="libFoot"><button class="btn small" id="libExport">⬇ Export my library</button><label class="btn small" style="cursor:pointer">⬆ Import<input type="file" id="libImport" accept=".json" hidden></label></div>
  </div></section>`;
  v.querySelectorAll('[data-lst]').forEach(b=>b.onclick=()=>{state.libStyle=b.dataset.lst;libQuery='';persist();renderLibrary()});
  v.querySelectorAll('[data-lcat]').forEach(b=>b.onclick=()=>{state.libCat=b.dataset.lcat;libQuery='';persist();renderLibrary()});
  v.querySelectorAll('[data-belt]').forEach(b=>b.onclick=()=>{state.libBelt=b.dataset.belt;libQuery='';persist();renderLibrary()});
  $('libSearch').oninput=e=>{libQuery=e.target.value;const pos=e.target.selectionStart;renderLibrary();const s=$('libSearch');s.focus();s.setSelectionRange(pos,pos)};
- $('libAddBtn').onclick=()=>{const n=libAdd(key,$('libNew').value);if(n){toast(n+' added to library ✓');renderLibrary()}else toast('Nothing new to add')};
+ groupWire('libGroup');$('libAddBtn').onclick=()=>{const g=groupValue('libGroup');if($('libGroup').value==='__new'&&!g){toast('Type a name for the new section');return}const n=libAdd(key,$('libNew').value,g);if(n){toast(n+' added'+(g?' to '+g:'')+' ✓');renderLibrary()}else toast('Nothing new to add')};
+ libDragInit(v,key,!!q);
  v.querySelectorAll('.libDel').forEach(b=>b.onclick=()=>{libRemove(key,b.dataset.del);renderLibrary()});
  $('libReset').onclick=()=>{if(confirm('Restore the built-in items for this list and remove your additions to it?')){libReset(key);renderLibrary()}};
- $('libExport').onclick=()=>{const blob=new Blob([JSON.stringify({fkbcLibrary:1,user:state.libUser,hide:state.libHide},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fkbc-library.json';document.body.appendChild(a);a.click();a.remove()};
- $('libImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.fkbcLibrary)throw 0;Object.entries(d.user||{}).forEach(([k,arr])=>libAdd(k,arr.join('\n')));Object.entries(d.hide||{}).forEach(([k,arr])=>{state.libHide[k]=[...new Set([...(state.libHide[k]||[]),...arr])]});persist();toast('Library imported ✓');renderLibrary()}catch(x){alert('That is not an FKBC library file.')}};r.readAsText(f)};
+ $('libExport').onclick=()=>{const blob=new Blob([JSON.stringify({fkbcLibrary:2,user:state.libUser,hide:state.libHide,move:state.libMove,order:state.libOrder},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fkbc-library.json';document.body.appendChild(a);a.click();a.remove()};
+ $('libImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.fkbcLibrary)throw 0;Object.entries(d.user||{}).forEach(([k,arr])=>libAddItems(k,arr));Object.entries(d.hide||{}).forEach(([k,arr])=>{state.libHide[k]=[...new Set([...(state.libHide[k]||[]),...arr])]});Object.entries(d.move||{}).forEach(([k,o])=>{state.libMove[k]={...(state.libMove[k]||{}),...o}});Object.entries(d.order||{}).forEach(([k,a])=>{state.libOrder[k]=a});persist();toast('Library imported ✓');renderLibrary()}catch(x){alert('That is not an FKBC library file.')}};r.readAsText(f)};
+}
+/* ---- press & hold to reorder / move between sections ---- */
+function libDragInit(v,key,locked){
+ if(locked)return;
+ let timer=null,drag=null,sx=0,sy=0,pid=null;
+ const gap=y=>{const a=window.innerHeight*.14;return y<a?-Math.ceil((a-y)/6):y>window.innerHeight-a?Math.ceil((y-(window.innerHeight-a))/6):0};
+ const cancel=()=>{clearTimeout(timer);timer=null};
+ const place=(x,y)=>{const items=[...v.querySelectorAll('.libItem:not(.dragging)')];let best=null,bd=1e9,after=false;items.forEach(it=>{const r=it.getBoundingClientRect(),c=r.top+r.height/2,d=Math.abs(y-c);if(d<bd){bd=d;best=it;after=y>c}});
+  const heads=[...v.querySelectorAll('.libGroup')];
+  if(!best){return}
+  const hb=heads.find(g=>{const r=g.querySelector('h4').getBoundingClientRect();return y>=r.top-4&&y<=r.bottom+4});
+  if(hb){const first=hb.querySelector('.libItem:not(.dragging)');if(first)first.before(drag.el);else hb.appendChild(drag.el);return}
+  if(after)best.after(drag.el);else best.before(drag.el)};
+ const finish=ok=>{if(!drag)return;const el=drag.el;el.classList.remove('dragging');document.body.classList.remove('libDragging');cancelAnimationFrame(drag.raf);
+  window.removeEventListener('pointermove',onMove,true);window.removeEventListener('pointerup',onUp,true);window.removeEventListener('pointercancel',onCancel,true);document.removeEventListener('touchmove',stop,true);
+  drag=null;
+  if(!ok){renderLibrary();return}
+  const layout=[...v.querySelectorAll('.libGroup')].map(g=>[g.dataset.g,[...g.querySelectorAll('.libItem')].map(i=>i.dataset.t)]).filter(g=>g[1].length);
+  libSaveLayout(key,layout);renderLibrary()};
+ const stop=e=>{if(drag&&e.cancelable)e.preventDefault()};
+ const onMove=e=>{if(drag){e.preventDefault();drag.x=e.clientX;drag.y=e.clientY;place(e.clientX,e.clientY);return}
+  if(timer&&Math.hypot(e.clientX-sx,e.clientY-sy)>9)cancel()};
+ const onUp=()=>{cancel();finish(true)};
+ const onCancel=()=>{cancel();finish(drag?true:false)};
+ const loop=()=>{if(!drag)return;const d=gap(drag.y);if(d){window.scrollBy(0,d);const sc=drag.el.closest('.view,.modalBody,main');if(sc&&sc.scrollHeight>sc.clientHeight)sc.scrollTop+=d;place(drag.x,drag.y)}drag.raf=requestAnimationFrame(loop)};
+ const start=el=>{drag={el,x:sx,y:sy,raf:0};el.classList.add('dragging');document.body.classList.add('libDragging');try{navigator.vibrate&&navigator.vibrate(18)}catch(e){}
+  document.addEventListener('touchmove',stop,{capture:true,passive:false});drag.raf=requestAnimationFrame(loop)};
+ v.querySelectorAll('.libItem').forEach(el=>{
+  el.oncontextmenu=e=>{e.preventDefault()};
+  el.onpointerdown=e=>{if(e.target.closest('.libDel')||(e.pointerType==='mouse'&&e.button!==0))return;sx=e.clientX;sy=e.clientY;pid=e.pointerId;cancel();
+   window.addEventListener('pointermove',onMove,true);window.addEventListener('pointerup',onUp,true);window.addEventListener('pointercancel',onCancel,true);
+   timer=setTimeout(()=>{timer=null;start(el)},e.pointerType==='mouse'?260:380)};
+ });
+ const stale=()=>{if(!drag&&!timer){window.removeEventListener('pointermove',onMove,true);window.removeEventListener('pointerup',onUp,true);window.removeEventListener('pointercancel',onCancel,true)}};
+ v.addEventListener('pointerup',()=>setTimeout(stale,0));v.addEventListener('pointercancel',()=>setTimeout(stale,0));
 }
 /* ---- picker ---- */
 let pick={id:null,sel:new Set(),q:''};
-document.body.insertAdjacentHTML('beforeend','<div id="pickModal" class="modal"><div class="modalBox pickBox"><div class="modalHead"><h3 id="pickTitle">Library</h3><button class="btn small" data-close="pickModal">Close</button></div><div class="pickBar"><input id="pickSearch" class="libInput" placeholder="Search…"><div id="pickTools"></div></div><div class="modalBody" id="pickBody"></div><div class="pickFoot"><div class="pickAdd"><input id="pickCustom" class="libInput" placeholder="Type your own…"><label class="pickSave"><input type="checkbox" id="pickSaveLib" checked> save to library</label></div><button class="btn red" id="pickDone">Add to section</button></div></div></div>');
+document.body.insertAdjacentHTML('beforeend','<div id="pickModal" class="modal"><div class="modalBox pickBox"><div class="modalHead"><h3 id="pickTitle">Library</h3><button class="btn small" data-close="pickModal">Close</button></div><div class="pickBar"><input id="pickSearch" class="libInput" placeholder="Search…"><div id="pickTools"></div></div><div class="modalBody" id="pickBody"></div><div class="pickFoot"><div class="pickAdd"><input id="pickCustom" class="libInput" placeholder="Type your own…"><label class="pickSave"><input type="checkbox" id="pickSaveLib" checked> save to library</label><span id="pickGroupWrap" class="pickGroupWrap"></span></div><button class="btn red" id="pickDone">Add to section</button></div></div></div>');
 $('pickModal').addEventListener('click',e=>{if(e.target===$('pickModal')||e.target.dataset.close)closeModal('pickModal')});
 function pickKey(s){return s.type==='Grading'?libKey('syll',s.belt||'White'):libKey(state.lesson.style||'kickboxing',s.type==='Break'?'Warm Up':s.type)}
 function openPick(id){const s=state.lesson.sections.find(x=>x.id===id);if(!s)return;pick={id,sel:new Set(),q:'',lvl:'All',lookup:{}};$('pickSearch').value='';
@@ -743,11 +791,12 @@ function renderPick(){const s=state.lesson.sections.find(x=>x.id===pick.id);if(!
   tools.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{pick.lvl=b.dataset.lv;renderPick()});
   tools.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{if(b.dataset.sel==='all')pick.shown.forEach(x=>pick.sel.add(x));else pick.sel.clear();renderPick()})}
  $('pickBody').innerHTML=(gs.length?gs.map(([g,items])=>`<div class="libGroup"><h4>${escapeHtml(g)}</h4>${items.map(x=>`<label class="pickItem ${pick.sel.has(x.t)?'on':''}"><input type="checkbox" data-x="${escapeAttr(x.t)}" ${pick.sel.has(x.t)?'checked':''}><span>${lvlChip(x)}${escapeHtml(x.t)}${x.tip?`<em class="tip">${escapeHtml(x.tip)}</em>`:''}</span></label>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">No matches. Type your own below.</p>');
- $('pickBody').querySelectorAll('input[data-x]').forEach(i=>i.onchange=()=>{i.checked?pick.sel.add(i.dataset.x):pick.sel.delete(i.dataset.x);i.closest('.pickItem').classList.toggle('on',i.checked);updPick()});updPick()}
+ $('pickBody').querySelectorAll('input[data-x]').forEach(i=>i.onchange=()=>{i.checked?pick.sel.add(i.dataset.x):pick.sel.delete(i.dataset.x);i.closest('.pickItem').classList.toggle('on',i.checked);updPick()});{const sig=key+'|'+libGroupNames(key).join('|');if(!$('pickGroup')||$('pickGroup').dataset.sig!==sig){pickGroupUi(key);$('pickGroup').dataset.sig=sig}}updPick()}
+function pickGroupUi(key){const w=$('pickGroupWrap');if(!w)return;const cur=groupValue('pickGroup');w.innerHTML=`<span class="libAddLbl">in</span>${groupSelect('pickGroup',key)}`;if(cur&&[...$('pickGroup').options].some(o=>o.value===cur))$('pickGroup').value=cur;groupWire('pickGroup')}
 function updPick(){const s=state.lesson.sections.find(x=>x.id===pick.id);const n=pick.sel.size;const rounds=s&&s.mode!=='time';$('pickDone').textContent=n?(rounds?`Add ${n} · set ${n} round${n>1?'s':''}`:`Add ${n} to section`):'Add to section';$('pickDone').disabled=!n&&!$('pickCustom').value.trim()}
 $('pickSearch').oninput=e=>{pick.q=e.target.value;renderPick()};$('pickCustom').oninput=updPick;
 $('pickDone').onclick=()=>{const s=state.lesson.sections.find(x=>x.id===pick.id);if(!s)return;const key=pickKey(s);const custom=$('pickCustom').value.trim();
- const order=libGroups(key).flatMap(g=>g[1].map(i=>i.t));const items=[...pick.sel].sort((a,b)=>order.indexOf(a)-order.indexOf(b));if(custom){custom.split(/\n+/).map(x=>x.trim()).filter(Boolean).forEach(x=>items.push(x));if($('pickSaveLib').checked)libAdd(key,custom)}$('pickCustom').value='';
+ const order=libGroups(key).flatMap(g=>g[1].map(i=>i.t));const items=[...pick.sel].sort((a,b)=>order.indexOf(a)-order.indexOf(b));if(custom){custom.split(/\n+/).map(x=>x.trim()).filter(Boolean).forEach(x=>items.push(x));if($('pickSaveLib').checked)libAdd(key,custom,groupValue('pickGroup'))}$('pickCustom').value='';
  if(!items.length)return;
  if(s.mode==='time'){const cur=(s.title||'').trim();s.title=(cur?cur+' / ':'')+items.join(' / ')}
  else{const cur=techList(s);items.forEach(x=>cur.push(x));s.techniques=cur.join('\n');s.roundCount=Math.max(1,Math.min(30,cur.length));s.meta=s.meta||{};items.forEach(x=>{const m=pick.lookup[x];if(m&&(m.g||m.l||m.tip))s.meta[x]=m});if(s.type==='Grading'&&!(s.title||'').trim())s.title=gradeTitle(s.belt)}
@@ -802,8 +851,8 @@ $('plannerView').querySelector('.plannerTop .actions').insertAdjacentHTML('after
 $('savedTop').onclick=()=>{savedQ='';renderSaved();openModal('savedModal')};$('newTop').onclick=openNew;
 /* ---- backup ---- */
 document.querySelector('#settingsView .settingsGrid').insertAdjacentHTML('beforeend','<div class="settingGroup" style="grid-column:1/-1"><h3>Backup &amp; storage</h3><p style="color:var(--muted);margin-top:0">Lessons, library additions and settings are stored on this device. Export a backup before changing device or clearing Safari data.</p><div class="planFooter"><button class="btn" id="bkExport">⬇ Export everything</button><label class="btn" style="cursor:pointer">⬆ Restore backup<input type="file" id="bkImport" accept=".json" hidden></label></div><div class="settingRow"><span>Privacy policy</span><a class="btn small" href="privacy.html" target="_blank" rel="noopener">Read</a></div><div class="settingRow"><span>Quick words under the field</span><input class="toggle" id="quickWordsToggle" type="checkbox"></div></div>');
-$('bkExport').onclick=()=>{const blob=new Blob([JSON.stringify({fkbcBackup:2,saved:state.saved,libUser:state.libUser,libHide:state.libHide,settings:state.settings,lesson:state.lesson},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fkbc-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove()};
-$('bkImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.fkbcBackup)throw 0;const ids=new Set(state.saved.map(x=>x.id));(d.saved||[]).forEach(l=>{if(!l.id)l.id=uid();if(!ids.has(l.id))state.saved.push(l)});Object.entries(d.libUser||{}).forEach(([k,a])=>libAdd(k,a.join('\n')));Object.entries(d.libHide||{}).forEach(([k,a])=>{state.libHide[k]=[...new Set([...(state.libHide[k]||[]),...a])]});if(d.settings)state.settings={...state.settings,...d.settings};persist();renderAll();toast('Backup restored ✓')}catch(x){alert('That is not an FKBC backup file.')}};r.readAsText(f)};
+$('bkExport').onclick=()=>{const blob=new Blob([JSON.stringify({fkbcBackup:2,saved:state.saved,libUser:state.libUser,libHide:state.libHide,libMove:state.libMove,libOrder:state.libOrder,settings:state.settings,lesson:state.lesson},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fkbc-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove()};
+$('bkImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.fkbcBackup)throw 0;const ids=new Set(state.saved.map(x=>x.id));(d.saved||[]).forEach(l=>{if(!l.id)l.id=uid();if(!ids.has(l.id))state.saved.push(l)});Object.entries(d.libUser||{}).forEach(([k,a])=>libAddItems(k,a));Object.entries(d.libHide||{}).forEach(([k,a])=>{state.libHide[k]=[...new Set([...(state.libHide[k]||[]),...a])]});Object.entries(d.libMove||{}).forEach(([k,o])=>{state.libMove[k]={...(state.libMove[k]||{}),...o}});Object.entries(d.libOrder||{}).forEach(([k,a])=>{state.libOrder[k]=a});if(d.settings)state.settings={...state.settings,...d.settings};persist();renderAll();toast('Backup restored ✓')}catch(x){alert('That is not an FKBC backup file.')}};r.readAsText(f)};
 $('quickWordsToggle').onchange=e=>{state.settings.quickWords=e.target.checked;persist()};
 const _rs=renderSettings;renderSettings=function(){_rs();$('quickWordsToggle').checked=state.settings.quickWords!==false};
 (function(){const g=$('quickEditor');if(g&&g.closest('.settingGroup'))g.closest('.settingGroup').style.display='none'})();

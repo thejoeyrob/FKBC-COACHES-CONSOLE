@@ -1,5 +1,5 @@
 /* FKBC Coaches Console — service worker (offline use). Bump CACHE when any file changes. */
-const CACHE = 'fkbc-console-v39';
+const CACHE = 'fkbc-console-v40';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './assets/sfx.js', './assets/live.js', './assets/live-config.js', './assets/vendor/supabase.js', './assets/library-data.js', './assets/img/gym-bg.webp', './assets/img/bg-arena.webp', './assets/img/bg-gym.webp', './assets/img/bg-streets.webp',
   './assets/sounds/bell.wav', './assets/sounds/bleep.wav', './assets/sounds/klaxon.wav',
