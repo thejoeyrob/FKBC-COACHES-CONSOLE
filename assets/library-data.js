@@ -7,6 +7,8 @@
 (function () {
   'use strict';
   var G = function (name, items) { return [name, items]; };
+  /* grading item: technique, level (Junior / Senior / All), optional coach tip */
+  var I = function (t, l, tip) { return tip ? { t: t, l: l, tip: tip } : { t: t, l: l }; };
 
   var STYLES = [
     { id: 'kickboxing', name: 'Kickboxing', icon: '🥊' },
@@ -171,29 +173,34 @@
     ['Blue', '#1b5ad7', '#fff'], ['Brown', '#8b5130', '#fff'], ['Black', '#111', '#fff']
   ];
   var SYLL = {
+    /* White / Red / Yellow come from the club grading sheets: same sections, Junior / Senior tags and coach tips.
+       Item = I(technique, level, coach tip). Coach tips are for coaches only and are never shown on the timer. */
     White: [
-      G('Stance & movement', ['Guard stance (orthodox / southpaw)', 'Fighting stance + balance', 'Step forward / back', 'Step left / right (shuffle)', 'Pivot 90 degrees', 'Bow, etiquette and respect to coach / partner']),
-      G('Punches', ['Jab', 'Cross', 'Jab – Cross']),
-      G('Kicks', ['Front kick (push)', 'Front kick (snap)', 'Rear roundhouse to the body (pad)']),
-      G('Defence', ['High guard block', 'Step-back defence']),
-      G('Combinations', ['Jab – Cross – Front kick']),
-      G('Fitness & sparring', ['Warm-up routine (lead the group)', '10 press-ups', '20 sit-ups', 'Basic stretches (hamstring, quad, groin)', 'Shadow boxing – 1 round'])
+      G('Stance', [I('Left Leg Forward', 'Junior', 'Good fists, tight guard, elbows tucked in'), I('Left & Right Leg Forward', 'Senior', 'Feet position / centre line')]),
+      G('Arm techniques', [I('Jab / Snap Punch', 'Junior', 'Speed'), I('Reverse Punch / Cross', 'Junior', 'Power, pivot, guard change'), I('Backfist Both Arms', 'Senior', 'Point with elbow, pivot, strike with back of hand')]),
+      G('Kicks', [I('Snap Front Kick Lead Leg', 'Junior', 'Speed, point with knee, kick with ball of the foot'), I('Snap Front Kick Rear Leg', 'Junior', 'As above with guard change'), I('Roundhouse Kick Rear Leg', 'Junior', 'Speed, point with knee, kick with instep of foot'), I('Front Knee Lead Leg', 'Senior', 'Knee forwards not up, lean back for power'), I('Front Knee Rear Leg', 'Senior', 'As above but with long guard for high grades')]),
+      G('Defence', [I('Roll', 'Junior', 'Roll outside of punch'), I('Parry / Palm Deflection', 'Senior', 'Open hand to punch, parry down or across'), I('Downward Outside Deflection Lead Arm (to front kick attack)', 'Senior', 'Turning kicks away, closing the opponent / deflect the danger')]),
+      G('Combinations', [I('Front Kick Lead Leg, Jab, Cross', 'All', 'Look for landing into jab'), I('Jab, Front Kick Lead Leg, Roundhouse Kick Rear Leg', 'All', 'Jab to open mid section for front kick and roundhouse kick to land'), I('Jab, Cross, Roundhouse Kick Rear', 'All', 'Punch to raise guard to land roundhouse kick')]),
+      G('Padwork', [I('Pad work with Coach', 'Junior'), I('Pad work with Partner', 'Senior', 'Correct pad holding, spotting')]),
+      G('Sparring', [I('One Step sparring', 'Senior', 'One technique attack and defence')])
     ],
     Red: [
-      G('Stance & movement', ['Switch stance (introduction)', 'Pivot out / angle step', 'Circling left and right']),
-      G('Punches', ['Lead hook', 'Rear hook (introduction)', 'Jab – Cross – Lead hook']),
-      G('Kicks', ['Rear roundhouse to the body (full)', 'Lead roundhouse to the body', 'Push kick (lead leg)', 'Rear knee strike']),
-      G('Defence', ['Parry (jab)', 'Slip (introduction)', 'Shin check (introduction)', 'Cover up']),
-      G('Combinations', ['Jab – Cross – Rear roundhouse', 'Lead hook – Cross', 'Jab – Cross – Rear knee']),
-      G('Fitness & sparring', ['15 press-ups', '30 sit-ups', 'Shadow boxing – 2 rounds', 'Hold pads for a partner correctly'])
+      G('Stance', [I('Left Leg Forward', 'Junior'), I('Left & Right Leg Forward', 'Senior')]),
+      G('Arm techniques', [I('Hook Punch Lead & Rear Arms', 'Junior', 'Thumb upwards & pivot, guard change for rear arm'), I('Stepping Jab', 'Junior', 'Change stance to close distance; seniors look to step in a C shape to not open up the body'), I('Stepping Reverse Punch', 'Junior'), I('Hook Punch Close / Long Quarter', 'Senior', 'Understand the difference')]),
+      G('Kicks', [I('One Step Front Kick', 'Junior', 'Step with rear leg to close distance'), I('Side Kick Lead Leg', 'Junior', 'Stamp technique'), I('Roundhouse Kick Lead Leg (skip)', 'Junior', 'As above with guard change'), I('Side Kick Both Legs', 'Senior'), I('Roundhouse Knee', 'Senior')]),
+      G('Defence', [I('Outside Forearm Block', 'Junior', 'Block on the dead arm bicep'), I('Downward Inside Deflection Lead Arm (to front kick attack)', 'Senior', 'Turning kicks to open the opponent')]),
+      G('Combinations', [I('Stepping Jab, Cross, Roundhouse Kick', 'All', 'Guard change for stepping jab means punch and kick off the NEW rear, then step back'), I('Jab, Reverse Punch, Hook Lead Arm', 'All', 'Hook would be long'), I('One Step Front Kick, Front Knee, Hook Punch Lead Arm', 'All', 'Hook would be short')]),
+      G('Padwork', [I('Pad work with Coach', 'Junior'), I('Pad work with Partner', 'Senior', 'Correct pad holding, spotting')]),
+      G('Sparring', [I('One Step sparring', 'Junior', 'One technique attack and defence'), I('Light Contact sparring', 'Senior')])
     ],
     Yellow: [
-      G('Stance & movement', ['Angle step + counter', 'Distance control (in and out)']),
-      G('Punches', ['Lead uppercut', 'Rear uppercut', 'Body hook', 'Jab – Cross – Hook – Cross']),
-      G('Kicks', ['Side kick (lead and rear)', 'Rear roundhouse to the head', 'Rear low kick', 'Lead knee strike']),
-      G('Defence', ['Slip and return', 'Bob and weave (introduction)', 'Shin check low kick', 'Block and counter']),
-      G('Combinations', ['Jab – Cross – Low kick', 'Slip – Cross – Rear roundhouse']),
-      G('Fitness & sparring', ['20 press-ups', '40 sit-ups', 'Light-touch technical sparring (introduction)', 'Shadow boxing – 3 rounds'])
+      G('Stance', [I('Left Leg Forward', 'Junior'), I('Left & Right Leg Forward', 'Senior')]),
+      G('Arm techniques', [I('Uppercut Lead & Rear Arms', 'Junior'), I('Jumping Jab', 'Junior'), I('Jumping Reverse Punch', 'Junior', 'Superman punch'), I('Uppercut Close / Long Quarter', 'Senior', 'Understand the difference')]),
+      G('Kicks', [I('Push Front Kick', 'Junior', 'Curl, flick front kick (snake kick); strike with ball of foot'), I('One Step Sidekick', 'Junior', 'Pendulum if able'), I('Jump Front Kick', 'Junior', 'Lead leg'), I('Heel (Thrust / Teep) Front Kick', 'Senior', 'Stamp')]),
+      G('Defence', [I('Inside Forearm Block', 'Junior'), I('Inside Knee / Shin Block', 'Junior'), I('Side Step Evasion', 'Senior')]),
+      G('Combinations', [I('Jump Front Kick, Jab, Jump Reverse Punch', 'All'), I('One Step Sidekick, Jab, Uppercut', 'All'), I('Jab, Uppercut Rear Arm, Hook Punch Lead Arm', 'All')]),
+      G('Padwork', [I('Pad work with Coach', 'Junior'), I('Pad work with Partner', 'Senior', 'Correct pad holding, spotting')]),
+      G('Sparring', [I('Light Contact sparring', 'Junior'), I('Sparring 2 x 2 min rounds', 'Senior')])
     ],
     Orange: [
       G('Stance & movement', ['Switch stance with a kick', 'Ring movement – cutting angles']),
@@ -239,5 +246,6 @@
     fitness: ['BURPEES', 'PRESS-UPS', 'SQUATS', 'LUNGES', 'PLANK', 'SKIPPING', 'SHUTTLES', 'BAG ROUND', 'CORE', 'SPRINTS']
   };
 
-  window.FKLIB = { STYLES: STYLES, CATS: CATS, LIB: LIB, BELTS: BELTS, SYLL: SYLL, QUICK: QUICK };
+  var GRADE = { White: 'Level 1 White Grade', Red: 'Level 2 Red Grade', Yellow: 'Level 3 Yellow Grade' };
+  window.FKLIB = { GRADE: GRADE, STYLES: STYLES, CATS: CATS, LIB: LIB, BELTS: BELTS, SYLL: SYLL, QUICK: QUICK };
 })();

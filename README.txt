@@ -1,4 +1,4 @@
-FKBC COACHES CONSOLE v37
+FKBC COACHES CONSOLE v38
 
 Access PIN: FKBC1      Admin timetable code: 2403 (not shown in the app)
 
@@ -52,3 +52,11 @@ v37 LOOK + WORKFLOW
 - Rounds follow the technique list (typing or picking techniques sets the rounds; untick to set rounds by hand).
 - Proper belt icons; colour-coded sections and a lesson overview bar; belt icon shows on grading sections and on the timer.
 - John and Eden artwork given the same bold outline as the other coaches. For a perfect match, regenerate those two in the same style as Joe/Jack/Paul.
+
+v38 GRADING SHEETS
+- White, Red and Yellow grading library now follow the club grading sheets: Stance, Arm techniques, Kicks, Defence,
+  Combinations, Padwork, Sparring, each item tagged Junior / Senior / All, with the coach tips.
+- Timer shows only the level and technique (left two columns of the sheet). Coach tips appear in the Library, the
+  lesson plan and the team Brief, and are never shown on the timer.
+- Picker: filter Everything / Junior / Senior and "Select all shown"; rounds follow the number selected.
+- Left out because they are crossed out on the sheets: White "Slip", Red "Knee / Shin Block". White Junior sparring is "None".
