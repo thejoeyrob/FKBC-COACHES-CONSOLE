@@ -222,10 +222,11 @@
     jset(K.ttRows, last);
     if (typeof currentView !== 'undefined' && currentView === 'timetable' && H().renderTimetable) H().renderTimetable();
   }
-  L.pushTimetable = async function (arr) {
+  L.pushTimetable = async function (arr, removed) {
     if (!L.member) return;
     try {
       var last = jget(K.ttRows, {});
+      for (var di = 0; removed && di < removed.length; di++) { var dr = await sb.from('timetable').delete().eq('id', removed[di]).select('id'); if (!dr.error) delete last[removed[di]]; }
       for (var i = 0; i < arr.length; i++) {
         var row = arr[i], js = JSON.stringify(row); if (last[row.id] === js) continue;
         var r = await sb.from('timetable').update({ data: row }).eq('id', row.id).select('id');
@@ -235,6 +236,36 @@
       jset(K.ttRows, last);
     } catch (e) {}
   };
+
+
+  /* ---------- coach check-in (who's down tonight) ---------- */
+  var KCK = 'fkbc_checkins', KCKQ = 'fkbc_checkins_q';
+  var ckRefresh = function () { try { if (window.FKCheck) window.FKCheck.refresh(); } catch (e) {} };
+  async function pullCheckins() {
+    var from = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
+    var r = await sb.from('checkins').select('day,session_id,coach_id').gte('day', from); if (r.error) throw r.error;
+    var rows = r.data.map(function (x) { return { day: x.day, sid: x.session_id, coach: x.coach_id }; });
+    jget(KCKQ, []).forEach(function (op) { rows = rows.filter(function (x) { return !(x.day === op.day && x.sid === op.sid && x.coach === op.coach); }); if (op.on) rows.push({ day: op.day, sid: op.sid, coach: op.coach }); });
+    jset(KCK, rows); ckRefresh();
+  }
+  async function flushCheckins() {
+    var q = jget(KCKQ, []); if (!q.length || !L.member) return; var rest = [], closed = false;
+    for (var i = 0; i < q.length; i++) {
+      var op = q[i];
+      try {
+        var r = op.on ? await sb.from('checkins').insert({ day: op.day, session_id: op.sid, coach_id: L.coach, start_time: op.start })
+                      : await sb.from('checkins').delete().eq('day', op.day).eq('session_id', op.sid).eq('coach_id', L.coach);
+        if (r.error && r.error.code !== '23505') { if (r.error.code === '42501' || /row-level|policy/i.test(r.error.message || '')) closed = true; else rest.push(op); }
+      } catch (e) { rest.push(op); }
+    }
+    jset(KCKQ, rest); if (closed) say('Check-in is closed for that session');
+  }
+  L.setCheckin = async function (day, sid, start, on) {
+    var q = jget(KCKQ, []).filter(function (o) { return !(o.day === day && o.sid === sid); });
+    q.push({ day: day, sid: sid, start: start, on: !!on, coach: L.coach }); jset(KCKQ, q);
+    if (L.member) { try { await flushCheckins(); await pullCheckins(); } catch (e) {} }
+  };
+  L.pullCheckins = pullCheckins;
 
   /* ---------- realtime ---------- */
   function subscribe() {
@@ -246,6 +277,7 @@
       .on('postgres_changes', { event: '*', schema: 'public', table: 'lessons' }, function () { pullLessons().catch(function () {}); })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'timetable' }, function () { pullTimetable().catch(function () {}); })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'club_library' }, function () { pullLibrary().catch(function () {}); })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'checkins' }, function () { pullCheckins().catch(function () {}); })
       .subscribe(function (st) {
         // instant push is a bonus: if it is blocked (some Wi-Fi blocks it) we keep working by checking every few seconds
         if (st === 'SUBSCRIBED') { L.rt = true; catchUp(); }   // anything sent before the live connection was up (or while it was down) is fetched now
@@ -253,13 +285,13 @@
       });
   }
   async function catchUp() {
-    var jobs = [pullMessages, pullLessons, pullTimetable, pullLibrary];
+    var jobs = [pullMessages, pullLessons, pullTimetable, pullLibrary, flushCheckins, pullCheckins];
     for (var i = 0; i < jobs.length; i++) { try { await jobs[i](); } catch (e) {} }
     flushPending();
   }
   async function afterJoin() {
     setStatus('live');
-    var jobs = [pullMessages, function () { return pullLessons(true); }, pullTimetable, pullLibrary];
+    var jobs = [pullMessages, function () { return pullLessons(true); }, pullTimetable, pullLibrary, flushCheckins, pullCheckins];
     for (var i = 0; i < jobs.length; i++) { try { await jobs[i](); } catch (e) { /* one table failing must not stop the rest */ } }
     subscribe(); L.ready = true;
     flushPending(); syncLessons(); pushLibrary();
@@ -276,12 +308,13 @@
   var oldShow = window.showView;
   window.showView = function (n) { oldShow(n); if (n === 'chat') clearUnread(); };
   window.addEventListener('online', function () { L.start(true); });
-  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && L.member && L.ready) { pullMessages().catch(function () {}); pullLessons().catch(function () {}); } });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && L.member && L.ready) { pullMessages().catch(function () {}); pullLessons().catch(function () {}); pullTimetable().catch(function () {}); pullCheckins().catch(function () {}); } });
   var tick = 0;
   setInterval(function () {
     if (!(L.member && L.ready && document.visibilityState === 'visible')) return; tick++;
     var fast = chatOpen() && (!L.rt || tick % 3 === 0);   // chat open: every 5s without instant push, every 15s as a safety net with it
     if (fast || tick % 12 === 0) pullMessages().then(function () { if (L.status === 'offline') setStatus('live'); }).catch(function () { setStatus('offline'); });
+    if (!L.rt && tick % 3 === 0) pullCheckins().catch(function () {});
     if (!L.rt && tick % 12 === 0) { pullLessons().catch(function () {}); pullTimetable().catch(function () {}); pullLibrary().catch(function () {}); }
   }, 5000);
 

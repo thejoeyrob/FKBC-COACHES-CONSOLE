@@ -610,6 +610,8 @@ function escapeHtml(x=''){return String(x).replace(/[&<>]/g,c=>({'&':'&amp;','<'
 function openCoachModal(secId){activeSectionId=secId;$('coachPicker').innerHTML=COACHES.map(c=>`<button class="coachChoice" data-coach="${c.id}"><img src="${c.portrait}" alt="${c.name}"><strong>${c.name}</strong></button>`).join('');$('coachPicker').querySelectorAll('.coachChoice').forEach(b=>b.onclick=()=>{const s=state.lesson.sections.find(x=>x.id===activeSectionId);if(s)s.coach=b.dataset.coach;closeModal('coachModal');renderPlanner()});openModal('coachModal')}
 function openModal(id){$(id).classList.add('show')}function closeModal(id){$(id).classList.remove('show')}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id);if(e.target.dataset.close)closeModal(e.target.dataset.close)}));
+/* modals added later (timetable, check-in …) are closed by one delegated handler */
+document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-close]');if(c&&c.dataset.close&&$(c.dataset.close)){closeModal(c.dataset.close);return}if(e.target.classList&&e.target.classList.contains('modal')&&e.target.id)closeModal(e.target.id)});
 function renderLibrary(){document.querySelectorAll('[data-libtab]').forEach(b=>b.classList.toggle('active',b.dataset.libtab===state.libTab));const body=$('libraryBody');if(state.libTab==='grading'){body.innerHTML=`<div class="libraryLayout"><div class="beltList">${BELTS.map(b=>`<button class="beltBtn ${state.libBelt===b[0]?'active':''}" data-belt="${b[0]}">${beltHtml(b[0])}<span>${b[0]} Belt</span></button>`).join('')}</div><div class="techEditor"><div class="eyebrow">${state.libBelt} Belt Techniques</div><textarea id="syllabusEdit">${(state.syllabus[state.libBelt]||[]).join('\n')}</textarea><p style="color:var(--muted)">One technique or combination per line. Changes appear immediately in grading-mode section suggestions.</p></div></div>`;body.querySelectorAll('[data-belt]').forEach(b=>b.onclick=()=>{state.libBelt=b.dataset.belt;renderLibrary()});$('syllabusEdit').addEventListener('input',e=>{state.syllabus[state.libBelt]=e.target.value.split(/\n+/).map(x=>x.trim()).filter(Boolean);persist()})}else{const list=state.library[state.libTab]||[];body.innerHTML=`<div class="techEditor"><div class="eyebrow">${state.libTab}</div><textarea id="generalLibEdit">${list.join('\n')}</textarea><p style="color:var(--muted)">One item per line.</p></div>`;$('generalLibEdit').addEventListener('input',e=>{state.library[state.libTab]=e.target.value.split(/\n+/).map(x=>x.trim()).filter(Boolean);persist()})}}
 document.querySelectorAll('[data-libtab]').forEach(b=>b.addEventListener('click',()=>{state.libTab=b.dataset.libtab;renderLibrary()}));
 function renderTimetable(){$('scheduleGrid').innerHTML=SCHEDULE.map(d=>`<section class="dayCard"><h3>${d.day}</h3>${d.sessions.map(s=>`<div class="classCard" style="--clr:${s.color}"><strong>${s.name}</strong><span>${s.start} – ${s.end}</span><button class="btn small planClass" data-name="${s.name}" data-start="${s.start}" data-end="${s.end}">Plan this class</button></div>`).join('')}</section>`).join('');$('scheduleGrid').querySelectorAll('.planClass').forEach(b=>b.onclick=()=>applyClassTemplate(b.dataset.name,classDuration(b.dataset.start,b.dataset.end)))}
@@ -1030,7 +1032,7 @@ const DEFAULT_TT=[
  {id:'fri-r1',day:'Friday',name:'Kickboxing',start:'18:00',end:'19:00',room:1,coaches:['joe','paul'],lesson:null}
 ];
 function ttLoad(){try{return JSON.parse(localStorage.getItem(KTT))||clone(DEFAULT_TT)}catch(e){return clone(DEFAULT_TT)}}
-function ttSave(a){localStorage.setItem(KTT,JSON.stringify(a));if(window.Live&&Live.enabled)Live.pushTimetable(a)}
+function ttSave(a,rem){localStorage.setItem(KTT,JSON.stringify(a));if(window.Live&&Live.enabled)Live.pushTimetable(a,rem)}
 let editTT=null, adminUntil=0;
 function isAdmin(){return Date.now()<adminUntil}
 function canLessonEdit(s){return isAdmin()||s.coaches.includes(me()?.id)}
@@ -1075,7 +1077,7 @@ const oldShow=showView;showView=function(name){oldShow(name);if(name==='chat')re
 document.querySelector('.timerTop')?.addEventListener('click',e=>e.stopPropagation());document.querySelector('.timerBottom')?.addEventListener('click',e=>e.stopPropagation());
 
 // Initialise only after original v21 is fully loaded.
-window.FKHooks={chatLoad,chatSave,renderChat:()=>renderChat(),privateId,renderTimetable:()=>renderTimetable(),me:()=>me(),coachById};
+window.FKHooks={chatLoad,chatSave,renderChat:()=>renderChat(),privateId,renderTimetable:()=>renderTimetable(),me:()=>me(),coachById,ttLoad,ttSave,isAdmin,requestAdmin};
 enhanceHome();renderTimetable();renderAccess();refreshConsole();if(accessState()){setGate(false)}else{setGate(true)};
 })();
 </script>
@@ -1133,5 +1135,6 @@ enhanceHome();renderTimetable();renderAccess();refreshConsole();if(accessState()
 <script src="assets/vendor/supabase.js"></script>
 <script src="assets/live-config.js"></script>
 <script src="assets/live.js"></script>
+<script src="assets/timetable.js"></script>
 
 </body></html>
