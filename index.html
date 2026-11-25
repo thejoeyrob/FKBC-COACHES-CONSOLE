@@ -240,6 +240,15 @@ body{background:#06080c}
 .quickInline button{flex:none;height:36px;padding:0 13px;border-radius:99px;border:1px solid rgba(255,255,255,.18);background:#1a2330;color:#fff;font:800 .78rem system-ui;letter-spacing:.04em}
 .titleRow+.quickInline,.techBox .quickInline{margin-bottom:2px}
 @media(max-width:560px){#fkbcBrandRow .brandLogo{height:46px}#fkbcBrandRow .brandTag{display:none}.homeActions{gap:8px!important}.homeAction{font-size:.74rem}.chipTab{min-height:38px;padding:0 12px;font-size:.85rem}}
+
+/* v38 grading sheets */
+.lvl{display:inline-block;font:800 .6rem system-ui;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-right:9px;vertical-align:1px}
+.lvl.J{background:rgba(52,146,255,.22);color:#8fc2ff}.lvl.S{background:rgba(244,197,42,.2);color:#ffd65c}.lvl.A{background:rgba(255,255,255,.1);color:#c3ccd8}
+.tip{display:block;margin-top:3px;color:#9fb0c3;font-size:.8rem;font-style:italic;font-weight:400}
+.libNote{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(52,146,255,.1);border:1px solid rgba(52,146,255,.28);color:#c9d6e6;font-size:.85rem;line-height:1.45}
+.tipBox{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(244,197,42,.07);border:1px dashed rgba(244,197,42,.4)}
+.tipHead{font:900 .66rem system-ui;letter-spacing:.14em;text-transform:uppercase;color:#ffd65c;margin-bottom:6px}.tipHead em{font-style:normal;color:var(--muted);letter-spacing:.04em;text-transform:none;font-weight:600}
+.tipRow{padding:5px 0;border-top:1px solid rgba(255,255,255,.06);font-size:.84rem;line-height:1.4}.tipRow:first-of-type{border-top:0}.tipRow b{color:#fff}.tipRow>span:last-child{display:block;color:#b9c3cf;font-style:italic}
 /* v32 */
 .timerTitle,.timerDetail,.timerMode,.roundLabel,.timerMeta{text-shadow:0 2px 14px rgba(0,0,0,.95),0 0 3px rgba(0,0,0,.9)}
 @media(max-width:899px){#chatView{padding-bottom:calc(var(--safeBottom) + 100px)}}
@@ -472,21 +481,22 @@ const techList=s=>(s.techniques||'').split('\n').map(x=>x.trim()).filter(Boolean
 function sectionPhases(s,si=0){
  normSec(s);const out=[];
  if(s.kind==='break')return [{sectionIndex:si,type:'break',category:'Break',title:s.title||'Break',detail:'Recover / reset',coach:null,duration:Math.max(5,(+s.mins||2)*60),roundLabel:'Break'}];
- const T=TYPES[s.type]||TYPES['Warm Up'];const cid=coach(s.coach).id;const catName=s.type==='Grading'?`Grading · ${s.belt} belt`:s.type;const title=(s.title||'').trim()||(s.type==='Grading'?`${s.belt} belt grading`:s.type);
+ const T=TYPES[s.type]||TYPES['Warm Up'];const cid=coach(s.coach).id;const catName=s.type==='Grading'?gradeTitle(s.belt):s.type;const title=(s.title||'').trim()||(s.type==='Grading'?gradeTitle(s.belt):s.type);
  const N=Math.max(1,Math.min(30,+s.roundCount||1)),work=Math.max(10,+s.roundSec||120),techs=techList(s);
  const base={sectionIndex:si,category:catName,coach:cid,belt:s.type==='Grading'?s.belt:undefined};
  const tn=i=>techs[i]||title;
+ const mi=i=>(s.meta||{})[tn(i)]||{},lv=i=>{const l=mi(i).l;return l&&l!=='All'?l:''},cat=i=>mi(i).g?`${catName} · ${mi(i).g}`:catName,pre=i=>lv(i)?lv(i)+' · ':'';
  if(s.mode==='partner'){
   const demo=Math.max(0,+s.demoSec||0),chg=Math.max(0,+s.changeSec||0),pads=s.type==='Pad Work';
-  const D=i=>{if(demo>0)out.push({...base,type:'demo',category:catName+' · Demo',title:tn(i),detail:'Demonstration — watch and listen',duration:demo,roundLabel:'Demo',dots:[i,N]})};
-  const W=(i,p)=>out.push({...base,type:'work',title:tn(i),detail:pads?`Partner ${p} hitting · Partner ${p==='A'?'B':'A'} holding pads`:`Partner ${p} working`,duration:work,roundLabel:`Technique ${i+1} / ${N}`,dots:[i,N]});
+  const D=i=>{if(demo>0)out.push({...base,type:'demo',category:cat(i)+' · Demo',title:tn(i),detail:pre(i)+'Demonstration — watch and listen',duration:demo,roundLabel:'Demo',dots:[i,N]})};
+  const W=(i,p)=>out.push({...base,type:'work',category:cat(i),title:tn(i),detail:pads?`Partner ${p} hitting · Partner ${p==='A'?'B':'A'} holding pads`:`${pre(i)}Partner ${p} working`,duration:work,roundLabel:`Technique ${i+1} / ${N}`,dots:[i,N]});
   const C=()=>{if(chg>0)out.push({...base,type:'rest',category:'Change over',title:pads?'Swap pads':'Swap partners',detail:'Quick change — be ready',duration:chg,roundLabel:'Swap'})};
   if(s.swapEvery){for(let i=0;i<N;i++){D(i);W(i,'A');C();W(i,'B')}}
   else{for(const p of ['A','B']){for(let i=0;i<N;i++){D(i);W(i,p)}if(p==='A')C()}}
   return out}
  if(s.mode==='rounds'){
   const rest=Math.max(0,+s.restSec||0);
-  for(let i=0;i<N;i++){out.push({...base,type:'work',title:tn(i),detail:s.type,duration:work,roundLabel:`Round ${i+1} / ${N}`,dots:[i,N]});if(i<N-1&&rest>0)out.push({...base,type:'rest',category:'Rest',title:'Rest',detail:`Next: ${tn(i+1)}`,duration:rest,roundLabel:'Rest'})}
+  for(let i=0;i<N;i++){out.push({...base,type:'work',category:cat(i),title:tn(i),detail:lv(i)||s.type,duration:work,roundLabel:`Round ${i+1} / ${N}`,dots:[i,N]});if(i<N-1&&rest>0)out.push({...base,type:'rest',category:'Rest',title:'Rest',detail:`Next: ${tn(i+1)}`,duration:rest,roundLabel:'Rest'})}
   return out}
  return [{...base,type:'work',title,detail:s.type,duration:Math.max(10,(+s.mins||5)*60),roundLabel:'Work'}]}
 function secDuration(s){return sectionPhases(s).reduce((a,p)=>a+p.duration,0)}
@@ -515,7 +525,7 @@ function renderPlanner(){
   if(s.mode==='time')body=`<div class="fRow">${field('Length',sel('minsSel',OPT.mins,s.mins,mf))}</div>`;
   else if(s.mode==='rounds')body=`<div class="fRow">${field('Rounds',step('roundCount',s.roundCount,1,30))}${field('Round length',sel('workSel',OPT.work,s.roundSec,formatSec))}${field('Rest between',sel('restSel',OPT.rest,s.restSec,sf))}</div>`;
   else body=`<div class="fRow">${field('Rounds each',step('roundCount',s.roundCount,1,30))}${field('Demo',sel('demoSel',OPT.demo,s.demoSec,sf))}${field('Work time',sel('workSel',OPT.work,s.roundSec,formatSec))}${field('Swap over',sel('chgSel',OPT.chg,s.changeSec,sf))}</div><label class="swapChk"><input type="checkbox" class="swapEvery" ${s.swapEvery?'checked':''}><span><b>Swap after every round</b><small>${s.swapEvery?'Demo → A works → swap → B works, then the next technique.':'A does all the rounds (new technique each round), then swap and B does them all.'}</small></span></label>`;
-  const tech=s.mode!=='time'?`<details class="techBox" ${techList(s).length||s.type==='Grading'?'open':''}><summary>${s.type==='Grading'?'Syllabus techniques':'Technique per round'} <em>(one per line)</em></summary><textarea class="techInput" rows="3" placeholder="One technique per line — round 1, round 2…">${escapeHtml(s.techniques||'')}</textarea><label class="autoChk"><input type="checkbox" class="autoRounds" ${s.autoRounds!==false?'checked':''}> Rounds follow the technique list</label></details>`:'';
+  const tech=s.mode!=='time'?`<details class="techBox" ${techList(s).length||s.type==='Grading'?'open':''}><summary>${s.type==='Grading'?'Syllabus techniques':'Technique per round'} <em>(one per line)</em></summary><textarea class="techInput" rows="3" placeholder="One technique per line — round 1, round 2…">${escapeHtml(s.techniques||'')}</textarea><label class="autoChk"><input type="checkbox" class="autoRounds" ${s.autoRounds!==false?'checked':''}> Rounds follow the technique list</label>${tipsHtml(s)}</details>`:'';
   return `<article class="sec2" data-id="${s.id}" style="--accent:${acc}">${head}<div class="sec2Body">${s.type==='Grading'?`<div class="beltRow">${beltHtml(s.belt)}<select class="beltSel" aria-label="Belt">${BELTS.map(b=>`<option value="${b[0]}" ${b[0]===s.belt?'selected':''}>${b[0]} belt</option>`).join('')}</select></div>`:''}<div class="titleRow"><input class="titleInput" value="${escapeAttr(s.title)}" placeholder="${escapeAttr(T.ph||'Description')}"><button type="button" class="libBtn">${ico('book',18)} Library</button></div>${seg}${body}<div class="secSum">${secSummary(s)}</div>${tech}</div><div class="rowActions"><button class="btn small addAfter" aria-label="Add section after">${ico('plus',18)}</button><button class="btn small moveUp" aria-label="Move up">${ico('up',18)}</button><button class="btn small moveDown" aria-label="Move down">${ico('down',18)}</button><button class="btn small deleteSec" aria-label="Delete section">${ico('x',18)}</button></div></article>`}).join('');
  persist()}
 function insertAfter(id){const idx=state.lesson.sections.findIndex(s=>s.id===id);const arr=[];if(state.settings.autoBreak&&idx>=0&&state.lesson.sections[idx]?.kind!=='break')arr.push(newSection('break'));arr.push({...newSection('work','Pad Work'),coach:state.lesson.leadCoach||'joe'});state.lesson.sections.splice(idx+1,0,...arr);renderPlanner()}
@@ -557,7 +567,7 @@ function loadTemplate(k){const t={juniorPads:['Junior Pad Session',60],adultPads
  applyClassTemplate(t[0],t[1])}
 /* ----- team brief ----- */
 function briefText(){const S=state.lesson.sections;let at=0;const f=x=>String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0');
- const lines=S.map((s,i)=>{normSec(s);const d=secDuration(s),h=`${f(at)}  ${s.type}${s.title?' — '+s.title:''}  (${formatSec(d)}${s.kind==='break'?'':', '+coach(s.coach).name})`;const sum=secSummary(s).replace(/<[^>]+>/g,'');const tl=techList(s);at+=d;return h+(sum?'\n        '+sum:'')+(tl.length?'\n        Techniques: '+tl.join(' · '):'')});
+ const lines=S.map((s,i)=>{normSec(s);const d=secDuration(s),h=`${f(at)}  ${s.type}${s.title?' — '+s.title:''}  (${formatSec(d)}${s.kind==='break'?'':', '+coach(s.coach).name})`;const sum=secSummary(s).replace(/<[^>]+>/g,'');const tl=techList(s);at+=d;return h+(sum?'\n        '+sum:'')+(tl.length?'\n        Techniques:\n'+tl.map(x=>{const m=(s.meta||{})[x];return '          • '+(m&&m.g?m.g+': ':'')+x+(m&&m.l&&m.l!=='All'?' ('+m.l+')':'')+(m&&m.tip?' — '+m.tip:'')}).join('\n'):'')});
  return `${state.lesson.name}\nTotal ${formatSec(totalLessonSec())}\n\n${lines.join('\n')}${state.lesson.notes?'\n\nNotes: '+state.lesson.notes:''}`}
 document.body.insertAdjacentHTML('beforeend','<div id="briefModal" class="modal"><div class="modalBox"><div class="modalHead"><h3>Team brief</h3><button class="btn small" data-close="briefModal">Close</button></div><div class="modalBody"><pre id="briefPre" class="briefPre"></pre></div><div class="modalFoot"><button class="btn" id="briefCopy">Copy</button><button class="btn red" id="briefShare">Share</button></div></div></div>');
 $('briefModal').addEventListener('click',e=>{if(e.target===$('briefModal')||e.target.dataset.close)closeModal('briefModal')});
@@ -668,8 +678,12 @@ const styleOf=()=>FK.STYLES.find(s=>s.id===(state.lesson.style||'kickboxing'))||
 state.libUser=state.libUser||{};state.libHide=state.libHide||{};state.libStyle=state.libStyle||'kickboxing';state.libCat=state.libCat||'Warm Up';state.libBelt=state.libBelt||'White';
 const libKey=(a,b)=>a+'/'+b;
 function libDefaults(key){if(key.startsWith('syll/')){const b=key.slice(5);return FK.SYLL[b]||[]}const [st,cat]=key.split('/');return ((FK.LIB[st]||{})[cat])||[]}
-function libGroups(key){const hide=new Set(state.libHide[key]||[]);const gs=libDefaults(key).map(([g,items])=>[g,items.filter(x=>!hide.has(x))]).filter(g=>g[1].length);const mine=state.libUser[key]||[];if(mine.length)gs.push(['My additions',mine.slice(),true]);return gs}
-function libAdd(key,text){const add=String(text).split(/\n+/).map(x=>x.trim()).filter(Boolean);if(!add.length)return 0;const all=new Set(libGroups(key).flatMap(g=>g[1]));const cur=state.libUser[key]=state.libUser[key]||[];let n=0;add.forEach(x=>{if(!all.has(x)){cur.push(x);all.add(x);n++}else{const h=state.libHide[key]||[];if(h.includes(x))state.libHide[key]=h.filter(y=>y!==x),n++}});persist();return n}
+const itemObj=x=>typeof x==='string'?{t:x}:x;
+const gradeTitle=b=>FK.GRADE[b]||`${b} belt grading`;
+const lvlChip=x=>x&&x.l?`<b class="lvl ${x.l[0]}">${x.l}</b>`:'';
+function tipsHtml(s){const rows=techList(s).map(l=>{const m=(s.meta||{})[l];return m&&m.tip?`<div class="tipRow"><b>${escapeHtml(l)}</b>${m.l&&m.l!=='All'?` <span class="lvl ${m.l[0]}">${m.l}</span>`:''}<span>${escapeHtml(m.tip)}</span></div>`:''}).filter(Boolean);return rows.length?`<div class="tipBox"><div class="tipHead">Coach tips <em>· never shown on the timer</em></div>${rows.join('')}</div>`:''}
+function libGroups(key){const hide=new Set(state.libHide[key]||[]);const gs=libDefaults(key).map(([g,items])=>[g,items.map(itemObj).filter(x=>!hide.has(x.t))]).filter(g=>g[1].length);const mine=state.libUser[key]||[];if(mine.length)gs.push(['My additions',mine.map(itemObj),true]);return gs}
+function libAdd(key,text){const add=String(text).split(/\n+/).map(x=>x.trim()).filter(Boolean);if(!add.length)return 0;const all=new Set(libGroups(key).flatMap(g=>g[1].map(i=>i.t)));const cur=state.libUser[key]=state.libUser[key]||[];let n=0;add.forEach(x=>{if(!all.has(x)){cur.push(x);all.add(x);n++}else{const h=state.libHide[key]||[];if(h.includes(x))state.libHide[key]=h.filter(y=>y!==x),n++}});persist();return n}
 function libRemove(key,item){const mine=state.libUser[key]||[];if(mine.includes(item))state.libUser[key]=mine.filter(x=>x!==item);else{state.libHide[key]=[...(state.libHide[key]||[]),item]}persist()}
 function libReset(key){delete state.libUser[key];delete state.libHide[key];persist()}
 function toast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t)}t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
@@ -681,14 +695,15 @@ function renderLibrary(){
  const sub=isG?FK.BELTS.map(b=>`<button class="beltBtn ${state.libBelt===b[0]?'active':''}" data-belt="${b[0]}">${beltHtml(b[0])}<span>${b[0]}</span></button>`).join(''):FK.CATS.map(c=>`<button class="tab ${state.libCat===c?'active':''}" data-lcat="${c}">${c}</button>`).join('');
  const key=isG?libKey('syll',state.libBelt):libKey(st,state.libCat);
  const q=libQuery.trim().toLowerCase();
- const groups=libGroups(key).map(([g,items,mine])=>[g,items.filter(x=>!q||x.toLowerCase().includes(q)),mine]).filter(g=>g[1].length);
+ const groups=libGroups(key).map(([g,items,mine])=>[g,items.filter(x=>!q||x.t.toLowerCase().includes(q)),mine]).filter(g=>g[1].length);
  const count=libGroups(key).reduce((a,g)=>a+g[1].length,0);
  v.innerHTML=`<div class="pageTitle"><div><div class="eyebrow">Technique, drills & grading</div><h1>Library</h1></div></div>
  <div class="chipTabs">${styles}</div><div class="tabs libSub">${sub}</div>
  <section class="panel"><div class="panelBody">
+  ${isG&&FK.GRADE[state.libBelt]?`<p class="libNote"><b>${FK.GRADE[state.libBelt]}</b> — from the club grading sheet. Junior / Senior tags and coach tips show here and in the lesson plan; <b>coach tips are never shown on the timer</b>.</p>`:''}
   <div class="libTools"><input id="libSearch" class="libInput" placeholder="Search ${count} items…" value="${escapeAttr(libQuery)}"><button class="btn small" id="libReset">Reset list</button></div>
   <div class="libAdd"><textarea id="libNew" rows="2" placeholder="Add to ${isG?state.libBelt+' belt syllabus':st==='grading'?'':FK.CATS.includes(state.libCat)?state.libCat:''} – one item per line (paste a list if you like)"></textarea><button class="btn red" id="libAddBtn">＋ Add</button></div>
-  ${groups.length?groups.map(([g,items,mine])=>`<div class="libGroup"><h4>${escapeHtml(g)} <em>${items.length}</em></h4>${items.map(x=>`<div class="libItem"><span>${escapeHtml(x)}</span><button class="libDel" data-del="${escapeAttr(x)}" aria-label="Remove">×</button></div>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">Nothing here yet. Add your own above, or tap Reset list to restore the built-in items.</p>'}
+  ${groups.length?groups.map(([g,items,mine])=>`<div class="libGroup"><h4>${escapeHtml(g)} <em>${items.length}</em></h4>${items.map(x=>`<div class="libItem"><span>${lvlChip(x)}${escapeHtml(x.t)}${x.tip?`<em class="tip">${escapeHtml(x.tip)}</em>`:''}</span><button class="libDel" data-del="${escapeAttr(x.t)}" aria-label="Remove">×</button></div>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">Nothing here yet. Add your own above, or tap Reset list to restore the built-in items.</p>'}
   <div class="libFoot"><button class="btn small" id="libExport">⬇ Export my library</button><label class="btn small" style="cursor:pointer">⬆ Import<input type="file" id="libImport" accept=".json" hidden></label></div>
  </div></section>`;
  v.querySelectorAll('[data-lst]').forEach(b=>b.onclick=()=>{state.libStyle=b.dataset.lst;libQuery='';persist();renderLibrary()});
@@ -703,22 +718,28 @@ function renderLibrary(){
 }
 /* ---- picker ---- */
 let pick={id:null,sel:new Set(),q:''};
-document.body.insertAdjacentHTML('beforeend','<div id="pickModal" class="modal"><div class="modalBox pickBox"><div class="modalHead"><h3 id="pickTitle">Library</h3><button class="btn small" data-close="pickModal">Close</button></div><div class="pickBar"><input id="pickSearch" class="libInput" placeholder="Search…"></div><div class="modalBody" id="pickBody"></div><div class="pickFoot"><div class="pickAdd"><input id="pickCustom" class="libInput" placeholder="Type your own…"><label class="pickSave"><input type="checkbox" id="pickSaveLib" checked> save to library</label></div><button class="btn red" id="pickDone">Add to section</button></div></div></div>');
+document.body.insertAdjacentHTML('beforeend','<div id="pickModal" class="modal"><div class="modalBox pickBox"><div class="modalHead"><h3 id="pickTitle">Library</h3><button class="btn small" data-close="pickModal">Close</button></div><div class="pickBar"><input id="pickSearch" class="libInput" placeholder="Search…"><div id="pickTools"></div></div><div class="modalBody" id="pickBody"></div><div class="pickFoot"><div class="pickAdd"><input id="pickCustom" class="libInput" placeholder="Type your own…"><label class="pickSave"><input type="checkbox" id="pickSaveLib" checked> save to library</label></div><button class="btn red" id="pickDone">Add to section</button></div></div></div>');
 $('pickModal').addEventListener('click',e=>{if(e.target===$('pickModal')||e.target.dataset.close)closeModal('pickModal')});
 function pickKey(s){return s.type==='Grading'?libKey('syll',s.belt||'White'):libKey(state.lesson.style||'kickboxing',s.type==='Break'?'Warm Up':s.type)}
-function openPick(id){const s=state.lesson.sections.find(x=>x.id===id);if(!s)return;pick={id,sel:new Set(),q:''};$('pickSearch').value='';
- $('pickTitle').textContent=s.type==='Grading'?`${s.belt} belt syllabus`:`${styleOf().name} · ${s.type}`;renderPick();openModal('pickModal')}
-function renderPick(){const s=state.lesson.sections.find(x=>x.id===pick.id);if(!s)return;const key=pickKey(s),q=pick.q.trim().toLowerCase();
- const gs=libGroups(key).map(([g,items,m])=>[g,items.filter(x=>!q||x.toLowerCase().includes(q))]).filter(g=>g[1].length);
- $('pickBody').innerHTML=(gs.length?gs.map(([g,items])=>`<div class="libGroup"><h4>${escapeHtml(g)}</h4>${items.map(x=>`<label class="pickItem ${pick.sel.has(x)?'on':''}"><input type="checkbox" data-x="${escapeAttr(x)}" ${pick.sel.has(x)?'checked':''}><span>${escapeHtml(x)}</span></label>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">No matches. Type your own below.</p>');
+function openPick(id){const s=state.lesson.sections.find(x=>x.id===id);if(!s)return;pick={id,sel:new Set(),q:'',lvl:'All',lookup:{}};$('pickSearch').value='';
+ $('pickTitle').textContent=s.type==='Grading'?`${FK.GRADE[s.belt]||s.belt+' belt'} syllabus`:`${styleOf().name} · ${s.type}`;renderPick();openModal('pickModal')}
+function renderPick(){const s=state.lesson.sections.find(x=>x.id===pick.id);if(!s)return;const key=pickKey(s),q=pick.q.trim().toLowerCase(),isG=s.type==='Grading';
+ const all=libGroups(key);pick.lookup={};all.forEach(([g,items,m])=>items.forEach(x=>{pick.lookup[x.t]={g:m?'':g,l:x.l||'',tip:x.tip||''}}));
+ const lv=pick.lvl||'All';const okLvl=x=>lv==='All'||!x.l||x.l==='All'||x.l===lv;
+ const gs=all.map(([g,items])=>[g,items.filter(x=>(!q||x.t.toLowerCase().includes(q))&&okLvl(x))]).filter(g=>g[1].length);
+ pick.shown=gs.flatMap(g=>g[1].map(x=>x.t));
+ const tools=$('pickTools');if(tools){const has=isG&&all.some(g=>g[1].some(x=>x.l));tools.innerHTML=has?`<div class="chipTabs" style="margin:6px 0 0">${[['All','Everything'],['Junior','Junior'],['Senior','Senior']].map(c=>`<button type="button" class="chipTab ${lv===c[0]?'on':''}" data-lv="${c[0]}">${c[1]}</button>`).join('')}<button type="button" class="chipTab" data-sel="all">Select all shown</button><button type="button" class="chipTab" data-sel="none">Clear</button></div>`:'';
+  tools.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{pick.lvl=b.dataset.lv;renderPick()});
+  tools.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{if(b.dataset.sel==='all')pick.shown.forEach(x=>pick.sel.add(x));else pick.sel.clear();renderPick()})}
+ $('pickBody').innerHTML=(gs.length?gs.map(([g,items])=>`<div class="libGroup"><h4>${escapeHtml(g)}</h4>${items.map(x=>`<label class="pickItem ${pick.sel.has(x.t)?'on':''}"><input type="checkbox" data-x="${escapeAttr(x.t)}" ${pick.sel.has(x.t)?'checked':''}><span>${lvlChip(x)}${escapeHtml(x.t)}${x.tip?`<em class="tip">${escapeHtml(x.tip)}</em>`:''}</span></label>`).join('')}</div>`).join(''):'<p style="color:var(--muted)">No matches. Type your own below.</p>');
  $('pickBody').querySelectorAll('input[data-x]').forEach(i=>i.onchange=()=>{i.checked?pick.sel.add(i.dataset.x):pick.sel.delete(i.dataset.x);i.closest('.pickItem').classList.toggle('on',i.checked);updPick()});updPick()}
 function updPick(){const s=state.lesson.sections.find(x=>x.id===pick.id);const n=pick.sel.size;const rounds=s&&s.mode!=='time';$('pickDone').textContent=n?(rounds?`Add ${n} · set ${n} round${n>1?'s':''}`:`Add ${n} to section`):'Add to section';$('pickDone').disabled=!n&&!$('pickCustom').value.trim()}
 $('pickSearch').oninput=e=>{pick.q=e.target.value;renderPick()};$('pickCustom').oninput=updPick;
 $('pickDone').onclick=()=>{const s=state.lesson.sections.find(x=>x.id===pick.id);if(!s)return;const key=pickKey(s);const custom=$('pickCustom').value.trim();
- const items=[...pick.sel];if(custom){custom.split(/\n+/).map(x=>x.trim()).filter(Boolean).forEach(x=>items.push(x));if($('pickSaveLib').checked)libAdd(key,custom)}$('pickCustom').value='';
+ const order=libGroups(key).flatMap(g=>g[1].map(i=>i.t));const items=[...pick.sel].sort((a,b)=>order.indexOf(a)-order.indexOf(b));if(custom){custom.split(/\n+/).map(x=>x.trim()).filter(Boolean).forEach(x=>items.push(x));if($('pickSaveLib').checked)libAdd(key,custom)}$('pickCustom').value='';
  if(!items.length)return;
  if(s.mode==='time'){const cur=(s.title||'').trim();s.title=(cur?cur+' / ':'')+items.join(' / ')}
- else{const cur=techList(s);items.forEach(x=>cur.push(x));s.techniques=cur.join('\n');s.roundCount=Math.max(1,Math.min(30,cur.length));if(s.type==='Grading'&&!(s.title||'').trim())s.title=`${s.belt} belt grading`}
+ else{const cur=techList(s);items.forEach(x=>cur.push(x));s.techniques=cur.join('\n');s.roundCount=Math.max(1,Math.min(30,cur.length));s.meta=s.meta||{};items.forEach(x=>{const m=pick.lookup[x];if(m&&(m.g||m.l||m.tip))s.meta[x]=m});if(s.type==='Grading'&&!(s.title||'').trim())s.title=gradeTitle(s.belt)}
  closeModal('pickModal');renderPlanner();toast(items.length+' added ✓')};
 /* ---- style chips + new lesson ---- */
 function renderStyleRow(){const el=$('styleRow');if(!el)return;const cur=state.lesson.style||'kickboxing';el.innerHTML='<span class="styleLbl">Lesson style</span>'+FK.STYLES.map(s=>`<button class="chipTab ${cur===s.id?'on':''}" data-style="${s.id}">${s.name}</button>`).join('');el.querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{state.lesson.style=b.dataset.style;persist();renderPlanner()})}
@@ -730,7 +751,7 @@ $('newContinue').onclick=()=>{closeModal('newModal');showView('planner')};
 function startNew(kind){const st=kind==='grading'?'kickboxing':kind;const first=(c)=>{const g=libDefaults(libKey(st,c));return g[0]&&g[0][1][0]||''};
  const lesson={name:kind==='grading'?'Grading night':(FK.STYLES.find(s=>s.id===st).name+' class'),leadCoach:state.lesson.leadCoach||'joe',notes:'',style:st,sections:[]};
  const mkk=(type,o)=>({...newSection('work',type),...o});
- if(kind==='grading'){lesson.sections=[mkk('Warm Up',{title:'Warm-up routine',mins:8}),mkk('Grading',{belt:'White',title:'White belt grading',mode:'partner',roundCount:3,demoSec:60,coach:lesson.leadCoach}),newSection('break'),mkk('Grading',{belt:'Red',title:'Red belt grading',mode:'rounds',roundCount:4,roundSec:120,restSec:30,coach:lesson.leadCoach}),mkk('Cool Down',{title:'Stretch + bow out',mins:5})]}
+ if(kind==='grading'){lesson.sections=[mkk('Warm Up',{title:'Warm-up routine',mins:8}),mkk('Grading',{belt:'White',title:gradeTitle('White'),mode:'partner',roundCount:3,demoSec:60,coach:lesson.leadCoach}),newSection('break'),mkk('Grading',{belt:'Red',title:gradeTitle('Red'),mode:'rounds',roundCount:4,roundSec:120,restSec:30,coach:lesson.leadCoach}),mkk('Cool Down',{title:'Stretch + bow out',mins:5})]}
  else if(kind==='fitness')lesson.sections=[mkk('Warm Up',{title:'Jog, mobility, shadow boxing'}),newSection('break'),mkk('Fitness',{title:'Circuit – 40s work / 20s rest',mode:'rounds',roundCount:8,roundSec:40,restSec:20}),newSection('break'),mkk('Fitness',{title:'Bag intervals',mode:'rounds',roundCount:6,roundSec:60,restSec:30}),mkk('Cool Down',{title:'Stretch + breathing'})];
  else lesson.sections=[mkk('Warm Up',{title:first('Warm Up')}),newSection('break'),mkk('Technique',{title:'Technique of the night',mode:'partner',roundCount:3,demoSec:60,roundSec:120,changeSec:30}),newSection('break'),mkk('Pad Work',{title:'Combinations on the pads',mode:'rounds',roundCount:5,roundSec:120,restSec:30}),mkk('Cool Down',{title:'Stretch + breathing',mins:5})];
  state.lesson=lesson;state.run=defaults().run;persist();showView('planner');renderPlanner()}
@@ -745,7 +766,7 @@ openQuick=function(){};closeQuick=function(){};positionQuick=function(){};
  L.addEventListener('focusin',e=>{const t=e.target;if(t.classList&&(t.classList.contains('titleInput')||t.classList.contains('techInput'))){showQuickStrip(t);keepVisible(t)}});
  L.addEventListener('focusout',e=>{setTimeout(()=>{const a=document.activeElement;if(!a||!a.closest||!a.closest('.sec2')){document.querySelectorAll('.quickInline').forEach(x=>x.remove())}},200)});
  L.addEventListener('click',e=>{const b=e.target.closest('.libBtn');if(!b)return;const c=b.closest('.sec2');if(c)openPick(c.dataset.id)});
- L.addEventListener('change',e=>{if(e.target.classList.contains('beltSel')){const c=e.target.closest('.sec2'),s=state.lesson.sections.find(x=>x.id===c.dataset.id);if(s){s.belt=e.target.value;if(!s.title||/ belt grading$/.test(s.title))s.title=`${s.belt} belt grading`;renderPlanner()}}});
+ L.addEventListener('change',e=>{if(e.target.classList.contains('beltSel')){const c=e.target.closest('.sec2'),s=state.lesson.sections.find(x=>x.id===c.dataset.id);if(s){s.belt=e.target.value;if(!s.title||/ belt grading$/.test(s.title)||/^Level \d .* Grade$/.test(s.title))s.title=gradeTitle(s.belt);renderPlanner()}}});
 })();
 /* ---- saved lessons ---- */
 let savedQ='';
@@ -844,7 +865,7 @@ startNew=function(kind){const kept=archiveCurrent();const st=kind==='grading'?'k
  toast(kept?'Previous lesson saved to Saved Lessons ✓':'New blank lesson')};
 function fillTemplate(kind){const st=state.lesson.style||'kickboxing';const L=state.lesson;const first=c=>{const g=libDefaults(libKey(st,c));return g[0]&&g[0][1][0]||''};
  const mkk=(type,o)=>({...newSection('work',type),coach:L.leadCoach||'joe',...o});
- if(kind==='grading'){L.name='Grading night';L.sections=[mkk('Warm Up',{title:'Warm-up routine',mins:8}),mkk('Grading',{belt:'White',title:'White belt grading',mode:'partner',roundCount:3,demoSec:60}),newSection('break'),mkk('Grading',{belt:'Red',title:'Red belt grading',mode:'rounds',roundCount:4,roundSec:120,restSec:30}),mkk('Cool Down',{title:'Stretch + bow out',mins:5})]}
+ if(kind==='grading'){L.name='Grading night';L.sections=[mkk('Warm Up',{title:'Warm-up routine',mins:8}),mkk('Grading',{belt:'White',title:gradeTitle('White'),mode:'partner',roundCount:3,demoSec:60}),newSection('break'),mkk('Grading',{belt:'Red',title:gradeTitle('Red'),mode:'rounds',roundCount:4,roundSec:120,restSec:30}),mkk('Cool Down',{title:'Stretch + bow out',mins:5})]}
  else if(kind==='fitness'){L.name='Fitness circuit';L.sections=[mkk('Warm Up',{title:'Jog, mobility, shadow boxing'}),newSection('break'),mkk('Fitness',{title:'Circuit – 40s work / 20s rest',mode:'rounds',roundCount:8,roundSec:40,restSec:20}),newSection('break'),mkk('Fitness',{title:'Bag intervals',mode:'rounds',roundCount:6,roundSec:60,restSec:30}),mkk('Cool Down',{title:'Stretch + breathing'})]}
  else{L.name=(FK.STYLES.find(s=>s.id===st)||FK.STYLES[0]).name+' class';L.sections=[mkk('Warm Up',{title:first('Warm Up')}),newSection('break'),mkk('Technique',{title:'Technique of the night',mode:'partner',roundCount:3,demoSec:60}),newSection('break'),mkk('Pad Work',{title:'Combinations on the pads',mode:'rounds',roundCount:5,restSec:30}),mkk('Cool Down',{title:'Stretch + breathing',mins:5})]}
  persist();renderPlanner()}
