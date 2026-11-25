@@ -191,23 +191,24 @@
   }
 
   /* ---------- library additions ---------- */
-  var libJSON = function () { return JSON.stringify({ libUser: state.libUser || {}, libHide: state.libHide || {} }); };
-  var hasLocalLib = function () { return Object.keys(state.libUser || {}).length || Object.keys(state.libHide || {}).length; };
-  function unionInto(a, b) { Object.keys(b || {}).forEach(function (k) { a[k] = Array.from(new Set((a[k] || []).concat(b[k]))); }); return a; }
+  var libJSON = function () { return JSON.stringify({ libUser: state.libUser || {}, libHide: state.libHide || {}, libMove: state.libMove || {}, libOrder: state.libOrder || {} }); };
+  var hasLocalLib = function () { return Object.keys(state.libUser || {}).length || Object.keys(state.libHide || {}).length || Object.keys(state.libMove || {}).length; };
+  function unionInto(a, b) { Object.keys(b || {}).forEach(function (k) { var seen = {}; a[k] = (a[k] || []).concat(b[k]).filter(function (x) { var id = typeof x === 'string' ? x : (x && x.t); if (seen[id]) return false; seen[id] = 1; return true; }); }); return a; }
+  function mergeObj(a, b) { Object.keys(b || {}).forEach(function (k) { a[k] = Object.assign({}, b[k], a[k] || {}); }); return a; }
   async function pullLibrary() {
     var r = await sb.from('club_library').select('data,updated_at').eq('id', 'main').maybeSingle();
     if (r.error) throw r.error; if (!r.data) return;
     var t = Date.parse(r.data.updated_at), stamp = jget(K.libStamp, 0), d = r.data.data || {};
-    if (!d.libUser && !d.libHide) { if (hasLocalLib()) await pushLibrary(true); return; }
-    if (!stamp) { state.libUser = unionInto(state.libUser || {}, d.libUser); state.libHide = unionInto(state.libHide || {}, d.libHide); rawPersist(); jset(K.libStamp, t); await pushLibrary(true); }
-    else if (t > stamp) { state.libUser = d.libUser || {}; state.libHide = d.libHide || {}; rawPersist(); jset(K.libStamp, t); jset(K.lastLib, libJSON()); }
+    if (!d.libUser && !d.libHide && !d.libMove) { if (hasLocalLib()) await pushLibrary(true); return; }
+    if (!stamp) { state.libUser = unionInto(state.libUser || {}, d.libUser); state.libHide = unionInto(state.libHide || {}, d.libHide); state.libMove = mergeObj(state.libMove || {}, d.libMove); state.libOrder = Object.assign({}, d.libOrder || {}, state.libOrder || {}); rawPersist(); jset(K.libStamp, t); await pushLibrary(true); }
+    else if (t > stamp) { state.libUser = d.libUser || {}; state.libHide = d.libHide || {}; state.libMove = d.libMove || {}; state.libOrder = d.libOrder || {}; rawPersist(); jset(K.libStamp, t); jset(K.lastLib, libJSON()); }
     else return;
     if (typeof currentView !== 'undefined' && currentView === 'library' && typeof renderLibrary === 'function') renderLibrary();
   }
   async function pushLibrary(force) {
     if (!L.member) return; var now = libJSON(); if (!force && now === jget(K.lastLib, '')) return;
     try {
-      var r = await sb.from('club_library').upsert({ id: 'main', data: { libUser: state.libUser || {}, libHide: state.libHide || {} } }).select('updated_at');
+      var r = await sb.from('club_library').upsert({ id: 'main', data: { libUser: state.libUser || {}, libHide: state.libHide || {}, libMove: state.libMove || {}, libOrder: state.libOrder || {} } }).select('updated_at');
       if (r.error || !r.data || !r.data.length) return; jset(K.libStamp, Date.parse(r.data[0].updated_at)); jset(K.lastLib, now);
     } catch (e) {}
   }

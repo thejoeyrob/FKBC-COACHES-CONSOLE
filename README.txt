@@ -65,3 +65,7 @@ v39 LIVE (Supabase)
 - Chat, saved lessons, the timetable and library additions are now shared live between coaches (see supabase/README.md).
 - Join once with the club access code (a green dot in the top bar shows you are live). Works offline and syncs when back online.
 - The access/admin codes are checked on the server; the app no longer relies on a code stored in the page.
+
+v40 - Library: choose which section (Technical / Fitness / Punches …) a new entry goes under, via a Section dropdown
+(or "＋ New section…") in the library and in the lesson picker. Press and hold an item, then drag it up/down or into
+another section. Order and moves sync live with the club library and are included in exports/backups.
