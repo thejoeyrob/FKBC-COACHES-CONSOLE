@@ -183,3 +183,31 @@ do $$ begin
   begin alter publication supabase_realtime add table public.timetable; exception when duplicate_object then null; end;
   begin alter publication supabase_realtime add table public.club_library; exception when duplicate_object then null; end;
 end $$;
+
+-- ---------- coach check-in ("who's down tonight") ----------
+create table if not exists public.checkins (
+  day date not null,
+  session_id text not null check (char_length(session_id) between 1 and 64),
+  coach_id text not null default private.my_coach(),
+  start_time text not null check (start_time ~ '^[0-2][0-9]:[0-5][0-9]$'),
+  created_at timestamptz not null default now(),
+  primary key (day, session_id, coach_id)
+);
+alter table public.checkins enable row level security;
+drop policy if exists ck_read on public.checkins;
+drop policy if exists ck_insert on public.checkins;
+drop policy if exists ck_delete on public.checkins;
+-- you can only check YOURSELF in, only on the day, and only until the session starts (UK time)
+create policy ck_read on public.checkins for select to authenticated using (private.is_member());
+create policy ck_insert on public.checkins for insert to authenticated with check (
+  private.is_member() and coach_id = private.my_coach()
+  and day = (now() at time zone 'Europe/London')::date
+  and (now() at time zone 'Europe/London')::time <= start_time::time);
+create policy ck_delete on public.checkins for delete to authenticated using (
+  private.is_member() and (coach_id = private.my_coach() or private.is_admin())
+  and day >= (now() at time zone 'Europe/London')::date);
+grant select, insert, delete on public.checkins to authenticated;
+revoke all on public.checkins from anon;
+do $$ begin
+  begin alter publication supabase_realtime add table public.checkins; exception when duplicate_object then null; end;
+end $$;

@@ -69,3 +69,7 @@ v39 LIVE (Supabase)
 v40 - Library: choose which section (Technical / Fitness / Punches …) a new entry goes under, via a Section dropdown
 (or "＋ New section…") in the library and in the lesson picker. Press and hold an item, then drag it up/down or into
 another section. Order and moves sync live with the club library and are included in exports/backups.
+
+v41 - Timetable: tap a day for the day plan (add / delete / move lessons, cancel or postpone, one-off dates for the future);
+edits can apply to every session or just one (optionally ask each time); "Who's down tonight" coach check-in on the home
+page (same day, up to the start time, shared live). Fixed the Close button on the lesson editor.
