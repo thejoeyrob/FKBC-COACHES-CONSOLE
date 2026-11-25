@@ -249,6 +249,17 @@ body{background:#06080c}
 .tipBox{margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(244,197,42,.07);border:1px dashed rgba(244,197,42,.4)}
 .tipHead{font:900 .66rem system-ui;letter-spacing:.14em;text-transform:uppercase;color:#ffd65c;margin-bottom:6px}.tipHead em{font-style:normal;color:var(--muted);letter-spacing:.04em;text-transform:none;font-weight:600}
 .tipRow{padding:5px 0;border-top:1px solid rgba(255,255,255,.06);font-size:.84rem;line-height:1.4}.tipRow:first-of-type{border-top:0}.tipRow b{color:#fff}.tipRow>span:last-child{display:block;color:#b9c3cf;font-style:italic}
+
+/* live sync */
+.livePill{height:36px;padding:0 12px 0 22px;border-radius:99px;border:1px solid var(--rim);background:rgba(255,255,255,.06);color:#c3ccd8;font:800 .7rem system-ui;letter-spacing:.08em;text-transform:uppercase;position:relative;white-space:nowrap}
+.livePill:before{content:"";position:absolute;left:10px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:#8e99a8}
+.livePill.live:before{background:#2cc36b;box-shadow:0 0 0 3px rgba(44,195,107,.25)}.livePill.live{color:#bff0d1}
+.livePill.connecting:before{background:#f4c52a;animation:lp 1s infinite}.livePill.offline:before{background:#8e99a8}
+.livePill.needcode{border-color:rgba(244,197,42,.6);color:#ffd65c;background:rgba(244,197,42,.12)}.livePill.needcode:before{background:#f4c52a}
+@keyframes lp{50%{opacity:.3}}
+.modeBtn.hasNew{position:relative}.modeBtn.hasNew:after{content:"";position:absolute;top:6px;right:8px;width:9px;height:9px;border-radius:50%;background:#f0294b;box-shadow:0 0 0 2px #0b1017}
+.chatMessage.pending{opacity:.55}.chatMessage.pending time:after{content:" · sending…"}
+@media(max-width:560px){#fkbcConsoleBar{grid-template-columns:minmax(0,1fr) auto auto!important;gap:6px!important}.livePill{width:30px;height:30px;padding:0;font-size:0;border-radius:50%}.livePill:before{left:50%;margin-left:-4px}.livePill.needcode{width:auto;border-radius:99px;padding:0 9px 0 20px;font-size:.6rem}.livePill.needcode:before{left:9px;margin-left:0}.consoleModes{min-width:0}#fkbcConsoleBar .modeBtn{padding:0 2px!important;font-size:.8rem!important}}
 /* v32 */
 .timerTitle,.timerDetail,.timerMode,.roundLabel,.timerMeta{text-shadow:0 2px 14px rgba(0,0,0,.95),0 0 3px rgba(0,0,0,.9)}
 @media(max-width:899px){#chatView{padding-bottom:calc(var(--safeBottom) + 100px)}}
@@ -773,7 +784,7 @@ let savedQ='';
 function lessonStyleName(l){const id=(l.lesson&&l.lesson.style)||l.style||'kickboxing';return (FK.STYLES.find(s=>s.id===id)||FK.STYLES[0]).name}
 function renderSaved(){const el=$('savedList');state.saved.forEach(l=>{if(!l.id)l.id=uid()});const q=savedQ.trim().toLowerCase();const list=state.saved.filter(l=>!q||(l.name||'').toLowerCase().includes(q));
  const fmt=ts=>ts?new Date(ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'2-digit'}):'';
- el.innerHTML=`<input id="savedSearch" class="libInput" placeholder="Search ${state.saved.length} saved lessons…" value="${escapeAttr(savedQ)}" style="margin-bottom:10px">`+(list.length?list.map(l=>`<div class="savedItem"><div><strong>${escapeHtml(l.name)}</strong><small>${lessonStyleName(l)} • ${Math.round((l.duration||0)/60)} min • ${((l.lesson&&l.lesson.sections)||[]).length} sections • ${fmt(l.savedAt)}</small></div><div class="savedBtns"><button class="btn small loadSaved" data-id="${l.id}">Load</button><button class="btn small dupSaved" data-id="${l.id}">Copy</button><button class="btn small shareSaved" data-id="${l.id}">Share</button><button class="btn small deleteSaved" data-id="${l.id}">Delete</button></div></div>`).join(''):'<div style="color:var(--muted)">No saved lessons yet. Tap Save in the planner.</div>');
+ el.innerHTML=`<input id="savedSearch" class="libInput" placeholder="Search ${state.saved.length} saved lessons…" value="${escapeAttr(savedQ)}" style="margin-bottom:10px">`+(list.length?list.map(l=>`<div class="savedItem"><div><strong>${escapeHtml(l.name)}</strong><small>${l.owner?'by '+((COACHES.find(c=>c.id===l.owner)||{}).name||l.owner)+' • ':''}${lessonStyleName(l)} • ${Math.round((l.duration||0)/60)} min • ${((l.lesson&&l.lesson.sections)||[]).length} sections • ${fmt(l.savedAt)}</small></div><div class="savedBtns"><button class="btn small loadSaved" data-id="${l.id}">Load</button><button class="btn small dupSaved" data-id="${l.id}">Copy</button><button class="btn small shareSaved" data-id="${l.id}">Share</button><button class="btn small deleteSaved" data-id="${l.id}">Delete</button></div></div>`).join(''):'<div style="color:var(--muted)">No saved lessons yet. Tap Save in the planner.</div>');
  const by=id=>state.saved.find(x=>x.id===id);
  $('savedSearch').oninput=e=>{savedQ=e.target.value;const p=e.target.selectionStart;renderSaved();const s=$('savedSearch');s.focus();s.setSelectionRange(p,p)};
  el.querySelectorAll('.loadSaved').forEach(b=>b.onclick=()=>{const l=by(b.dataset.id);if(!l)return;state.lesson=clone(l.lesson);state.lesson.id=l.id;state.lesson.style=state.lesson.style||'kickboxing';closeModal('savedModal');showView('planner');renderPlanner();persist()});
@@ -942,6 +953,7 @@ function unlock(){
  // make installed coach the default lead coach without wiping lesson data
  try{state.lesson.leadCoach=cid;persist();renderAll()}catch(e){}
  setGate(false);refreshConsole();showView('home');
+ if(window.Live&&Live.enabled)Live.join(code,cid).then(x=>{if(x&&x.ok)toast('You are live ✓');else if(x&&x.error==='bad_code')toast('Live features need the current club code');});
 }
 document.getElementById('fkbcAccessBtn').onclick=unlock;document.getElementById('fkbcAccessPin').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
 document.getElementById('fkbcAccessReset').onclick=()=>{localStorage.removeItem(KACCESS);localStorage.removeItem(KACCESS+':coach');localStorage.removeItem(KACCESS+':pendingCoach');document.getElementById('fkbcAccessPin').value='';renderAccess();setGate(true)};
@@ -969,11 +981,11 @@ const DEFAULT_TT=[
  {id:'fri-r1',day:'Friday',name:'Kickboxing',start:'18:00',end:'19:00',room:1,coaches:['joe','paul'],lesson:null}
 ];
 function ttLoad(){try{return JSON.parse(localStorage.getItem(KTT))||clone(DEFAULT_TT)}catch(e){return clone(DEFAULT_TT)}}
-function ttSave(a){localStorage.setItem(KTT,JSON.stringify(a))}
+function ttSave(a){localStorage.setItem(KTT,JSON.stringify(a));if(window.Live&&Live.enabled)Live.pushTimetable(a)}
 let editTT=null, adminUntil=0;
 function isAdmin(){return Date.now()<adminUntil}
 function canLessonEdit(s){return isAdmin()||s.coaches.includes(me()?.id)}
-function requestAdmin(){const x=prompt('Admin code');if(x!==null&&codeOk(ADMIN_H,x)){adminUntil=Date.now()+30*60*1000;return true}alert('Incorrect admin code.');return false}
+function requestAdmin(){const x=prompt('Admin code');if(x!==null&&codeOk(ADMIN_H,x)){adminUntil=Date.now()+30*60*1000;if(window.Live&&Live.enabled)Live.claimAdmin(x);return true}alert('Incorrect admin code.');return false}
 function sessionCard(s){const cs=s.coaches.map(coachById).filter(Boolean);return `<div class="classCard" style="--clr:${s.room===1?'#f01936':'#3492ff'}" data-session="${safe(s.id)}"><strong>${safe(s.name)}</strong><span>${safe(s.start)} – ${safe(s.end)}</span><span class="roomPill">Room ${s.room}</span><div class="classCoaches">${cs.map(c=>`<img class="classCoachAvatar" src="${c.portrait}" alt="${safe(c.name)}">`).join('')}<span class="classCoachNames">${cs.map(c=>safe(c.name)).join(' + ')||'Coaches not allocated'}</span></div></div>`}
 renderTimetable=function(){
  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];const data=ttLoad();
@@ -999,8 +1011,8 @@ function copyLessonFromSession(sourceId){const data=ttLoad(),src=data.find(x=>x.
 function chatLoad(){try{return JSON.parse(localStorage.getItem(KCHAT))||{room:'all',rooms:{all:{name:'All Coaches',members:COACHES.map(c=>c.id),msgs:[]}},private:{}}}catch(e){return {room:'all',rooms:{all:{name:'All Coaches',members:COACHES.map(c=>c.id),msgs:[]}},private:{}}}}
 function chatSave(x){localStorage.setItem(KCHAT,JSON.stringify(x))}
 function privateId(a,b){return 'p:'+ [a,b].sort().join(':')}
-function renderChat(){const c=me();if(!c)return;const data=chatLoad();if(!data.rooms.all)data.rooms.all={name:'All Coaches',members:COACHES.map(c=>c.id),msgs:[]};if(!data.rooms[data.room])data.room='all';const list=document.getElementById('fkbcRoomList');const priv=Object.entries(data.rooms).filter(([k])=>k!=='all');list.innerHTML=`<button class="chatRoomBtn ${data.room==='all'?'active':''}" data-room="all"><img src="${c.portrait}" alt=""><span><strong>All Coaches</strong><small>Protected team room</small></span></button>`+priv.map(([id,r])=>{const oid=r.members.find(x=>x!==c.id),oc=coachById(oid)||c;return `<button class="chatRoomBtn ${data.room===id?'active':''}" data-room="${safe(id)}"><img src="${oc.portrait}" alt=""><span><strong>${safe(oc.name)}</strong><small>Private coach chat</small></span></button>`}).join('');list.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{data.room=b.dataset.room;chatSave(data);renderChat()});const r=data.rooms[data.room],other=r.members.map(coachById).filter(Boolean).find(x=>x.id!==c.id);document.getElementById('fkbcChatHeadImg').src=(other||c).portrait;document.getElementById('fkbcChatHeadTitle').textContent=data.room==='all'?'All Coaches':(other?.name||r.name);document.getElementById('fkbcChatHeadSub').textContent=data.room==='all'?'Protected team room':'Private coach chat';const msgs=document.getElementById('fkbcChatMessages');msgs.innerHTML=(r.msgs||[]).length?(r.msgs||[]).map(m=>`<article class="chatMessage ${m.from===c.id?'mine':''}"><b>${safe(coachById(m.from)?.name||'Coach')}</b><p>${safe(m.text)}</p><time>${new Date(m.ts).toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</time></article>`).join(''):'<div style="margin:auto;text-align:center;color:var(--muted)"><strong>No messages yet</strong><div style="margin-top:4px;font-size:.8rem">Start the conversation.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
-function sendChat(){const c=me(),i=document.getElementById('fkbcChatInput'),text=i.value.trim();if(!c||!text)return;const d=chatLoad();const r=d.rooms[d.room]||d.rooms.all;r.msgs.push({id:(crypto.randomUUID?.()||Date.now().toString()),from:c.id,text,ts:Date.now()});chatSave(d);i.value='';renderChat()}
+function renderChat(){const c=me();if(!c)return;const data=chatLoad();if(!data.rooms.all)data.rooms.all={name:'All Coaches',members:COACHES.map(c=>c.id),msgs:[]};if(!data.rooms[data.room])data.room='all';const list=document.getElementById('fkbcRoomList');const priv=Object.entries(data.rooms).filter(([k])=>k!=='all');list.innerHTML=`<button class="chatRoomBtn ${data.room==='all'?'active':''}" data-room="all"><img src="${c.portrait}" alt=""><span><strong>All Coaches</strong><small>Protected team room</small></span></button>`+priv.map(([id,r])=>{const oid=r.members.find(x=>x!==c.id),oc=coachById(oid)||c;return `<button class="chatRoomBtn ${data.room===id?'active':''}" data-room="${safe(id)}"><img src="${oc.portrait}" alt=""><span><strong>${safe(oc.name)}</strong><small>Private coach chat</small></span></button>`}).join('');list.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{data.room=b.dataset.room;chatSave(data);renderChat()});const r=data.rooms[data.room],other=r.members.map(coachById).filter(Boolean).find(x=>x.id!==c.id);document.getElementById('fkbcChatHeadImg').src=(other||c).portrait;document.getElementById('fkbcChatHeadTitle').textContent=data.room==='all'?'All Coaches':(other?.name||r.name);document.getElementById('fkbcChatHeadSub').textContent=data.room==='all'?'Protected team room':'Private coach chat';const msgs=document.getElementById('fkbcChatMessages');msgs.innerHTML=(r.msgs||[]).length?(r.msgs||[]).map(m=>`<article class="chatMessage ${m.from===c.id?'mine':''}${m.pending?' pending':''}"><b>${safe(coachById(m.from)?.name||'Coach')}</b><p>${safe(m.text)}</p><time>${new Date(m.ts).toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</time></article>`).join(''):'<div style="margin:auto;text-align:center;color:var(--muted)"><strong>No messages yet</strong><div style="margin-top:4px;font-size:.8rem">Start the conversation.</div></div>';msgs.scrollTop=msgs.scrollHeight;}
+function sendChat(){const c=me(),i=document.getElementById('fkbcChatInput'),text=i.value.trim();if(!c||!text)return;const d=chatLoad();const r=d.rooms[d.room]||d.rooms.all;const mid=(crypto.randomUUID?.()||Date.now().toString());const live=window.Live&&Live.enabled&&Live.member;r.msgs.push({id:mid,from:c.id,text,ts:Date.now(),pending:!!live});chatSave(d);i.value='';renderChat();if(live)Live.sendMessage(d.room,text,mid)}
 document.getElementById('fkbcChatSend').onclick=sendChat;document.getElementById('fkbcChatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});document.getElementById('fkbcNewPrivate').onclick=()=>{const c=me(),others=COACHES.filter(x=>x.id!==c.id),label=others.map((x,i)=>`${i+1}. ${x.name}`).join('\n'),n=parseInt(prompt('Start a private chat with:\n\n'+label),10)-1;if(!others[n])return;const d=chatLoad(),id=privateId(c.id,others[n].id);d.rooms[id]=d.rooms[id]||{name:others[n].name,members:[c.id,others[n].id],msgs:[]};d.room=id;chatSave(d);renderChat()};
 window.addEventListener('storage',e=>{if(e.key===KCHAT&&currentView==='chat')renderChat()});
 
@@ -1014,6 +1026,7 @@ const oldShow=showView;showView=function(name){oldShow(name);if(name==='chat')re
 document.querySelector('.timerTop')?.addEventListener('click',e=>e.stopPropagation());document.querySelector('.timerBottom')?.addEventListener('click',e=>e.stopPropagation());
 
 // Initialise only after original v21 is fully loaded.
+window.FKHooks={chatLoad,chatSave,renderChat:()=>renderChat(),privateId,renderTimetable:()=>renderTimetable(),me:()=>me(),coachById};
 enhanceHome();renderTimetable();renderAccess();refreshConsole();if(accessState()){setGate(false)}else{setGate(true)};
 })();
 </script>
@@ -1068,5 +1081,8 @@ enhanceHome();renderTimetable();renderAccess();refreshConsole();if(accessState()
  showView(currentView||'home');
 })();
 </script>
+<script src="assets/vendor/supabase.js"></script>
+<script src="assets/live-config.js"></script>
+<script src="assets/live.js"></script>
 
 </body></html>

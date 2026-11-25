@@ -1,4 +1,4 @@
-FKBC COACHES CONSOLE v38
+FKBC COACHES CONSOLE v39
 
 Access code and admin code: ask the club owner (they are no longer written in this repository).
 
@@ -60,3 +60,8 @@ v38 GRADING SHEETS
   lesson plan and the team Brief, and are never shown on the timer.
 - Picker: filter Everything / Junior / Senior and "Select all shown"; rounds follow the number selected.
 - Left out because they are crossed out on the sheets: White "Slip", Red "Knee / Shin Block". White Junior sparring is "None".
+
+v39 LIVE (Supabase)
+- Chat, saved lessons, the timetable and library additions are now shared live between coaches (see supabase/README.md).
+- Join once with the club access code (a green dot in the top bar shows you are live). Works offline and syncs when back online.
+- The access/admin codes are checked on the server; the app no longer relies on a code stored in the page.

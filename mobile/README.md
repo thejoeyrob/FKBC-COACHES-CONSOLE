@@ -47,7 +47,7 @@ Store build requirements (checked November 2026): Google Play needs apps to targ
    * `fkbc-android-release-aab` – the file Google Play wants.
 4. Play Console → **Create app** → upload the `.aab` to **Internal testing** first and install it via the testers link.
 5. Complete the listing using `store/` images and the text below, then the questionnaires:
-   * **Data safety:** the app collects no data and shares none (see `privacy.html`).
+   * **Data safety:** the app collects **user content** (chat messages and lessons coaches choose to share) plus an anonymous account ID, stored on the club's server (Supabase, London), encrypted in transit, not shared, not used for ads or tracking. Users can ask for deletion via the club. See `privacy.html`.
    * **Content rating:** no violence, no user-generated public content, no purchases → expect "Everyone".
    * **Target audience:** adults/coaches (not primarily children).
 6. New personal developer accounts must usually run a **closed test with about 12 testers for 14 days** before production access – check the current rule in Play Console. Organisation accounts are exempt.
@@ -61,7 +61,7 @@ Store build requirements (checked November 2026): Google Play needs apps to targ
 5. GitHub → **Actions → iOS build → Run workflow**, tick **upload_to_testflight**. The workflow archives, signs with automatic cloud signing and uploads. The build appears in **TestFlight** after processing (10–30 minutes).
 6. Install through TestFlight on a real iPhone **and** iPad. Check: bell over Spotify, bell with the silent switch on, timer stays awake, share/export lesson.
 7. App Store Connect → fill the listing, upload `store/screenshots/iphone-*` and `ipad-*`, then **Add for Review**.
-   * **App Privacy:** choose **Data Not Collected**.
+   * **App Privacy:** choose **Data Collected** → *User Content* (Other User Content) and *Identifiers* (User ID, anonymous). Used for **App Functionality**, **linked to the user's device/account ID**, **not used for tracking**.
    * **Age rating:** answer "None" to every content question → 4+.
    * **Export compliance:** already answered ("no non-exempt encryption") in `Info.plist`.
    * **App Review notes** (paste): *"This is a tool for kickboxing coaches. On first launch enter access code <YOUR ACCESS CODE> and tap any coach profile. Then use Planner to build a lesson and the red Start button to run the timer. Lessons are stored on the device; the app has no accounts and no network features."*
@@ -85,7 +85,7 @@ Store build requirements (checked November 2026): Google Play needs apps to targ
 > • Pad-swap timing – set demo time, work time and swap-over; choose swap after every round or after all the rounds. The app works out the whole session for you.
 > • Built-in library – drills and combinations for kickboxing, boxing, Muay Thai and fitness, plus a belt-by-belt kickboxing grading syllabus. Add your own and tap to drop them into a lesson.
 > • Full-screen timer – big clock, bell and klaxon sounds that play over your music, countdown beeps, and your coach's artwork sliding in for their part of the class.
-> • Save, copy and share lessons with other coaches. Everything stays on your device – no accounts, no tracking.
+> • Live team features: shared coach chat, a shared lesson library and the weekly timetable stay in sync between coaches' devices. No adverts, no tracking.
 > • Works offline.
 
 ## 5. Updating later
@@ -95,5 +95,5 @@ Change the web app as normal, then run the workflows again (the version code inc
 ## 6. Known limitations to be honest about
 
 * **Access code and admin code are stored in the app's code.** They keep casual users out of the timetable editor but are not real security. Fine for a club tool; do not treat them as secret.
-* **Coach chat is local to each device.** It does not sync between phones. Don't describe it as messaging between coaches in the store listing.
+* **Chat, lessons and timetable are now live** (shared between coaches' devices through the club's Supabase database). Joining needs the club access code and an internet connection the first time; after that the app works offline and syncs when back online.
 * **Timer sounds need the app on screen.** The screen is kept awake, but if a phone is locked the bell may not sound (background audio mode is deliberately not enabled; Apple only allows it for apps that genuinely play audio in the background).
