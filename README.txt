@@ -1,6 +1,6 @@
 FKBC COACHES CONSOLE v38
 
-Access PIN: FKBC1      Admin timetable code: 2403 (not shown in the app)
+Access code and admin code: ask the club owner (they are no longer written in this repository).
 
 FILES - upload/keep ALL of these together (GitHub Pages root):
   index.html, sw.js, manifest.webmanifest, assets/ (sfx.js, sounds/, coaches/, img/)
