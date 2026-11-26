@@ -9,7 +9,11 @@
 
 /* buttons slide off to the nearest edge when the screen is tapped (and back on when tapped again) */
 .tvHead,.tvDock,#tvRoot>.tvTray{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
-.timerStage.clean .tvHead{transform:translateY(calc(-100% - 24px));pointer-events:none}
+/* the Home button never hides: only the other header items slide away */
+.timerStage.clean .tvHead{pointer-events:none;background:none!important}
+.tvHead .tvLesson,.tvHead .btn{transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.timerStage.clean .tvHead .tvLesson,.timerStage.clean .tvHead .btn:not([data-a=home]){transform:translateY(calc(-100% - 30px));opacity:0;pointer-events:none}
+.timerStage.clean .tvHead .btn[data-a=home]{pointer-events:auto;transform:none;opacity:.9}
 .timerStage.clean .tvDock{transform:translateY(calc(100% + 36px));pointer-events:none}
 .timerStage.clean #tvRoot>.tvTray{transform:translateY(calc(100% + 220px));pointer-events:none}
 
