@@ -196,6 +196,11 @@ body{background:#06080c}
 .coachLine .coachMini.lineup img{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55))}
 .coachLine .coachMini.lineup span{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:rgba(8,11,16,.85);border:1px solid rgba(255,255,255,.16);padding:3px 10px;border-radius:99px;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
 @media(min-width:900px){.coachLine{justify-content:center;overflow:visible}.coachLine .coachMini.lineup{height:330px!important;margin:0 -14px}}
+/* phones & small tablets: the whole team is visible at once (no sideways scrolling) */
+@media(max-width:899px){.coachLine{overflow:visible!important;justify-content:center;margin-left:0!important;margin-right:0!important;padding-left:2px;padding-right:2px}
+.coachLine .coachMini.lineup{flex:1 1 0!important;min-width:0;height:auto!important;margin:0 -3.2%!important}
+.coachLine .coachMini.lineup img{width:100%;height:auto;max-height:none}
+.coachLine .coachMini.lineup span{font-size:.44rem!important;padding:2px 4px!important;letter-spacing:.02em!important;bottom:3px}}
 @media(max-width:560px){#fkbcConsoleBar{grid-template-columns:minmax(0,1fr) auto!important}#fkbcConsoleBar .consoleWho{position:static!important;grid-column:auto!important;margin:0!important;justify-self:end}}
 .lessonMeta{grid-template-columns:minmax(0,1fr) auto!important}.durationPill{white-space:nowrap;padding:0 16px!important}
 #fkbcConsoleBar .modeBtn{padding:0 6px!important;font-size:.88rem}
