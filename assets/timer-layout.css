@@ -173,3 +173,18 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 /* head & shoulders: no hard cut inside the screen — the inner edge fades out; only the screen edge crops the picture */
 .tvCoach.hs.side-left{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%)}
 .tvCoach.hs.side-right{-webkit-mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%)}
+
+/* head & shoulders: sized by the figure so the whole head and shoulders are always in view — nothing is cut inside the screen */
+.tvCoach.hs.side-left,.tvCoach.hs.side-right{-webkit-mask-image:none;mask-image:none}
+.tvCoach.hs .tvCoachImg{top:var(--hsT);left:var(--hsL);bottom:auto;width:var(--hsS);height:var(--hsS);object-fit:fill;object-position:center;
+  -webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}
+/* portrait: the picture is centred behind the timer content (it still slides on from its chosen side) */
+.port .tvCoach,.port .tvCoach.side-right,.port .tvCoach.side-left{left:0;right:auto;width:100%}
+.port .tvCoach:after,.port .tvCoach.side-right:after{background:linear-gradient(180deg,rgba(8,4,4,.18),rgba(8,4,4,.5))}
+.port .tvCoach.full .tvCoachImg{left:0;width:100%;object-position:center center}
+
+/* the source art cuts the arms off straight at each side: fade those two edges (and the bottom) so no hard line shows */
+.tvCoach.hs .tvCoachImg{
+  -webkit-mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
+  mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
+  -webkit-mask-composite:source-in;mask-composite:intersect}

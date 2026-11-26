@@ -61,6 +61,9 @@
   }
   function autoName() { var st = resolveStyle({ style: 'auto' }); return { land: 'Sideways phone', cockpit: 'Cockpit', card: 'Coach card', big: 'Big clock' }[st] || st; }
 
+  // where the figure sits inside each head & shoulders picture [left, top, right, bottom] as fractions — lets us size by the figure, not by the transparent margins
+  var HSBOX = {"joe":[0.137,0,0.863,0.97],"jack":[0.117,0,0.882,0.97],"paul":[0.21,0,0.788,0.97],"bigjohn":[0.147,0,0.852,0.97],"justin":[0.218,0.138,0.79,0.805],"gracie":[0.255,0,0.743,0.97],"john":[0.213,0.09,0.787,0.85],"eden":[0.238,0.087,0.738,0.855]};
+
   /* ================= helpers ================= */
   var PHC = { work: '#e11d3f', demo: '#d2a21f', rest: '#3a86c8', break: '#2fa66a' };
   var phWord = function (p) { return { work: 'Work', demo: 'Demo', rest: 'Swap', break: 'Break' }[p.type] || 'Work'; };
@@ -107,10 +110,17 @@
     var co = coachOf(p), haveCoach = c.coach && co && p.type !== 'break';
     var layer = haveCoach && c.coachImg !== 'none';
     var side = sideFor(c, p), dir = side === 'left' ? -1 : 1;
-    var cw = 0, bw = 0, shift = 0;
+    var cw = 0, bw = 0, shift = 0, hsS = 0, hsT = 0, hsL = 0;
     if (layer) {
-      if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; bw = c.coachImg === 'full' ? cw : cw * 1.2; }   // the soft inner edge of a head & shoulders picture may run a little under the content
-      else { cw = c.coachImg === 'full' ? Math.min(W * 0.92, (H - 2 * M) * 0.56) : W * 0.8; bw = cw; shift = c.coachImg === 'full' ? 26 : 16; }
+      if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; bw = cw; }   // landscape: at most a third of the screen, clock on the other side
+      else { cw = W; bw = W; shift = 0; }   // portrait: centred, whole figure in view, behind the content
+      if (c.coachImg === 'hs') {
+        var hb = HSBOX[co.id] || [0.15, 0, 0.85, 0.97], fw = hb[2] - hb[0], fh = hb[3] - hb[1];
+        var tw = land ? Math.max(120, cw - 12) : W * 0.98;
+        var size = Math.min(tw / fw, (H - M - 12) / fh), figW = size * fw;
+        hsS = size; hsT = M - hb[1] * size;
+        hsL = land ? (side === 'left' ? 6 - hb[0] * size : cw - 6 - hb[2] * size) : (W - figW) / 2 - hb[0] * size;
+      }
     }
     var techs = [], sec = state.lesson.sections[p.sectionIndex]; if (sec && sec.kind !== 'break') techs = techList(sec);
     var f = { tech: c.show.tech, hints: c.show.hints, next: c.show.next, stats: c.show.stats, timeline: c.show.timeline, list: c.show.list && techs.length > 0 && (style === 'cockpit' || (style === 'card' && W >= 700 && H >= 520)) };
@@ -152,7 +162,8 @@
     root.innerHTML = h;
     root.className = 'tv tv-' + style + (land ? ' land' : ' port') + (layer ? ' hasCoach side-' + side : '') + ' coach-' + (c.coach ? c.coachImg : 'off') + (spawn ? ' spawning' : '');
     root.style.setProperty('--M', M + 'px'); root.style.setProperty('--cw', Math.round(cw) + 'px'); root.style.setProperty('--bw', Math.round(bw) + 'px'); root.style.setProperty('--dir', dir); root.style.setProperty('--shift', shift + '%');
-    root.style.setProperty('--hsx', side === 'left' ? '62%' : '38%');   // face + the shoulder nearest the screen edge stay in view
+    var hbx = HSBOX[co && co.id] || [0.15, 0, 0.85, 0.97]; root.style.setProperty('--b0', (hbx[0] * 100).toFixed(1)); root.style.setProperty('--b2', (hbx[2] * 100).toFixed(1));
+    root.style.setProperty('--hsS', Math.round(hsS) + 'px'); root.style.setProperty('--hsT', Math.round(hsT) + 'px'); root.style.setProperty('--hsL', Math.round(hsL) + 'px');
     if (style === 'card' || style === 'cockpit' || style === 'land') {
       var g = gridFor(style, f); root.style.gridTemplateColumns = g.cols; root.style.gridTemplateAreas = g.areas; root.style.gridTemplateRows = g.trows;
     } else { root.style.gridTemplateColumns = root.style.gridTemplateAreas = root.style.gridTemplateRows = ''; }
