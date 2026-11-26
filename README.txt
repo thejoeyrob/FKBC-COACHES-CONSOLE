@@ -96,3 +96,9 @@ v50 (PREVIEW BRANCH — not on main) - Adaptive timer screen + pre-start review:
  * Pre-start screen (brief by default) with layout, coach on/off, coach picture (head & shoulders / full body / name only) and asset checklist; same options via the Display button on the timer.
  * Coach hints (off by default), "Skip to last 10s", swap wording A ⇄ B.
  * Coach art upgraded to the higher-resolution Planner-3 originals (same cartoon set; matching full-length + portrait for all 8 coaches).
+
+v51 (PREVIEW BRANCH — not on main) - Timer display round 2:
+ * Coach picture is its own layer behind the content: full body = full height with top+bottom margin; head & shoulders = full height with top margin, cropped so the face and nearest shoulder stay in view; max one third of the width on landscape (clock offset to the other side); slides on/off from the side; side = left / right / alternate each section.
+ * New section: the ring (or bar) sweeps in the new colour over the previous one; controls slide off to the nearest edge when the screen is tapped.
+ * Home button on the timer (with the pause / keep running prompt); mini "class running" bar with pause/play on every other page; play button resumes the lesson.
+ * Quick arrangement: Minimal / More / All / Custom + three saved "My Layouts"; Save and "use for this lesson only" buttons.
