@@ -1,3 +1,6 @@
+/* Kanit (SIL Open Font License, bundled in bushido/fonts) — heavy slanted type that matches the club logo */
+@font-face{font-family:"Kanit";font-style:italic;font-weight:600;font-display:swap;src:url(bushido/fonts/kanit-600-italic.woff2) format("woff2")}
+@font-face{font-family:"Kanit";font-style:italic;font-weight:800;font-display:swap;src:url(bushido/fonts/kanit-800-italic.woff2) format("woff2")}
 /* FKBC — Red & Black Bushido theme (opt-in). Built from the supplied art pack in assets/bushido/.
  * Textures, frames and button skins are the supplied artwork itself; nothing here imitates them with gradients.
  * Everything is scoped to html.bushido so the classic look is untouched when this file is not loaded. */
@@ -178,3 +181,24 @@ html.bushido .navBtn.timerNav{background-clip:padding-box!important;background-o
 /* tighten the texture inside the rim curve */
 html.bushido .homeAction{border-width:5px!important;border-style:solid!important;border-color:transparent!important;border-radius:17px!important}
 html.bushido .homeAction.primary{border-width:5px!important}
+
+/* ---- typography: Kanit Italic for headings, the clock and every button label; clean system font stays for body text ---- */
+html.bushido{--display:"Kanit","DIN Condensed","Avenir Next Condensed","Arial Narrow",sans-serif}
+html.bushido :is(h1,h2,h3,.pageTitle h1,.heroH1,.timerTitle,.timerMode,.accessTitle,.doneCard h2,.clock,.secTotal b,.durationPill){
+  font-family:var(--display)!important;font-style:italic!important;font-weight:800!important;letter-spacing:.01em!important}
+html.bushido :is(.btn,.homeAction,.chipTab,.tab,.modeBtn,.navBtn,.coachMini span,.eyebrow,.ttTag,.ttSeg button,.beltBtn span){
+  font-family:var(--display)!important;font-style:italic!important;font-weight:600!important}
+/* Kanit runs wide: scale sizes down so nothing meets a frame or rim */
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn){font-size:.74rem!important;letter-spacing:.015em!important}
+html.bushido .btn.small{font-size:.7rem!important}
+html.bushido .homeAction{font-size:.62rem!important;letter-spacing:.04em!important}
+html.bushido .navBtn{font-size:.58rem!important;letter-spacing:.04em!important}
+html.bushido .eyebrow{font-size:.62rem!important;letter-spacing:.14em!important}
+html.bushido .pageTitle h1{font-size:clamp(1.25rem,5.4vw,1.8rem)!important}
+html.bushido .heroH1{font-size:clamp(1.55rem,7.4vw,2.3rem)!important;line-height:1.02}
+html.bushido .modalHead h3{font-size:1.02rem!important}
+html.bushido .timerTitle{font-size:clamp(1.7rem,8vw,2.6rem)!important}
+html.bushido .clock{font-size:clamp(3.4rem,17vw,6rem)!important;letter-spacing:0!important}
+html.bushido .coachMini span{font-size:.4rem!important;letter-spacing:.02em!important}
+html.bushido .heroH1{font-size:clamp(1.3rem,6.2vw,2rem)!important;white-space:nowrap}
+html.bushido .homeAction{font-size:.68rem!important}
