@@ -150,3 +150,13 @@ html.bushido .homeLogo,html.bushido #fkbcBrandRow .brandLogo{width:min(340px,80v
   filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 3px rgba(0,0,0,.95)) drop-shadow(0 4px 16px rgba(0,0,0,.95))}
 html.bushido #fkbcBrandRow .brandLogo{width:auto!important;height:50px}
 html.bushido .homeTag{display:inline-block;background:rgba(6,3,3,.62);padding:5px 11px;border-radius:9px;border:1px solid var(--rim)}
+
+/* ---- every content window (framed or not) gets the same dark translucent plate ---- */
+html.bushido{--plate:rgba(8,5,5,.7);--plateHi:rgba(8,5,5,.9)}
+html.bushido .homeHero{
+  background:linear-gradient(180deg,rgba(8,5,5,.5) 0%,rgba(8,5,5,.66) 45%,rgba(8,5,5,.82) 100%)!important;
+  -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+html.bushido .modalBox{background:var(--plateHi)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.chatRooms,.chatMain,.nextCardHome,.emptyPlan,.doneCard,.nextCard,.whoWidget,.ttSess,.ckBlock,.ttLessonBox,.tipBox,.settingGroup,.pageTitle){
+  background:var(--plate)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+html.bushido .libItem,html.bushido .classCard{background:rgba(0,0,0,.4)!important}
