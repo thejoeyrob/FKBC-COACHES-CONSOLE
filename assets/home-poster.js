@@ -27,15 +27,28 @@
         b.innerHTML = '<img src="' + c.full + '" alt="" draggable="false">'; b.onclick = function () { pick(c.id); }; existing.appendChild(b);
       });
     }
-    items.forEach(function (it) {
-      var b = existing.querySelector('[data-id="' + it.c.id + '"]'); if (!b) return;
-      b.style.setProperty('--side', it.side); b.style.setProperty('--d', it.d); b.style.zIndex = 20 - it.d * 2 - (it.side < 0 ? 1 : 0);
-      b.style.setProperty('--sc', it.d === 0 ? 1.1 : (1 - it.d * 0.09).toFixed(3)); b.classList.toggle('front', it.d === 0);
-    });
+    place(existing, items);
     var nm = line.querySelector('.posterName'); var front = items[0].c;
     nm.innerHTML = '<span>' + front.name + '</span>';
     var hello = $('posterHello'); if (hello) { var m = me(); hello.textContent = m ? 'Welcome back, ' + m.name : ''; }
   }
+  // spread everyone across the stage so ALL coaches stay on screen: the further from the centre, the smaller, higher and hazier
+  function place(stage, items) {
+    var W = stage.clientWidth || 360, H = stage.clientHeight || 340, maxD = 0;
+    items.forEach(function (it) { if (it.d > maxD) maxD = it.d; });
+    var sc = function (d) { return d === 0 ? 1.1 : Math.max(.42, 1 - d * .13); };
+    var half = function (d) { return H * .235 * sc(d); };           // approx. half the width of a figure
+    var edge = W / 2 - 4, lead = Math.min(W * .11, 62);
+    var step = maxD ? Math.max(18, (edge - half(maxD) - lead) / maxD) : 0;
+    items.forEach(function (it) {
+      var b = stage.querySelector('[data-id="' + it.c.id + '"]'); if (!b) return;
+      var d = it.d, x = it.side * (d ? lead + d * step : 0), z = 20 - d * 2 - (it.side < 0 ? 1 : 0);
+      b.style.zIndex = z; b.style.setProperty('--x', x.toFixed(1) + 'px'); b.style.setProperty('--y', (-d * 9) + 'px');
+      b.style.setProperty('--sc', sc(d).toFixed(3)); b.style.setProperty('--br', (1 - d * .17).toFixed(2)); b.style.setProperty('--bl', (d * .45).toFixed(2) + 'px');
+      b.classList.toggle('front', d === 0);
+    });
+  }
+  var rzT; window.addEventListener('resize', function () { clearTimeout(rzT); rzT = setTimeout(function () { var st = document.querySelector('.posterStage'); if (st) place(st, order(selectedId())); }, 100); });
   function pick(id) {
     if (id === selectedId()) { if (typeof showView === 'function') showView('coaches'); return; }
     try { localStorage.setItem(K, id); } catch (e) {} render();
