@@ -1,0 +1,82 @@
+name: Android upload to Google Play
+# Builds the signed bundle and sends it to a Google Play track with a Play service account (no personal login).
+# Needs these repository secrets: ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD,
+# and PLAY_SERVICE_ACCOUNT_JSON (the service account's JSON key, pasted whole). The very first release of a new app must be
+# uploaded by hand in Play Console (Google's API cannot claim a brand-new app); after that this workflow works for every build.
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "Play track"
+        type: choice
+        default: internal
+        options: [internal, alpha, beta, production]
+      status:
+        description: "Release status (draft keeps it unpublished so you can press Publish in Play Console)"
+        type: choice
+        default: draft
+        options: [draft, completed]
+      version_name:
+        description: "Version shown on Google Play"
+        default: "1.0.0"
+concurrency:
+  group: android-play-upload
+  cancel-in-progress: false
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the secrets exist
+        working-directory: .
+        env:
+          A: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          B: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          C: ${{ secrets.ANDROID_KEY_ALIAS }}
+          D: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          E: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          m=""; [ -z "$A" ] && m="$m ANDROID_KEYSTORE_BASE64"; [ -z "$B" ] && m="$m ANDROID_KEYSTORE_PASSWORD"; [ -z "$C" ] && m="$m ANDROID_KEY_ALIAS"; [ -z "$D" ] && m="$m ANDROID_KEY_PASSWORD"; [ -z "$E" ] && m="$m PLAY_SERVICE_ACCOUNT_JSON"
+          if [ -n "$m" ]; then echo "::error title=Secrets missing::Add these repository Actions secrets:$m"; exit 1; fi
+          echo "All five secrets are present."
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Prepare Android SDK (preinstalled on the runner)
+        run: |
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | head -1)
+          yes | "$SDKM" --licenses > /dev/null || true
+          "$SDKM" "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - run: npm ci
+      - run: npm run sync
+      - name: Restore upload key
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/fkbc-upload.keystore"
+      - name: Build signed bundle
+        working-directory: mobile/android
+        env:
+          FKBC_KEYSTORE: ${{ runner.temp }}/fkbc-upload.keystore
+          FKBC_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          FKBC_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          FKBC_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          FKBC_VERSION_NAME: ${{ inputs.version_name }}
+        run: FKBC_VERSION_CODE=$((GITHUB_RUN_NUMBER + 100)) ./gradlew --no-daemon bundleRelease
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.fkbc.coachesconsole
+          releaseFiles: mobile/android/app/build/outputs/bundle/release/app-release.aab
+          track: ${{ inputs.track }}
+          status: ${{ inputs.status }}

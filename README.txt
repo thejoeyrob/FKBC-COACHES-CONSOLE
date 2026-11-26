@@ -90,3 +90,21 @@ v47 - Bushido: Kanit Italic (SIL OFL, bundled in assets/bushido/fonts) for headi
 v48 - Bushido: stronger button frame (thicker bronze rim, bright edge, dark inner line) over the red/black texture.
 
 v49 - New app icon: the supplied art as a clean square with the bronze rim (mobile/store/app-icon-source.png). Applied to PWA, iOS and Android assets via mobile/scripts/make-icons.py. Native splash screens now use the high-res logo.
+
+v50 (PREVIEW BRANCH — not on main) - Adaptive timer screen + pre-start review:
+ * assets/timer-layout.js/.css: layouts by screen (Big clock phone, Cockpit iPad landscape, Coach card tablet portrait, sideways-phone layout) or manual (Ring, Big clock, Phase colour, Coach card, Cockpit).
+ * Pre-start screen (brief by default) with layout, coach on/off, coach picture (head & shoulders / full body / name only) and asset checklist; same options via the Display button on the timer.
+ * Coach hints (off by default), "Skip to last 10s", swap wording A ⇄ B.
+ * Coach art upgraded to the higher-resolution Planner-3 originals (same cartoon set; matching full-length + portrait for all 8 coaches).
+
+v51 (PREVIEW BRANCH — not on main) - Timer display round 2:
+ * Coach picture is its own layer behind the content: full body = full height with top+bottom margin; head & shoulders = full height with top margin, cropped so the face and nearest shoulder stay in view; max one third of the width on landscape (clock offset to the other side); slides on/off from the side; side = left / right / alternate each section.
+ * New section: the ring (or bar) sweeps in the new colour over the previous one; controls slide off to the nearest edge when the screen is tapped.
+ * Home button on the timer (with the pause / keep running prompt); mini "class running" bar with pause/play on every other page; play button resumes the lesson.
+ * Quick arrangement: Minimal / More / All / Custom + three saved "My Layouts"; Save and "use for this lesson only" buttons.
+
+v58 (PREVIEW BRANCH — not on main) - Poster home: the selected coach (you by default, or tap any coach) stands at the front with the others fanned out behind, front to back from the centre outward; logo with a dark shadow surround; one big New Lesson button; larger centred play symbol.
+
+v63 (PREVIEW BRANCH — not on main) - No zoom (pinch, double-tap, ctrl+scroll/keys, iOS input zoom blocked); full-screen button in the top bar (web browser only — hidden in the installed app / store apps / phones); timer scrolls on small screens with a guaranteed clock size; always-available Home button on every page.
+
+v68 (PREVIEW BRANCH — not on main) - Grading: toggle on every section (belt picker + belt syllabus). "Grading night" is now a grading session (assets/grading.js/.css): choose belts -> pick techniques from the whole syllabus -> running order with warm-ups/notes anywhere (reorder) -> optional student mat plan (13 spaces, 4/5/4 staggered, coach table at the bottom) -> brief -> run with Back / Next (belt-coloured band, progression line, side list, display options, quick Plan button) -> results (tick passes on the plan) -> close; nothing is saved.

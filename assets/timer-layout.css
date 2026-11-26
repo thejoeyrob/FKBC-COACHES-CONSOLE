@@ -1,0 +1,213 @@
+/* Adaptive timer screen, pre-start review and mini "now running" bar (see timer-layout.js). Colours/fonts follow the active theme. */
+.timerStage.tv>*:not(#tvRoot):not(.breakWatermark){display:none!important}
+#tvRoot{--acc:#e11d3f;position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;gap:clamp(6px,1.3vh,14px);overflow:hidden;
+  padding:calc(env(safe-area-inset-top,0px) + 8px) clamp(10px,2.6vw,24px) calc(env(safe-area-inset-bottom,0px) + 10px);color:#fff;container-type:size;font-family:var(--display,system-ui)}
+#tvRoot[data-ph=demo]{--acc:#d2a21f}#tvRoot[data-ph=rest]{--acc:#3a86c8}#tvRoot[data-ph=break]{--acc:#2fa66a}
+#tvRoot>*{min-height:0}
+#tvRoot>*:not(.tvCoach){position:relative;z-index:1}
+#tvRoot small,.tvEye{display:block;font:600 .62rem/1.2 system-ui;letter-spacing:.2em;text-transform:uppercase;color:#e2bb7e}
+
+/* buttons slide off to the nearest edge when the screen is tapped (and back on when tapped again) */
+.tvHead,.tvDock,#tvRoot>.tvTray{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+/* the Home button never hides: only the other header items slide away */
+.timerStage.clean .tvHead{pointer-events:none;background:none!important}
+.tvHead .tvLesson,.tvHead .btn{transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.timerStage.clean .tvHead .tvLesson,.timerStage.clean .tvHead .btn:not([data-a=home]){transform:translateY(calc(-100% - 30px));opacity:0;pointer-events:none}
+.timerStage.clean .tvHead .btn[data-a=home]{pointer-events:auto;transform:none;opacity:.9}
+.timerStage.clean .tvDock{transform:translateY(calc(100% + 36px));pointer-events:none}
+.timerStage.clean #tvRoot>.tvTray{transform:translateY(calc(100% + 220px));pointer-events:none}
+
+/* header */
+.tvHead{flex:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tvLesson{min-width:0}.tvLesson strong{display:block;font-size:clamp(.95rem,4.2cqw,1.2rem);font-style:italic;line-height:1.1;overflow:hidden;text-overflow:ellipsis}
+.tvBtns{display:flex;gap:6px}.tvBtns .btn{min-height:40px;min-width:42px;padding:0 10px}
+
+/* title */
+.tvTitle{flex:none;text-align:center}
+.tvCat{font:600 .66rem/1.2 system-ui;letter-spacing:.2em;text-transform:uppercase;color:#e2bb7e}
+.tvTitle h2{margin:2px 0;font-size:clamp(1.35rem,6.4cqw,2.5rem);line-height:1.05;font-style:italic;font-weight:800;text-transform:uppercase;overflow-wrap:anywhere;text-shadow:0 4px 18px #000}
+.tvRound{color:var(--acc);filter:brightness(1.35);font:800 .78rem/1.2 var(--display,system-ui);letter-spacing:.2em;text-transform:uppercase}
+.tvCoachChip{display:inline-block;margin-top:6px;padding:3px 14px;border:1px solid rgba(200,151,90,.5);border-radius:99px;background:rgba(8,5,5,.72);font:italic 800 .95rem/1.2 var(--display,system-ui)}
+.tvCoachChip small{display:inline;margin-right:8px}
+
+/* lesson timeline */
+.tvTL{flex:none;display:flex;gap:2px;height:10px;border-radius:6px;position:relative;background:rgba(0,0,0,.5);border:1px solid rgba(200,151,90,.5);padding:1px}
+.tvTL i{display:block;height:100%;border-radius:3px;opacity:.38}.tvTL i.d{opacity:.95}.tvTL i.c{opacity:1;box-shadow:0 0 8px currentColor}
+.tvTL .pl{position:absolute;top:-4px;bottom:-4px;width:3px;border-radius:2px;background:#fff;box-shadow:0 0 8px #fff;left:0}
+
+/* clock */
+.tvClock{flex:1 1 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(4px,1vh,12px);container-type:size;position:relative}
+.tvCircle{position:relative;display:flex;align-items:center;justify-content:center}
+.tvSvg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 0 10px var(--acc))}
+.tvCore{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.8cqmin,10px)}
+.tvTime{font-style:italic;font-weight:800;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 6px 28px #000}
+.tvPhaseWord{font:800 clamp(.8rem,3.6cqmin,1.5rem)/1 var(--display,system-ui);font-style:italic;letter-spacing:.24em;text-transform:uppercase;color:var(--acc);filter:brightness(1.4)}
+.tvDots{display:flex;gap:clamp(4px,1.2cqmin,9px);justify-content:center;flex-wrap:wrap;max-width:90%}
+.tvDots i{width:clamp(9px,2.6cqmin,18px);height:clamp(9px,2.6cqmin,18px);border-radius:50%;border:2px solid #e2bb7e;background:transparent}
+.tvDots i.f{background:#f3eadc;border-color:#f3eadc}.tvDots i.c{background:var(--acc);border-color:#ffd0d8;box-shadow:0 0 12px var(--acc)}
+.tvBarWrap{flex:none;width:100%;display:none}
+.tvBar{position:relative;height:clamp(10px,1.8cqh,16px);border-radius:8px;background:rgba(20,10,8,.7);border:1px solid #c8975a;overflow:hidden}
+.tvBar b{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--acc);box-shadow:0 0 14px var(--acc)}
+.tvBar .old{position:absolute;inset:0}
+.tvChip{flex:none;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:99px;border:1px solid rgba(200,151,90,.6);background:rgba(8,5,5,.7);color:#f3eadc;font:700 .72rem system-ui;letter-spacing:.04em;cursor:pointer}
+.tvChip:active{transform:scale(.97)}
+.tv-ring .tvCircle,.tv-card .tvCircle,.tv-cockpit .tvCircle,.tv-land .tvCircle{container-type:size;width:min(98cqw,calc(100cqh - 46px));aspect-ratio:1}
+.tv-ring .tvTime,.tv-card .tvTime,.tv-cockpit .tvTime,.tv-land .tvTime{font-size:25cqmin}
+.tv-big .tvCircle,.tv-wash .tvCircle{flex:1 1 0;width:100%;min-height:0}
+.tv-big .tvSvg,.tv-wash .tvSvg{display:none}.tv-big .tvBarWrap,.tv-wash .tvBarWrap{display:block}
+.tv-big .tvTime{font-size:min(30cqw,44cqh)}.tv-wash .tvTime{font-size:min(34cqw,50cqh)}
+.tv-wash .tvPhaseWord{font-size:clamp(1.6rem,12cqw,4.2rem);letter-spacing:.1em}
+.tv-big .tvPhaseWord{font-size:clamp(.8rem,3cqw,1.2rem)}
+.urgent .tvTime{animation:tvUrg .5s ease-in-out infinite alternate}@keyframes tvUrg{to{transform:scale(1.04);text-shadow:0 0 34px var(--acc),0 6px 28px #000}}
+.tv-wash{background:linear-gradient(180deg,color-mix(in srgb,var(--acc) 38%,transparent),transparent 62%)}
+
+/* spawn animations: on every section change the new colour sweeps over the previous full ring / bar */
+.tvSvg circle.sweep{animation:tvSweep 1s cubic-bezier(.45,.1,.25,1) backwards}
+@keyframes tvSweep{from{stroke-dashoffset:276.46px}to{stroke-dashoffset:0px}}
+.tvBar b.swipe{animation:tvSwipe 1s cubic-bezier(.45,.1,.25,1) backwards}
+@keyframes tvSwipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.spawning .tvTime{animation:tvPop .7s cubic-bezier(.2,1.2,.3,1) backwards}
+@keyframes tvPop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.spawning .tvTitle,.spawning .tvTech,.spawning .tvStats,.spawning .tvNext,.spawning .tvList{animation:tvUp .55s ease-out backwards}
+.spawning .tvStats{animation-delay:.06s}.spawning .tvNext{animation-delay:.12s}.spawning .tvList{animation-delay:.1s}
+@keyframes tvUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* cards */
+.tvTech,.tvStats,.tvNext .nx,.tvList{background:rgba(8,5,5,.74);border:1px solid rgba(200,151,90,.38);border-radius:16px}
+.tvTech{flex:none;padding:10px 14px}.tvTech .det{font:600 clamp(.85rem,3.4cqw,1.05rem)/1.3 system-ui;color:#f1e7d8;margin-top:2px}
+.tvTech .hint{margin-top:8px;padding-top:8px;border-top:1px solid rgba(200,151,90,.3);font:600 .86rem/1.35 system-ui;color:#e8c98f}
+.tvStats{flex:none;display:grid;grid-template-columns:repeat(3,1fr);text-align:center;padding:8px 6px}
+.tvStats b{display:block;font:italic 800 clamp(1rem,4.6cqw,1.5rem)/1.2 var(--display,system-ui);font-variant-numeric:tabular-nums}
+.tvNext{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tvNext .nx{padding:8px 10px;min-width:0}.nxl{display:flex;gap:8px;align-items:center;margin-top:3px;min-width:0}
+.nxl img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:center 12%;border:2px solid #c8975a;flex:none}
+.nxl b{display:block;font:italic 800 .92rem/1.15 var(--display,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nxl span{display:block;font:600 .68rem system-ui;color:#c9bba9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tvList{padding:10px 12px;overflow:auto}.tvList .li{display:flex;gap:10px;align-items:center;padding:7px 4px;border-bottom:1px solid rgba(200,151,90,.15);font:italic 600 clamp(.9rem,2.4cqw,1.1rem)/1.2 var(--display,system-ui)}
+.tvList .li span{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(200,151,90,.6);display:grid;place-items:center;font:700 .7rem system-ui}
+.tvList .li.on{background:rgba(225,29,63,.22);border-radius:10px;border-bottom-color:transparent}.tvList .li.on span{background:var(--acc);border-color:var(--acc)}.tvList .li.done{opacity:.4;text-decoration:line-through}
+
+/* ---- coach image: its own layer, always BEHIND the content, at the side, full height ---- */
+.tvCoach{position:absolute;top:0;bottom:0;width:var(--bw,var(--cw));z-index:0;pointer-events:none;overflow:visible}
+.tvCoach.side-left{left:0}.tvCoach.side-right{right:0}
+.tvCoachImg{position:absolute;display:block;filter:drop-shadow(0 12px 22px #000);animation:tvIn .75s cubic-bezier(.16,.84,.3,1) backwards;transition:transform .8s cubic-bezier(.5,0,.8,.4)}
+.tvCoach.still .tvCoachImg{animation:none}
+@keyframes tvIn{from{transform:translateX(calc(var(--dir) * 120%))}to{transform:translateX(calc(var(--dir) * var(--shift,0%)))}}
+.tvCoachImg{transform:translateX(calc(var(--dir) * var(--shift,0%)))}
+.tvCoach.out .tvCoachImg{transform:translateX(calc(var(--dir) * 125%))}
+/* full body: full height with a margin top and bottom */
+.tvCoach.full .tvCoachImg{top:var(--M);height:calc(100% - 2 * var(--M));width:100%;object-fit:contain}
+.tvCoach.full.side-left .tvCoachImg{object-position:left center}.tvCoach.full.side-right .tvCoachImg{object-position:right center}
+/* head & shoulders: full height with a margin at the top only; the picture is cropped by its box / the screen edge */
+.tvCoach.hs .tvCoachImg{top:var(--M);bottom:0;height:calc(100% - var(--M));width:100%;object-fit:cover;object-position:var(--hsx) 0%;-webkit-mask-image:linear-gradient(180deg,#000 82%,transparent);mask-image:linear-gradient(180deg,#000 82%,transparent)}
+/* a soft shade on the picture so text on top of it stays readable */
+.tvCoach:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,4,4,0) 35%,rgba(8,4,4,.55));pointer-events:none}
+.tvCoach.side-right:after{background:linear-gradient(270deg,rgba(8,4,4,0) 35%,rgba(8,4,4,.55))}
+.port .tvCoach:after{background:linear-gradient(90deg,rgba(8,4,4,.15),rgba(8,4,4,.62))}.port .tvCoach.side-right:after{background:linear-gradient(270deg,rgba(8,4,4,.15),rgba(8,4,4,.62))}
+/* landscape: the content keeps clear of the coach, so the clock sits on the other side */
+#tvRoot.land.hasCoach.side-left{padding-left:calc(var(--cw) + 14px)}
+#tvRoot.land.hasCoach.side-right{padding-right:calc(var(--cw) + 14px)}
+#tvRoot.land.hasCoach.side-left>.tvHead{margin-left:calc(var(--cw) * -1 - 14px)}
+#tvRoot.land.hasCoach.side-right>.tvHead{margin-right:calc(var(--cw) * -1 - 14px)}
+
+/* dock */
+.tvDock{flex:none;display:flex;gap:10px;justify-content:center;align-items:center}
+.tvDock .tvBig{flex:1;max-width:340px;min-height:58px;font-size:1.05rem;gap:8px}.tvDock .tvRound1{width:58px;min-height:58px;padding:0;border-radius:50%!important}
+.tvTray{flex:none;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.tvTray[hidden]{display:none}
+#tvRoot>.tvTray{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);z-index:8;margin:0;padding:8px;background:rgba(8,5,5,.94);border:1px solid rgba(200,151,90,.6);border-radius:16px;box-shadow:0 12px 30px #000}
+
+/* multi-column layouts */
+#tvRoot.tv-card,#tvRoot.tv-cockpit,#tvRoot.tv-land{display:grid;gap:0 clamp(10px,2cqw,22px)}
+.tv-card>*:not(.tvCoach),.tv-cockpit>*:not(.tvCoach),.tv-land>*:not(.tvCoach){margin-top:clamp(5px,1.2cqh,12px)}
+.tv-card>.tvHead,.tv-cockpit>.tvHead,.tv-land>.tvHead{margin-top:0}
+.tvHead{grid-area:head}.tvTitle{grid-area:title}.tvClock{grid-area:clock}.tvTL{grid-area:tl}.tvTech{grid-area:tech}.tvStats{grid-area:stats}.tvNext{grid-area:next}.tvList{grid-area:list}.tvDock{grid-area:dock}
+.tv-card .tvTitle,.tv-cockpit .tvTitle,.tv-land .tvTitle{text-align:left}
+.tv-cockpit .tvTitle h2{font-size:clamp(1.6rem,3.2cqw,2.8rem)}.tv-cockpit .tvList{max-height:100%}
+
+/* phone turned sideways */
+.tv-land>*:not(.tvCoach){margin-top:4px}.tv-land .tvTitle h2{font-size:clamp(1rem,2.6cqw,1.3rem);margin:0}.tv-land .tvRound{font-size:.66rem}.tv-land .tvCat{font-size:.58rem}
+.tv-land .tvCoachChip{margin-top:2px;padding:1px 10px;font-size:.8rem}.tv-land .tvTech{padding:5px 10px}.tv-land .tvTech small{display:none}.tv-land .tvTech .det{font-size:.8rem}
+.tv-land .tvStats{padding:4px}.tv-land .tvStats b{font-size:1rem}.tv-land .tvNext{grid-template-columns:1fr}.tv-land .tvNext .nx:nth-child(2){display:none}
+.tv-land .tvNext .nx{padding:4px 8px}.tv-land .tvNext .nxl img{width:26px;height:26px}.tv-land .tvNext .nx small{display:none}
+.tv-land .tvTL{height:8px}.tv-land .tvHead .tvBtns .btn{min-height:34px}
+.tv-land .tvDock{align-self:end}.tv-land .tvDock .tvBig{min-height:46px}.tv-land .tvDock .tvRound1{width:46px;min-height:46px}
+.tv-land>.tvTray{left:50%;right:12px;bottom:66px}
+
+/* ---- mini "class running" bar, shown on every other page while a lesson is live ---- */
+#tvMini{position:fixed;left:0;right:0;top:0;z-index:600;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 4px) 10px 8px;background:rgba(10,6,6,.96);border-bottom:1px solid rgba(200,151,90,.55);box-shadow:0 8px 24px rgba(0,0,0,.55);color:#fff;font-family:var(--display,system-ui)}
+#tvMini[hidden]{display:none}
+.tvMiniTrack{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.1)}.tvMiniTrack i{display:block;height:100%;width:100%;background:#e11d3f;box-shadow:0 0 10px currentColor;transition:width .4s linear}
+.tvMiniMain{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:10px;background:none;border:0;color:inherit;text-align:left;padding:4px 2px;cursor:pointer;font:inherit}
+.tvMiniTxt{min-width:0}.tvMiniTxt small{font:600 .56rem/1.1 system-ui;letter-spacing:.18em;text-transform:uppercase;color:#e2bb7e;display:block}.tvMiniTxt b{display:block;font:italic 800 .95rem/1.15 var(--display,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tvMiniTime{font:italic 800 1.35rem/1 var(--display,system-ui);font-variant-numeric:tabular-nums;flex:none}
+.tvMiniPP{min-width:46px;min-height:38px;padding:0 12px;flex:none}
+:root{--tvMiniH:calc(46px + env(safe-area-inset-top,0px))}
+body.tvMiniOn{padding-top:var(--tvMiniH)}
+body.tvMiniOn #fkbcConsoleBar{top:calc(var(--tvMiniH) + 6px)!important}
+body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
+#bottomTimer.tvLive{animation:tvLive 1.8s ease-in-out infinite}
+@keyframes tvLive{0%,100%{box-shadow:0 0 0 5px rgba(8,5,5,.92),0 0 14px rgba(255,40,70,.5)}50%{box-shadow:0 0 0 5px rgba(8,5,5,.92),0 0 30px rgba(255,40,70,.95)}}
+
+/* ---- options panel + pre-start ---- */
+.tvOpts{display:flex;flex-direction:column;gap:10px}.tvOptRow{display:flex;flex-direction:column;gap:4px;min-width:0}.tvOptRow>label,.tvOptHead,.psH{font:700 .68rem system-ui;letter-spacing:.18em;text-transform:uppercase;color:#e2bb7e}
+.tvOptRow select{width:100%}.tvAutoNote{font:600 .8rem system-ui;color:#c9bba9;margin-top:-4px;min-height:1em}
+.tvOptGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.tvOptGrid.dim{opacity:.4}
+.tvChecks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px}
+.tvChk{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(200,151,90,.35);border-radius:12px;background:rgba(8,5,5,.5);font:600 .9rem system-ui;cursor:pointer}
+.tvChk.big{padding:12px 14px}.tvChk small{display:block;color:#b6a692;letter-spacing:0;text-transform:none;font:500 .74rem system-ui;margin-top:2px}
+.tvChk input{width:20px;height:20px;accent-color:#e11d3f;flex:none}
+.tvSaveRow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tvSave,.tvUse{border:1px solid rgba(200,151,90,.5);border-radius:12px;background:rgba(8,5,5,.6);color:#f3eadc;padding:10px 6px;font:700 .74rem/1.2 system-ui;cursor:pointer;min-height:44px}
+.tvSave.over{border-style:dashed}.tvSave.on,.tvUse.on{background:rgba(225,29,63,.28);border-color:#e11d3f;box-shadow:0 0 12px rgba(225,29,63,.4)}
+.tvUse{width:100%}.tvSave:active,.tvUse:active{transform:scale(.98)}
+.tvOptFoot{margin:0;color:#a99a89;font:500 .78rem/1.4 system-ui}
+.psTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:6px}.psTop strong{font:italic 800 1.35rem/1.1 var(--display,system-ui)}
+.psChips{display:flex;gap:6px;flex-wrap:wrap}.psChips span{padding:5px 11px;border-radius:99px;border:1px solid rgba(200,151,90,.5);background:rgba(8,5,5,.6);font:700 .72rem system-ui}
+.psH{margin:14px 0 8px}
+.bfCard{border:1px solid rgba(200,151,90,.3);border-left:4px solid var(--c,#e11d3f);border-radius:14px;background:rgba(8,5,5,.55);padding:10px 12px;margin-bottom:8px}
+.bfHead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.bfHead b{font:italic 800 1rem var(--display,system-ui)}.bfHead span{font:600 .74rem system-ui;color:#c9bba9}
+.bfSum{font:500 .82rem/1.4 system-ui;color:#d6c9ba;margin-top:3px}
+.bfCard ul{margin:6px 0 0;padding-left:18px;font:500 .84rem/1.4 system-ui}.bfCard li{margin:2px 0}.bfCard li em{color:#e2bb7e;font-style:normal;font-weight:700}.bfCard li i{color:#b6a692}.bfCard li small{display:block;letter-spacing:0;text-transform:none;font:500 .76rem system-ui;color:#c9a96b;margin-top:1px}
+#preStartModal .modalBox{width:min(720px,100%)}#preStartModal .modalFoot,#tvOptModal .modalFoot{display:flex;gap:8px}#preStartModal .modalFoot .btn,#tvOptModal .modalFoot .btn{flex:1}
+
+/* very short landscape phones: tighten */
+@media (max-height:430px){#tvRoot{gap:4px}.tvChip{height:28px}.tvTech,.tvStats{padding:6px 10px}}
+.tv-cockpit .tvNext,.tv-cockpit .tvTL{align-self:start}.tv-cockpit .tvNext{grid-template-columns:1fr}.tv-cockpit .tvList{align-self:start;max-height:100%}
+.tvDock .tvBig{white-space:nowrap}.tv-land .tvDock .tvBig{font-size:.9rem;padding:0 8px;gap:5px}
+
+/* head & shoulders: no hard cut inside the screen — the inner edge fades out; only the screen edge crops the picture */
+.tvCoach.hs.side-left{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%)}
+.tvCoach.hs.side-right{-webkit-mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%)}
+
+/* head & shoulders: sized by the figure so the whole head and shoulders are always in view — nothing is cut inside the screen */
+.tvCoach.hs.side-left,.tvCoach.hs.side-right{-webkit-mask-image:none;mask-image:none}
+.tvCoach.hs .tvCoachImg{top:var(--hsT);left:var(--hsL);bottom:auto;width:var(--hsS);height:var(--hsS);object-fit:fill;object-position:center;
+  -webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}
+/* portrait: the picture is centred behind the timer content (it still slides on from its chosen side) */
+.port .tvCoach,.port .tvCoach.side-right,.port .tvCoach.side-left{left:0;right:auto;width:100%}
+.port .tvCoach:after,.port .tvCoach.side-right:after{background:linear-gradient(180deg,rgba(8,4,4,.18),rgba(8,4,4,.5))}
+.port .tvCoach.full .tvCoachImg{left:0;width:100%;object-position:center center}
+
+/* the source art cuts the arms off straight at each side: fade those two edges (and the bottom) so no hard line shows */
+.tvCoach.hs .tvCoachImg{
+  -webkit-mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
+  mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+
+/* a translucent dark plate under the title and the clock separates them from the coach picture */
+.tvTitle,.tvClock{background:rgba(8,4,4,.3);border-radius:22px;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.tvTitle{padding:8px 12px}.tvClock{padding:8px 10px}
+.hasCoach .tvTitle,.hasCoach .tvClock{background:rgba(8,4,4,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.hasCoach .tvHead{background:linear-gradient(180deg,rgba(8,4,4,.72),rgba(8,4,4,0));border-radius:16px;padding:4px 6px 12px}
+.tv-wash.tv-wash .tvClock{background:rgba(8,4,4,.22)}
+.tv-land .tvTitle{padding:4px 10px}.tv-land .tvClock{padding:4px}
+.hasCoach .tvTitle,.hasCoach .tvClock{background:rgba(8,4,4,.36);-webkit-backdrop-filter:none;backdrop-filter:none}
+.tvTitle,.tvClock{-webkit-backdrop-filter:none;backdrop-filter:none}
+.hasCoach .tvCircle:before{content:"";position:absolute;inset:7%;border-radius:50%;background:radial-gradient(circle,rgba(6,2,2,.62) 0 62%,rgba(6,2,2,0) 100%);z-index:0}
+.tv-big.hasCoach .tvCircle:before,.tv-wash.hasCoach .tvCircle:before{inset:0;border-radius:24px}
+.tvCore,.tvSvg{z-index:1}
+
+/* small screens with lots switched on: the clock keeps a minimum size and the rest scrolls; controls stay pinned at the bottom */
+#tvRoot{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
+#tvRoot::-webkit-scrollbar{display:none}
+@media (min-height:521px){#tvRoot>.tvClock{min-height:min(300px,40vh)}}
+#tvRoot:not(.tv-card):not(.tv-cockpit):not(.tv-land)>.tvDock{position:sticky;bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);z-index:6;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 10px);margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);background:linear-gradient(0deg,rgba(8,4,4,.92) 62%,rgba(8,4,4,0))}
