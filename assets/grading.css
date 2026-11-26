@@ -1,0 +1,110 @@
+/* Grading night (see grading.js) — belt colour (--c) drives the accents on every screen */
+#gsRoot{position:fixed;inset:0;z-index:1050;display:flex;flex-direction:column;background:#07090d;color:#fff;font-family:system-ui;overflow:hidden}
+#gsRoot[hidden]{display:none}
+html.bushido #gsRoot{background:linear-gradient(rgba(8,4,4,.88),rgba(8,4,4,.94)),url(bushido/bg-timer.jpg) center/cover,#080505}
+#gsRoot small{display:block;font:600 .62rem/1.2 system-ui;letter-spacing:.2em;text-transform:uppercase;color:#e2bb7e}
+.gsHead{flex:none;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px}
+.gsHead .btn{min-height:42px;min-width:44px;padding:0 10px;display:inline-flex;align-items:center;gap:6px}
+.gsHead .gsTitle{flex:1;min-width:0}.gsTitle b{display:block;font:italic 800 1.15rem/1.15 var(--display,system-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gsHeadR{display:flex;gap:6px;align-items:center}.gsCount{font:700 .8rem system-ui;color:#e2bb7e;padding:0 6px}.gsCount.big{font:italic 800 1.6rem var(--display,system-ui);color:#fff;margin:6px 0 10px}
+.gsBody{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:6px 14px 18px;max-width:900px;width:100%;margin:0 auto}
+.gsLead{color:#c9bba9;font:500 .88rem/1.45 system-ui;margin:4px 0 12px}
+.gsFoot{flex:none;display:flex;gap:10px;justify-content:space-between;align-items:center;padding:10px 14px calc(env(safe-area-inset-bottom,0px) + 12px);background:linear-gradient(0deg,rgba(0,0,0,.7),transparent);max-width:900px;width:100%;margin:0 auto}
+.gsFoot .btn{min-height:50px;min-width:110px;display:inline-flex;align-items:center;justify-content:center;gap:8px}.gsFoot .btn.red{flex:1;max-width:340px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+/* belts */
+.gsBelts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gsBelt{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;border-radius:16px;border:2px solid rgba(255,255,255,.14);background:rgba(8,5,5,.65);color:#fff;font:italic 800 .95rem var(--display,system-ui);cursor:pointer}
+.gsBelt .beltGraphic{transform:scale(1.25)}.gsBelt.on{border-color:var(--c);box-shadow:0 0 0 2px var(--c) inset,0 0 18px color-mix(in srgb,var(--c) 60%,transparent)}
+.gsTick{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:#12a150;display:grid;place-items:center;color:#fff}
+.gsTick svg{stroke:#fff}
+
+/* content picker */
+.gsTabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none;position:sticky;top:0;z-index:2;background:linear-gradient(#07090d 70%,transparent)}.gsTabs::-webkit-scrollbar{display:none}
+html.bushido .gsTabs{background:linear-gradient(rgba(8,4,4,.96) 70%,transparent)}
+.gsTab{flex:none;display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.18);background:rgba(8,5,5,.7);color:#e9dfd0;font:italic 700 .82rem var(--display,system-ui);cursor:pointer}
+.gsTab i{width:14px;height:14px;border-radius:50%;background:var(--c);border:1px solid rgba(255,255,255,.4)}.gsTab em{font-style:normal;background:var(--c);color:#111;border-radius:99px;padding:0 7px;font-size:.7rem}
+.gsTab.pick{border-color:var(--c)}.gsTab.on{background:color-mix(in srgb,var(--c) 38%,#0b0707);border-color:var(--c);color:#fff}
+.gsGroupBox{margin:0 0 12px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(8,5,5,.55);padding:6px 8px 8px}
+.gsGroupHead{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 6px}.gsGroupHead b{font:800 .72rem system-ui;letter-spacing:.14em;text-transform:uppercase;color:#e2bb7e}
+.gsSmall{border:1px solid rgba(255,255,255,.2);background:none;color:#e9dfd0;border-radius:99px;padding:4px 11px;font:700 .72rem system-ui;cursor:pointer}
+.gsRowSel{display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:12px;border-left:4px solid transparent;cursor:pointer;font:600 .95rem/1.3 system-ui}
+.gsRowSel input{width:22px;height:22px;accent-color:var(--c);flex:none}.gsRowSel.on{background:color-mix(in srgb,var(--c) 22%,transparent);border-left-color:var(--c)}
+.gsRowSel .lvl{margin-right:8px}
+
+/* order + brief rows */
+.gsOrd,.gsBrief{position:relative;display:flex;align-items:center;gap:10px;margin:0 0 8px;padding:10px 10px 10px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(8,5,5,.6);overflow:hidden}
+.gsBar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c)}.gsNum{flex:none;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--c) 40%,#111);display:grid;place-items:center;font:800 .75rem system-ui}
+.gsOrdTxt{flex:1;min-width:0}.gsOrdTxt b,.gsBrief b{display:block;font:700 .95rem/1.25 system-ui;overflow-wrap:anywhere}.gsOrdTxt small,.gsBrief small{color:#b6a692;letter-spacing:.04em;text-transform:none;font:500 .74rem system-ui;margin-top:1px}
+.gsOrdBtns{display:flex;gap:5px;flex:none}.gsOrdBtns .btn{min-width:38px;min-height:38px;padding:0}
+.gsAddTop{display:flex;align-items:center;gap:8px;width:100%;margin:0 0 10px;padding:11px;border:1px dashed rgba(226,187,126,.6);border-radius:14px;background:none;color:#e2bb7e;font:700 .86rem system-ui;cursor:pointer;justify-content:center}
+.gsBriefList{margin-top:8px}.gsBeltRow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.gsBeltChip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 8px;border:1px solid var(--c,#555);border-radius:99px;background:rgba(8,5,5,.65);font:italic 700 .8rem var(--display,system-ui)}.gsBeltChip.plain{border-color:rgba(255,255,255,.2);padding-left:12px}.gsBeltChip .beltGraphic{transform:scale(.8)}
+
+/* mat plan */
+.gsMat{--sw:min(17vw,92px);display:flex;flex-direction:column;align-items:center;gap:calc(var(--sw) * .16);margin:6px auto 4px;padding:12px 8px 10px;border:2px solid rgba(226,187,126,.55);border-radius:20px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 22px),rgba(20,12,10,.8);width:fit-content;max-width:100%}
+.gsMat.small{--sw:min(11vw,52px);padding:8px 6px 6px;margin:2px auto 8px}
+.gsRows{display:flex;flex-direction:column;gap:calc(var(--sw) * .16)}.gsRow{display:flex;justify-content:center;gap:calc(var(--sw) * .12)}
+.gsSlot{position:relative;width:var(--sw);height:calc(var(--sw) * .86);border-radius:14px;border:2px dashed rgba(255,255,255,.28);background:rgba(8,5,5,.5);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:2px;cursor:pointer;overflow:hidden}
+.gsSlot b{font:700 .62rem system-ui;color:#9d8f7d;letter-spacing:.06em}.gsSlot span{font:italic 800 clamp(.6rem,calc(var(--sw) * .17),.85rem)/1.05 var(--display,system-ui);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+.gsSlot.on{border:2px solid #e2bb7e;background:linear-gradient(rgba(60,10,16,.7),rgba(20,6,8,.85))}.gsSlot.on b{color:#e2bb7e}
+.gsSlot.pass{border-color:#2fc36b;background:linear-gradient(rgba(14,80,44,.8),rgba(8,40,24,.9));box-shadow:0 0 14px rgba(47,195,107,.55)}
+.gsSlot .gsTick{top:2px;right:2px;width:calc(var(--sw) * .3);height:calc(var(--sw) * .3)}
+.gsMat.small .gsSlot{border-radius:8px;border-width:1px}.gsMat.small .gsSlot b{font-size:.5rem}.gsMat.small .gsSlot span{font-size:.5rem}
+.gsMat.m-view .gsSlot{cursor:default}
+.gsTable{align-self:stretch;margin-top:calc(var(--sw) * .1);text-align:center;padding:6px;border-radius:10px;background:linear-gradient(180deg,#4a3320,#2a1c10);border:1px solid rgba(226,187,126,.6);font:700 .64rem system-ui;letter-spacing:.3em;text-transform:uppercase;color:#e2bb7e}
+.gsMat.small .gsTable{padding:3px;font-size:.5rem}
+.gsBriefMat{margin-bottom:4px}
+
+/* run screen */
+.gsRun{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;background:radial-gradient(120% 70% at 50% 18%,color-mix(in srgb,var(--c) 34%,transparent),transparent 62%)}
+.gsRun .gsHead.run{padding-bottom:4px}
+.gsBand{position:relative;flex:none;display:flex;align-items:center;gap:12px;margin:2px 12px 0;padding:8px 14px;border-radius:14px;border:1px solid var(--c);background:linear-gradient(90deg,color-mix(in srgb,var(--c) 55%,#0a0606),color-mix(in srgb,var(--c) 14%,#0a0606));color:var(--ink,#fff);overflow:hidden}
+.gsBand b{font:italic 800 1.05rem var(--display,system-ui);color:#fff;text-shadow:0 1px 6px #000}.gsBand em{margin-left:auto;font-style:normal;font:700 .85rem system-ui;color:#fff;text-shadow:0 1px 4px #000}.gsBand .beltGraphic{transform:scale(1.1)}
+.gsBand.swap:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-120%);animation:gsSwap .9s ease-out forwards}
+@keyframes gsSwap{to{transform:translateX(120%)}}
+.gsMain{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:12px 14px;overflow:auto;justify-content:center}
+.gsNow{padding:18px 16px;border-radius:22px;border:2px solid var(--c);background:linear-gradient(rgba(8,4,4,.72),rgba(8,4,4,.82));box-shadow:0 0 28px color-mix(in srgb,var(--c) 45%,transparent);text-align:center}
+.gsNow h2{margin:6px 0 4px;font:italic 800 clamp(1.8rem,8.5vw,3.4rem)/1.08 var(--display,system-ui);overflow-wrap:anywhere;text-shadow:0 4px 18px #000}
+.gsNow.note{border-color:rgba(255,255,255,.3);box-shadow:none}.gsLvl{display:inline-block;margin-top:4px;padding:3px 12px;border-radius:99px;background:color-mix(in srgb,var(--c) 35%,#111);font:800 .72rem system-ui;letter-spacing:.14em;text-transform:uppercase}
+.gsHint{margin:12px auto 0;max-width:520px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);color:#e8c98f;font:600 .9rem/1.4 system-ui}
+.gsNext{padding:10px 14px;border-radius:16px;border:1px solid var(--c);background:rgba(8,5,5,.72);display:flex;flex-direction:column;gap:2px}
+.gsNext b{font:italic 800 1.25rem/1.15 var(--display,system-ui)}.gsNext b.end{color:#9ba5b2}.gsNext span{color:#c9bba9;font:600 .78rem system-ui}
+.gsProg{flex:none;display:flex;gap:3px;margin:0 14px 6px;height:18px}
+.gsProg button{flex:1;min-width:0;border:0;border-radius:4px;background:color-mix(in srgb,var(--c) 28%,#1a1212);opacity:.55;cursor:pointer;padding:0}
+.gsProg button.d{background:var(--c);opacity:.95}.gsProg button.c{background:var(--c);opacity:1;box-shadow:0 0 12px var(--c);transform:scaleY(1.45)}
+.gsList{display:none;overflow:auto;padding:12px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(8,5,5,.7)}
+.gsLi{display:flex;align-items:center;gap:10px;width:100%;padding:9px 6px;border:0;border-bottom:1px solid rgba(255,255,255,.07);background:none;color:#e9dfd0;text-align:left;font:italic 600 .95rem/1.2 var(--display,system-ui);cursor:pointer}
+.gsLi i{width:6px;align-self:stretch;border-radius:3px;background:var(--c)}.gsLi span{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;font:700 .7rem system-ui}
+.gsLi.on{background:color-mix(in srgb,var(--c) 28%,transparent);border-radius:10px;color:#fff}.gsLi.done{opacity:.4}
+.gsDock{flex:none;display:flex;gap:10px;padding:8px 14px calc(env(safe-area-inset-bottom,0px) + 14px)}
+.gsDock .btn{min-height:74px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:10px}.gsPrev{flex:1}.gsNextBtn{flex:2.2}
+/* phone: the list opens as a sheet; wide / landscape: it sits beside the content */
+.gsRun .gsList{position:absolute;left:10px;right:10px;bottom:98px;max-height:52%;z-index:6;box-shadow:0 14px 40px #000}.gsRun.listOpen .gsList{display:block}.gsListBtn{display:inline-flex}
+@media (min-width:820px) and (min-height:521px),(orientation:landscape) and (min-width:700px){
+  .gsRun.hasList{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,34%);grid-template-rows:auto auto 1fr auto auto;column-gap:14px}
+  .gsRun.hasList>.gsHead,.gsRun.hasList>.gsBand,.gsRun.hasList>.gsProg,.gsRun.hasList>.gsDock{grid-column:1/3}
+  .gsRun.hasList>.gsMain{grid-column:1;grid-row:3}.gsRun.hasList>.gsList{grid-column:2;grid-row:3;position:static;display:block;max-height:none;box-shadow:none;margin:12px 14px 12px 0}
+  .gsRun .gsListBtn{display:none}
+}
+@media (max-height:430px){.gsNow{padding:8px}.gsNow h2{font-size:1.6rem}.gsDock .btn{min-height:50px}.gsMain{padding:6px 14px;gap:6px}}
+
+/* dialogs */
+.gsDlgBack{position:fixed;inset:0;background:rgba(2,3,6,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+.gsDlg{width:min(420px,100%);max-height:90vh;overflow:auto;background:#12100f;border:1px solid rgba(226,187,126,.55);border-radius:20px;padding:18px;color:#fff;box-shadow:0 30px 80px #000}
+html.bushido .gsDlg{background:linear-gradient(rgba(14,8,7,.97),rgba(8,4,4,.99))}
+.gsDlg h3{margin:0 0 8px;font:italic 800 1.15rem var(--display,system-ui)}.gsDlg p{margin:0 0 14px;color:#c9bba9;font:500 .9rem/1.45 system-ui}
+.gsDlgBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.gsDlgBtns .btn{flex:1;min-height:46px}
+.gsChips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.gsChip{padding:8px 13px;border-radius:99px;border:1px solid rgba(226,187,126,.5);background:rgba(8,5,5,.6);color:#f3eadc;font:700 .8rem system-ui;cursor:pointer}
+.gsDlg input.libInput{width:100%;box-sizing:border-box}
+.gsDlgBack.big .gsDlg{width:min(640px,100%)}.gsPlanHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.gsPlanHead b{font:italic 800 1.15rem var(--display,system-ui)}
+.gsChecks{display:flex;flex-direction:column;gap:6px}.gsChk{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid rgba(226,187,126,.35);border-radius:12px;font:600 .92rem system-ui;cursor:pointer}.gsChk input{width:20px;height:20px;accent-color:#e11d3f}
+
+/* fixes: order rows wrap (text first, buttons beneath on narrow screens); the five-space row always fits the mat */
+.gsOrd{flex-wrap:wrap;row-gap:8px}.gsOrdTxt{flex:1 1 150px}.gsOrdBtns{margin-left:auto}
+.gsMat{--sw:min(14.5vw,92px);padding:12px 12px 10px}.gsMat.small{--sw:min(10vw,52px)}
+.gsDlgBack .gsMat{--sw:min(13.5vw,86px)}
+@media (min-width:600px){.gsOrd{flex-wrap:nowrap}}
+.gsRun .gsList{background:#0c0707}
+@media (min-width:820px) and (min-height:521px),(orientation:landscape) and (min-width:700px){.gsRun.hasList>.gsList{background:rgba(8,5,5,.7)}}
