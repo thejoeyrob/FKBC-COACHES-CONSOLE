@@ -88,3 +88,5 @@ v46 - Bushido home tiles: the supplied rim art (bronze edge + inner glow) overla
 v47 - Bushido: Kanit Italic (SIL OFL, bundled in assets/bushido/fonts) for headings, timer clock and button labels; sizes tuned to stay inside frames.
 
 v48 - Bushido: stronger button frame (thicker bronze rim, bright edge, dark inner line) over the red/black texture.
+
+v49 - New app icon: the supplied art as a clean square with the bronze rim (mobile/store/app-icon-source.png). Applied to PWA, iOS and Android assets via mobile/scripts/make-icons.py. Native splash screens now use the high-res logo.

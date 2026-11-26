@@ -28,7 +28,7 @@ def mark(size=1024, scale=1.0):
     ImageDraw.Draw(c).text((cx - w / 2, size / 2 - 140 * u), 'FKBC', font=f, fill=(255, 255, 255, 255))
     return c
 
-icon = base(); icon.alpha_composite(mark()); icon = icon.convert('RGB')
+icon = Image.open(os.path.join(M, 'store', 'app-icon-source.png')).convert('RGB')   # final app icon artwork (bronze-rimmed square)
 os.makedirs(os.path.join(M, 'store'), exist_ok=True)
 icon.save(os.path.join(M, 'store', 'app-icon-1024.png'))
 icon.resize((512, 512), Image.LANCZOS).save(os.path.join(M, 'store', 'play-icon-512.png'))
@@ -49,8 +49,8 @@ if os.path.isdir(res):
         d = os.path.join(res, 'mipmap-' + name)
         sq = icon.resize((ic, ic), Image.LANCZOS); sq.save(os.path.join(d, 'ic_launcher.png'))
         m = Image.new('L', (ic, ic), 0); ImageDraw.Draw(m).ellipse((0, 0, ic - 1, ic - 1), fill=255); rd = sq.convert('RGBA'); rd.putalpha(m); rd.save(os.path.join(d, 'ic_launcher_round.png'))
-        f = mark(fg, 0.62); f.save(os.path.join(d, 'ic_launcher_foreground.png'))
-    open(os.path.join(res, 'values', 'ic_launcher_background.xml'), 'w').write('<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#0A0E14</color>\n</resources>\n')
+        f = Image.new('RGBA', (fg, fg), (0, 0, 0, 0)); k = int(fg * 0.70); f.paste(icon.resize((k, k), Image.LANCZOS), ((fg - k) // 2, (fg - k) // 2)); f.save(os.path.join(d, 'ic_launcher_foreground.png'))
+    open(os.path.join(res, 'values', 'ic_launcher_background.xml'), 'w').write('<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#080606</color>\n</resources>\n')
     logo = Image.open(os.path.join(ART, 'fkbc-logo-light.png')).convert('RGBA')
     for f in glob.glob(os.path.join(res, 'drawable*', 'splash.png')):
         w, h = Image.open(f).size; im = Image.new('RGB', (w, h), (5, 7, 11)); lw = int(min(w, h) * .62); lg = logo.resize((lw, int(logo.height * lw / logo.width)), Image.LANCZOS); im.paste(lg, ((w - lw) // 2, (h - lg.height) // 2), lg); im.save(f)
