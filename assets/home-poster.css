@@ -1,0 +1,40 @@
+/* Poster home (see home-poster.js) */
+#homeCoachLine.poster{display:block!important;position:relative;overflow:visible!important;border:0!important;margin:0!important;padding:0!important;height:clamp(300px,52vh,470px)}
+.posterStage{position:absolute;inset:0;--step:min(14.5vw,86px);--lead:min(11vw,64px)}
+@media(min-width:900px){.posterStage{--step:96px;--lead:70px}}
+.posterStage .pc{position:absolute;left:50%;bottom:34px;height:calc(100% - 34px);width:auto;padding:0;border:0;background:none;cursor:pointer;
+  --o:calc(var(--d) * 0);
+  transform:translateX(calc(-50% + var(--side) * var(--d) * var(--step) + var(--side) * var(--lead))) translateY(calc(var(--d) * -8px)) scale(var(--sc,1));
+  transform-origin:50% 100%;filter:brightness(calc(1 - var(--d) * .15)) saturate(calc(1 - var(--d) * .06)) drop-shadow(0 12px 16px rgba(0,0,0,.6));
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .6s}
+.posterStage .pc img{display:block;height:100%;width:auto;pointer-events:none;-webkit-user-drag:none}
+.posterStage .pc.front{filter:drop-shadow(0 16px 22px rgba(0,0,0,.75)) drop-shadow(0 0 1px rgba(255,255,255,.25))}
+.posterStage .pc:not(.front):hover{filter:brightness(.95) drop-shadow(0 12px 16px rgba(0,0,0,.6))}
+.posterName{position:absolute;left:0;right:0;bottom:0;text-align:center;z-index:30;pointer-events:none}
+.posterName span{display:inline-block;padding:4px 18px;border-radius:99px;background:rgba(8,5,5,.82);border:1px solid rgba(200,151,90,.6);font:italic 800 1rem/1.2 var(--display,system-ui);letter-spacing:.06em;text-transform:uppercase;color:#f3eadc;text-shadow:0 1px 6px #000}
+.posterHint{display:none}
+.posterHello{text-align:center;font:600 .66rem/1 system-ui;letter-spacing:.22em;text-transform:uppercase;color:#e2bb7e;margin:8px 0 4px}
+.homeHero .coachLine::-webkit-scrollbar{display:none}
+
+/* the logo pops: a dark shadow surround so it lifts off any background */
+.homeLogo{position:relative;z-index:2;filter:drop-shadow(0 0 2px rgba(0,0,0,.95)) drop-shadow(0 0 7px rgba(0,0,0,.9)) drop-shadow(0 6px 22px rgba(0,0,0,.95))!important}
+.homeHeroInner{position:relative}
+.homeHeroInner:before{content:"";position:absolute;left:50%;top:-6px;width:min(100%,480px);height:150px;transform:translateX(-50%);pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 46%,rgba(4,1,1,.82) 0,rgba(4,1,1,.55) 42%,rgba(4,1,1,0) 72%)}
+.homeLogo,.homeTag{margin-left:auto!important;margin-right:auto!important;display:block;text-align:center}
+.homeTag{position:relative;z-index:2;text-shadow:0 2px 8px #000}
+
+/* poster action row: one big New Lesson, the rest compact */
+.homeActions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+.homeActions>*:first-child{grid-column:1/-1;min-height:56px!important;flex-direction:row!important;gap:10px!important;font-size:1rem!important}
+.homeActions>*:not(:first-child){min-height:60px!important}
+@media(min-width:900px){#homeCoachLine.poster{height:clamp(380px,50vh,520px)}.homeActions{grid-template-columns:repeat(5,minmax(0,1fr))!important}.homeActions>*:first-child{grid-column:1/-1}}
+
+/* the centre play button: a larger symbol, centred in the round button (in the lesson and the pause state alike) */
+#bottomTimer.navBtn{display:flex!important;align-items:center;justify-content:center;padding:0!important;gap:0!important}
+#bottomTimer .ic,#bottomTimer svg{width:34px!important;height:34px!important;margin:0 0 0 3px!important;display:block}
+#bottomTimer .nicon{font-size:2rem!important;line-height:1;margin:0 0 0 3px}
+#bottomTimer span:not(.nicon){display:none}
+/* the front coach no longer covers the headline: the poster starts below it */
+#homeCoachLine.poster{margin-top:52px!important}
+.posterStage .pc.front{bottom:38px}

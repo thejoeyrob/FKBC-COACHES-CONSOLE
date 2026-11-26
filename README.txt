@@ -102,3 +102,5 @@ v51 (PREVIEW BRANCH — not on main) - Timer display round 2:
  * New section: the ring (or bar) sweeps in the new colour over the previous one; controls slide off to the nearest edge when the screen is tapped.
  * Home button on the timer (with the pause / keep running prompt); mini "class running" bar with pause/play on every other page; play button resumes the lesson.
  * Quick arrangement: Minimal / More / All / Custom + three saved "My Layouts"; Save and "use for this lesson only" buttons.
+
+v58 (PREVIEW BRANCH — not on main) - Poster home: the selected coach (you by default, or tap any coach) stands at the front with the others fanned out behind, front to back from the centre outward; logo with a dark shadow surround; one big New Lesson button; larger centred play symbol.
