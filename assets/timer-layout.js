@@ -94,7 +94,7 @@
       cols = 'minmax(0,1fr)'; rows = ['head', 'title', 'clock']; if (f.stats) rows.push('stats'); if (f.timeline) rows.push('tl'); if (f.tech) rows.push('tech'); if (f.next) rows.push('next'); if (f.list) rows.push('list'); rows.push('dock');
     }
     var lastClock = -1; rows.forEach(function (x, i) { if (/clock/.test(x)) lastClock = i; });
-    return { cols: cols, areas: rows.map(function (x) { return '"' + x + '"'; }).join(' '), trows: rows.map(function (x, i) { return i === lastClock ? 'minmax(0,1fr)' : 'auto'; }).join(' ') };
+    return { cols: cols, areas: rows.map(function (x) { return '"' + x + '"'; }).join(' '), trows: rows.map(function (x, i) { return i === lastClock ? 'minmax(' + (window.innerHeight >= 521 ? Math.round(Math.min(300, window.innerHeight * 0.4)) : 0) + 'px,1fr)' : 'auto'; }).join(' ') };
   }
 
   /* ================= build ================= */
@@ -196,7 +196,7 @@
   function render(force) {
     if (!showing()) return; var p = phase(); if (!p) return;
     var st = $('timerStage'); st.classList.add('tv');
-    var root = $('tvRoot'); if (!root) { root = document.createElement('div'); root.id = 'tvRoot'; st.insertBefore(root, st.children[1] || null); root.addEventListener('click', onClick); }
+    var root = $('tvRoot'); if (!root) { root = document.createElement('div'); root.id = 'tvRoot'; st.insertBefore(root, st.children[1] || null); root.addEventListener('click', onClick); root.addEventListener('scroll', function () { var cl = root.querySelector('.tvCoach'); if (cl) cl.style.transform = 'translateY(' + root.scrollTop + 'px)'; }, { passive: true }); }
     var c = cfg(), style = resolveStyle(c);
     var phaseChanged = state.run.phaseIndex !== lastPhase;
     var sig = [style, c.coach, c.coachImg, c.coachSide, JSON.stringify(c.show), state.run.phaseIndex, window.innerWidth > window.innerHeight ? 'L' : 'P', window.innerWidth >= 700 ? 'W' : 'N', state.settings.sound, state.lesson.name].join('|');

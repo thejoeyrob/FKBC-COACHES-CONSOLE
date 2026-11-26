@@ -205,3 +205,9 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 .hasCoach .tvCircle:before{content:"";position:absolute;inset:7%;border-radius:50%;background:radial-gradient(circle,rgba(6,2,2,.62) 0 62%,rgba(6,2,2,0) 100%);z-index:0}
 .tv-big.hasCoach .tvCircle:before,.tv-wash.hasCoach .tvCircle:before{inset:0;border-radius:24px}
 .tvCore,.tvSvg{z-index:1}
+
+/* small screens with lots switched on: the clock keeps a minimum size and the rest scrolls; controls stay pinned at the bottom */
+#tvRoot{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none}
+#tvRoot::-webkit-scrollbar{display:none}
+@media (min-height:521px){#tvRoot>.tvClock{min-height:min(300px,40vh)}}
+#tvRoot:not(.tv-card):not(.tv-cockpit):not(.tv-land)>.tvDock{position:sticky;bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);z-index:6;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 10px);margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);background:linear-gradient(0deg,rgba(8,4,4,.92) 62%,rgba(8,4,4,0))}

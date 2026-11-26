@@ -104,3 +104,5 @@ v51 (PREVIEW BRANCH — not on main) - Timer display round 2:
  * Quick arrangement: Minimal / More / All / Custom + three saved "My Layouts"; Save and "use for this lesson only" buttons.
 
 v58 (PREVIEW BRANCH — not on main) - Poster home: the selected coach (you by default, or tap any coach) stands at the front with the others fanned out behind, front to back from the centre outward; logo with a dark shadow surround; one big New Lesson button; larger centred play symbol.
+
+v63 (PREVIEW BRANCH — not on main) - No zoom (pinch, double-tap, ctrl+scroll/keys, iOS input zoom blocked); full-screen button in the top bar (web browser only — hidden in the installed app / store apps / phones); timer scrolls on small screens with a guaranteed clock size; always-available Home button on every page.
