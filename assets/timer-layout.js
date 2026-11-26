@@ -107,10 +107,10 @@
     var co = coachOf(p), haveCoach = c.coach && co && p.type !== 'break';
     var layer = haveCoach && c.coachImg !== 'none';
     var side = sideFor(c, p), dir = side === 'left' ? -1 : 1;
-    var cw = 0, shift = 0;
+    var cw = 0, bw = 0, shift = 0;
     if (layer) {
-      if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; }
-      else { cw = c.coachImg === 'full' ? Math.min(W * 0.92, (H - 2 * M) * 0.56) : W * 0.72; shift = c.coachImg === 'full' ? 26 : 16; }
+      if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; bw = c.coachImg === 'full' ? cw : cw * 1.2; }   // the soft inner edge of a head & shoulders picture may run a little under the content
+      else { cw = c.coachImg === 'full' ? Math.min(W * 0.92, (H - 2 * M) * 0.56) : W * 0.8; bw = cw; shift = c.coachImg === 'full' ? 26 : 16; }
     }
     var techs = [], sec = state.lesson.sections[p.sectionIndex]; if (sec && sec.kind !== 'break') techs = techList(sec);
     var f = { tech: c.show.tech, hints: c.show.hints, next: c.show.next, stats: c.show.stats, timeline: c.show.timeline, list: c.show.list && techs.length > 0 && (style === 'cockpit' || (style === 'card' && W >= 700 && H >= 520)) };
@@ -151,7 +151,7 @@
     }
     root.innerHTML = h;
     root.className = 'tv tv-' + style + (land ? ' land' : ' port') + (layer ? ' hasCoach side-' + side : '') + ' coach-' + (c.coach ? c.coachImg : 'off') + (spawn ? ' spawning' : '');
-    root.style.setProperty('--M', M + 'px'); root.style.setProperty('--cw', Math.round(cw) + 'px'); root.style.setProperty('--dir', dir); root.style.setProperty('--shift', shift + '%');
+    root.style.setProperty('--M', M + 'px'); root.style.setProperty('--cw', Math.round(cw) + 'px'); root.style.setProperty('--bw', Math.round(bw) + 'px'); root.style.setProperty('--dir', dir); root.style.setProperty('--shift', shift + '%');
     root.style.setProperty('--hsx', side === 'left' ? '62%' : '38%');   // face + the shoulder nearest the screen edge stay in view
     if (style === 'card' || style === 'cockpit' || style === 'land') {
       var g = gridFor(style, f); root.style.gridTemplateColumns = g.cols; root.style.gridTemplateAreas = g.areas; root.style.gridTemplateRows = g.trows;

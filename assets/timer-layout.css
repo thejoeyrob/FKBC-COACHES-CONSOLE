@@ -83,7 +83,7 @@
 .tvList .li.on{background:rgba(225,29,63,.22);border-radius:10px;border-bottom-color:transparent}.tvList .li.on span{background:var(--acc);border-color:var(--acc)}.tvList .li.done{opacity:.4;text-decoration:line-through}
 
 /* ---- coach image: its own layer, always BEHIND the content, at the side, full height ---- */
-.tvCoach{position:absolute;top:0;bottom:0;width:var(--cw);z-index:0;pointer-events:none;overflow:visible}
+.tvCoach{position:absolute;top:0;bottom:0;width:var(--bw,var(--cw));z-index:0;pointer-events:none;overflow:visible}
 .tvCoach.side-left{left:0}.tvCoach.side-right{right:0}
 .tvCoachImg{position:absolute;display:block;filter:drop-shadow(0 12px 22px #000);animation:tvIn .75s cubic-bezier(.16,.84,.3,1) backwards;transition:transform .8s cubic-bezier(.5,0,.8,.4)}
 .tvCoach.still .tvCoachImg{animation:none}
@@ -169,3 +169,7 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 @media (max-height:430px){#tvRoot{gap:4px}.tvChip{height:28px}.tvTech,.tvStats{padding:6px 10px}}
 .tv-cockpit .tvNext,.tv-cockpit .tvTL{align-self:start}.tv-cockpit .tvNext{grid-template-columns:1fr}.tv-cockpit .tvList{align-self:start;max-height:100%}
 .tvDock .tvBig{white-space:nowrap}.tv-land .tvDock .tvBig{font-size:.9rem;padding:0 8px;gap:5px}
+
+/* head & shoulders: no hard cut inside the screen — the inner edge fades out; only the screen edge crops the picture */
+.tvCoach.hs.side-left{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%)}
+.tvCoach.hs.side-right{-webkit-mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(270deg,#000 0,#000 58%,transparent 100%)}
