@@ -114,7 +114,7 @@
     var days = []; for (var i = 0; i < 7; i++) days.push(addDays(mon, i));
     if (!view.querySelector('.ttToolbar')) {
       var tb = document.createElement('div'); tb.className = 'ttToolbar';
-      tb.innerHTML = '<div class="ttWeekNav"><button class="btn small" id="ttPrev" aria-label="Previous week">◀</button><b id="ttWeekLbl"></b><button class="btn small" id="ttNext" aria-label="Next week">▶</button><button class="btn small" id="ttThis">This week</button></div>'
+      tb.innerHTML = '<div class="ttWeekNav"><button class="btn small" id="ttPrev" aria-label="Previous week">' + ico('back', 16) + '</button><b id="ttWeekLbl"></b><button class="btn small" id="ttNext" aria-label="Next week">' + ico('next', 16) + '</button><button class="btn small" id="ttThis">This week</button></div>'
         + '<div class="ttActs"><button class="btn small red" id="ttAddBtn">＋ Add lesson</button><button class="btn small" id="ttAdmin">Admin edit</button><button class="btn small" id="ttMyPlan">My next lesson</button></div>';
       var anchor = view.querySelector('.pageTitle'); if (anchor) anchor.after(tb); else view.prepend(tb);
       $('ttPrev').onclick = function () { weekOff--; renderTT(); }; $('ttNext').onclick = function () { weekOff++; renderTT(); }; $('ttThis').onclick = function () { weekOff = 0; renderTT(); };
@@ -154,10 +154,10 @@
         + '<div class="ttWho"><span class="ttLbl">Teaching</span>' + avs(s.coaches, 'sm') + '<small>' + esc(names(s.coaches) || 'not allocated') + '</small></div>'
         + (inn.length ? '<div class="ttWho"><span class="ttLbl">In</span>' + avs(inn, 'sm') + '</div>' : '')
         + (s.note ? '<div class="ttNote">' + esc(s.note) + '</div>' : '')
-        + '<div class="ttBtns">' + (d === t && !dead(s) ? '<button class="btn small ' + (can && !mine ? 'red' : mine ? 'on' : '') + '" data-act="in" ' + (can ? '' : 'disabled') + '>' + (mine ? '✓ I\'m in' : can ? 'Check in' : 'Check-in closed') + '</button>' : '')
+        + '<div class="ttBtns">' + (d === t && !dead(s) ? '<button class="btn small ' + (can && !mine ? 'red' : mine ? 'on' : '') + '" data-act="in" ' + (can ? '' : 'disabled') + '>' + (mine ? ico('check', 14) + ' I\'m in' : can ? 'Check in' : 'Check-in closed') + '</button>' : '')
         + '<button class="btn small" data-act="edit">Edit</button><button class="btn small" data-act="move">Move</button><button class="btn small" data-act="cancel">' + (s.status === 'cancelled' ? 'Restore' : 'Cancel') + '</button><button class="btn small danger" data-act="del">Delete</button></div></article>';
     }).join('') : '<p style="color:var(--muted)">No lessons on this day yet.</p>';
-    $('ttDayModalF').innerHTML = '<button class="btn" id="ttDayPrev">◀ Day</button><button class="btn" id="ttDayNext">Day ▶</button><button class="btn red" id="ttDayAdd">＋ Add lesson</button>';
+    $('ttDayModalF').innerHTML = '<button class="btn" id="ttDayPrev">' + ico('back', 16) + ' Day</button><button class="btn" id="ttDayNext">Day ' + ico('next', 16) + '</button><button class="btn red" id="ttDayAdd">＋ Add lesson</button>';
     $('ttDayPrev').onclick = function () { openDay(addDays(d, -1)); }; $('ttDayNext').onclick = function () { openDay(addDays(d, 1)); }; $('ttDayAdd').onclick = function () { openAdd(d); };
     $('ttDayModalB').querySelectorAll('[data-act]').forEach(function (b) {
       b.onclick = function () {

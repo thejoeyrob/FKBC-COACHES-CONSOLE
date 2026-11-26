@@ -76,3 +76,6 @@ page (same day, up to the start time, shared live). Fixed the Close button on th
 
 v42 - Preview: "Red & Black Bushido" theme built from the supplied art pack (assets/bushido/*, assets/bushido.css, assets/bushido.js).
 Off by default. Turn on with  ?theme=bushido  (remembered) or Settings > Appearance; ?theme=classic switches back.
+
+v43 - Bushido preview refinements: original heading font restored, calmer text sizes, darker content plates, textured home tiles.
+All emoji / system glyph icons (previous, next, restart, pause, bell, gloves…) replaced with the app's own line icons, in both themes.
