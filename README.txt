@@ -84,3 +84,5 @@ v44 - Home line-up shows all 8 coaches on phones (no sideways scroll); crisp hig
 Bushido: single bottom navigation (top bar keeps live status + coach), red brush texture behind the timer.
 
 v46 - Bushido home tiles: the supplied rim art (bronze edge + inner glow) overlays the red/black texture, which is clipped inside the rim.
+
+v47 - Bushido: Kanit Italic (SIL OFL, bundled in assets/bushido/fonts) for headings, timer clock and button labels; sizes tuned to stay inside frames.
