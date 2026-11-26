@@ -4,3 +4,9 @@ html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adju
 /* full-screen button */
 .fsBtn{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;padding:0 10px}
 @media(max-width:560px){#fkbcConsoleBar .fsBtn{display:none}}   /* phones: the browser's own full-screen is rarely supported and the bar is tight */
+
+/* Grading toggle inside every section */
+.gradeTog{display:flex;align-items:center;gap:10px;margin:0 0 8px;padding:8px 10px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(0,0,0,.25);cursor:pointer;font:700 .85rem system-ui}
+.gradeTog input{width:20px;height:20px;accent-color:#e11d3f;flex:none}.gradeTog small{display:block;color:var(--muted);font:500 .72rem system-ui;margin-top:1px}
+.gradeTog input:disabled+span{opacity:.75}
+html.bushido .gradeTog{border-color:var(--rim)}
