@@ -73,3 +73,6 @@ another section. Order and moves sync live with the club library and are include
 v41 - Timetable: tap a day for the day plan (add / delete / move lessons, cancel or postpone, one-off dates for the future);
 edits can apply to every session or just one (optionally ask each time); "Who's down tonight" coach check-in on the home
 page (same day, up to the start time, shared live). Fixed the Close button on the lesson editor.
+
+v42 - Preview: "Red & Black Bushido" theme built from the supplied art pack (assets/bushido/*, assets/bushido.css, assets/bushido.js).
+Off by default. Turn on with  ?theme=bushido  (remembered) or Settings > Appearance; ?theme=classic switches back.

@@ -1,0 +1,124 @@
+/* FKBC — Red & Black Bushido theme (opt-in). Built from the supplied art pack in assets/bushido/.
+ * Textures, frames and button skins are the supplied artwork itself; nothing here imitates them with gradients.
+ * Everything is scoped to html.bushido so the classic look is untouched when this file is not loaded. */
+html.bushido{
+  --bz:#c8975a;--bz2:#e2bb7e;--bzd:#7a5a33;--ink:#0b0807;--bone:#f3eadc;--crim:#c8102e;--crim2:#8f0b20;
+  --text:#f3eadc;--soft:#eadfce;--muted:#b6a692;--line:rgba(200,151,90,.3);--rim:rgba(200,151,90,.3);--rimHi:rgba(226,187,126,.55);
+  --panel:#140e0d;--panel2:#1b1210;--black:#0b0807;--black2:#120c0b;--black3:#1a110f;
+  --red:#d8183a;--red2:#8f0b20;--red3:#ff4a63;--consoleRed:#c8102e;--consoleRed2:#8f0b20;--consolePanel:#140e0d;--consolePanel2:#1b1210;--consoleLine:rgba(200,151,90,.3);
+  --crim:#c8102e;--crim2:#8f0b20;--glass:rgba(14,9,8,.8);--glass2:rgba(14,9,8,.9);
+  --tbg:url(bushido/bg-timer.jpg);
+  --display:"Hiragino Mincho ProN","Yu Mincho","Iowan Old Style","DIN Condensed","Avenir Next Condensed","Oswald","Arial Narrow",Georgia,serif;
+  color-scheme:dark;
+}
+html.bushido body{background:#080505!important;color:var(--bone)}
+
+/* ---------- backgrounds: supplied artwork, kept dark enough to read over ---------- */
+html.bushido body{--bgimg:url(bushido/bg-timer.jpg)}
+html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-phone.jpg)}
+html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}
+html.bushido body:before{
+  background:linear-gradient(180deg,rgba(8,5,5,.5) 0%,rgba(8,5,5,.74) 55%,rgba(8,5,5,.92) 100%),var(--bgimg) center top/cover no-repeat!important}
+html.bushido body[data-view="home"]:before{
+  background:linear-gradient(180deg,rgba(8,5,5,.05) 0%,rgba(8,5,5,.3) 38%,rgba(8,5,5,.82) 78%,rgba(8,5,5,.94) 100%),var(--bgimg) center top/cover no-repeat!important}
+html.bushido body:after{opacity:.05}
+@media (min-width:820px){
+  html.bushido body{--bgimg:url(bushido/bg-wide.jpg)}
+  html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-pad.jpg)}
+  html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}
+  html.bushido{--tbg:url(bushido/bg-wide.jpg)}
+}
+
+/* ---------- type ---------- */
+html.bushido h1,html.bushido h2,html.bushido .pageTitle h1,html.bushido .heroH1,html.bushido .timerTitle,html.bushido .accessTitle,html.bushido .doneCard h2{font-family:var(--display)!important;font-weight:700;color:var(--bone);text-shadow:0 2px 14px rgba(0,0,0,.75)}
+html.bushido .heroH1 em{color:#ff4a63;font-style:normal}
+html.bushido .eyebrow{color:var(--bz2)!important;letter-spacing:.22em}
+html.bushido small,html.bushido .muted{color:var(--muted)}
+
+/* ---------- panels: dark ink with a bronze hairline ---------- */
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.chatRooms,.chatMain,.nextCardHome,.libItem,.emptyPlan,.doneCard,.nextCard,.whoWidget,.ttSess,.ckBlock,.ttLessonBox,.tipBox){
+  background:linear-gradient(180deg,rgba(22,14,13,.84),rgba(9,6,5,.9))!important;border:1px solid var(--rim)!important;border-radius:16px!important;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),inset 0 1px 0 rgba(226,187,126,.14),0 16px 38px rgba(0,0,0,.55)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.bushido .sec2{border-left:4px solid var(--accent,var(--bz))!important}
+html.bushido .dayCard.today{outline:1px solid var(--bz2);outline-offset:-3px}
+html.bushido .classCard{background:rgba(8,5,5,.55)!important;border:1px solid var(--rim)!important;border-left-width:4px!important;border-radius:12px!important}
+
+/* ---------- frames — used sparingly: the home hero, pop-ups and page headers ---------- */
+html.bushido :is(.homeHero,.modalBox){
+  background:rgba(9,6,5,.86)!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url(bushido/frame-section.jpg) 96 112 96 172 / 30px 34px 30px 50px stretch!important;
+  box-shadow:0 30px 80px rgba(0,0,0,.7)!important;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:hidden}
+html.bushido .homeHero{background:linear-gradient(180deg,rgba(9,6,5,0) 0%,rgba(9,6,5,.08) 40%,rgba(9,6,5,.7) 100%)!important}
+html.bushido .homeLogo{filter:drop-shadow(0 3px 14px rgba(0,0,0,.9))}
+html.bushido .homeHero:before{display:none!important}
+html.bushido .modalBox .modalHead{border-bottom:1px solid var(--rim)!important;padding-left:6px}
+html.bushido .pageTitle{
+  position:relative;padding:12px 18px 12px 64px;min-height:70px;align-items:center;
+  border:0 solid transparent;border-image:url(bushido/frame-banner.jpg) 60 70 60 158 / 18px 22px 18px 46px stretch;background:rgba(9,6,5,.55)}
+html.bushido .pageTitle h1{font-size:clamp(1.6rem,5vw,2.4rem)!important}
+
+/* ---------- buttons: the supplied pill skins (idle = dark red, active = glowing red) ---------- */
+html.bushido :is(.btn,.homeAction,.modeBtn,.chipTab,.tab,.stepper button){
+  background:none!important;border:0 solid transparent!important;border-radius:0!important;
+  border-image:url(bushido/btn-idle.webp) 50 76 50 76 fill / 13px 20px stretch!important;
+  color:var(--bone)!important;box-shadow:none!important;text-shadow:0 1px 2px #000;filter:drop-shadow(0 5px 7px rgba(0,0,0,.55))}
+html.bushido :is(.btn.small,.chipTab,.tab,.modeBtn){border-image-width:11px 17px!important}
+html.bushido :is(.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active,.navBtn.active.pill,.seg button.on){
+  border-image-source:url(bushido/btn-glow.webp)!important;color:#fff!important;filter:drop-shadow(0 0 9px rgba(255,40,70,.5)) drop-shadow(0 5px 7px rgba(0,0,0,.55))}
+html.bushido .homeAction{border-image-width:16px 20px!important;font-family:system-ui;letter-spacing:.07em}
+html.bushido .btn:active,html.bushido .homeAction:active{transform:scale(.97)}
+html.bushido .btn.danger{color:#ff8a9a!important}
+html.bushido .libDel{background:none!important;border:1px solid var(--rim)!important}
+
+/* ---------- inputs ---------- */
+html.bushido :is(input,select,textarea,.titleInput,.libInput,.typeSel,.f2 select,.stepper input,.libAdd textarea,.techInput){
+  background:rgba(6,4,3,.72)!important;border:1px solid var(--rim)!important;border-radius:11px!important;color:var(--bone)!important;box-shadow:inset 0 2px 7px rgba(0,0,0,.55)!important}
+html.bushido :is(input,select,textarea):focus{border-color:var(--bz2)!important;box-shadow:inset 0 2px 7px rgba(0,0,0,.55),0 0 0 3px rgba(226,187,126,.2)!important}
+html.bushido ::placeholder{color:#8d7f6d}
+
+/* ---------- top console bar + bottom nav ---------- */
+html.bushido #fkbcConsoleBar{
+  background:linear-gradient(180deg,rgba(14,9,8,.9),rgba(8,5,5,.9)),url(bushido/bg-wide.jpg) center/cover!important;border:1px solid var(--rim)!important;border-radius:18px!important;
+  box-shadow:inset 0 1px 0 rgba(226,187,126,.15),0 12px 30px rgba(0,0,0,.55)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.bushido .plannerTop{background:rgba(9,6,5,.86)!important;border:1px solid var(--rim)!important;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 12px 30px rgba(0,0,0,.5)!important}
+html.bushido .bottomNav{
+  background:linear-gradient(180deg,rgba(14,9,8,.92),rgba(7,4,4,.96)),url(bushido/bg-wide.jpg) center/cover!important;border:1px solid var(--rim)!important;border-top:1px solid var(--bz)!important;
+  box-shadow:0 -10px 30px rgba(0,0,0,.55),0 18px 44px rgba(0,0,0,.5)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+html.bushido .navBtn{color:#a99a86}
+html.bushido .navBtn.active{color:var(--bz2);background:rgba(200,16,46,.16)!important;box-shadow:inset 0 0 0 1px rgba(226,187,126,.5)!important}
+html.bushido .navBtn.timerNav{
+  background:url(bushido/bg-red.jpg) center/cover!important;border:2px solid var(--bz)!important;color:#fff;
+  box-shadow:0 0 0 5px rgba(8,5,5,.92),0 0 22px rgba(255,40,70,.55),0 12px 26px rgba(0,0,0,.6)!important}
+
+/* ---------- home ---------- */
+html.bushido .coachMini span{background:rgba(8,5,5,.82)!important;border:1px solid var(--rim);color:var(--bone)!important}
+html.bushido .homeQuote{color:var(--muted)}html.bushido .homeQuote b{color:var(--bz2)}
+html.bushido .whoWidget{border-radius:16px!important}
+html.bushido .whoWidget .av,html.bushido .av{border-color:var(--bz)!important}
+
+/* ---------- timer ---------- */
+html.bushido .timerStage{
+  background:linear-gradient(180deg,rgba(8,5,5,.45),rgba(8,5,5,.78)),var(--tbg) center/cover no-repeat,#080505!important}
+html.bushido .timerStage:before{opacity:.9;background:radial-gradient(circle at 68% 36%,var(--phGlow),transparent 36%)!important}
+html.bushido .clock{color:var(--bone);text-shadow:0 0 30px var(--phGlow),0 4px 22px rgba(0,0,0,.8)}
+html.bushido .timerTop,html.bushido .timerBottom{background:none!important}
+html.bushido .breakWatermark{color:rgba(226,187,126,.08)}
+
+/* ---------- misc ---------- */
+html.bushido hr,html.bushido .modalFoot{border-color:var(--rim)!important}
+html.bushido .tipBox{border-left:3px solid var(--bz)!important}
+html.bushido .toast,html.bushido #toast{background:rgba(14,9,8,.95);border:1px solid var(--bz);color:var(--bone)}
+html.bushido .livePill{border:1px solid var(--rim)}
+html.bushido .ttCoachBtn{border-color:var(--rim)!important;background:#120c0b!important}html.bushido .ttCoachBtn.selected{border-color:var(--bz2)!important;box-shadow:0 0 0 2px var(--crim)}
+html.bushido .lvl{border-radius:6px}
+html.bushido .ckToggle input:checked~.sw{background:#a60f2a}
+
+/* iPad / landscape: wider canvas, a little more breathing room */
+@media (min-width:820px){
+  html.bushido .shell{max-width:1100px}
+  html.bushido :is(.homeHero,.modalBox){border-image-width:36px 42px 36px 60px!important}
+}
+html.bushido .btn{white-space:nowrap}
+html.bushido .btn.small,html.bushido .modalHead .btn{padding-left:6px!important;padding-right:6px!important;min-width:64px}
+html.bushido .modalBox{padding:4px}
+html.bushido .modalHead h3{font-family:var(--display);color:var(--bone)}
