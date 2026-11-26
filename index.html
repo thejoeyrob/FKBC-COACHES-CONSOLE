@@ -10,6 +10,7 @@
 
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="icon" href="assets/img/icon-192.png">
+<link rel="stylesheet" href="assets/timer-layout.css">
 <script src="assets/bushido.js"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <title>FKBC Coaches Console</title>
@@ -510,7 +511,7 @@ function sectionPhases(s,si=0){
   const demo=Math.max(0,+s.demoSec||0),chg=Math.max(0,+s.changeSec||0),pads=s.type==='Pad Work';
   const D=i=>{if(demo>0)out.push({...base,type:'demo',category:cat(i)+' · Demo',title:tn(i),detail:pre(i)+'Demonstration — watch and listen',duration:demo,roundLabel:'Demo',dots:[i,N]})};
   const W=(i,p)=>out.push({...base,type:'work',category:cat(i),title:tn(i),detail:pads?`Partner ${p} hitting · Partner ${p==='A'?'B':'A'} holding pads`:`${pre(i)}Partner ${p} working`,duration:work,roundLabel:`Technique ${i+1} / ${N}`,dots:[i,N]});
-  const C=()=>{if(chg>0)out.push({...base,type:'rest',category:'Change over',title:pads?'Swap pads':'Swap partners',detail:'Quick change — be ready',duration:chg,roundLabel:'Swap'})};
+  const C=()=>{if(chg>0)out.push({...base,type:'rest',category:'Change over',title:pads?'Swap pads':'Swap partners',detail:'Partners A ⇄ B swap over — be ready',duration:chg,roundLabel:'Swap'})};
   if(s.swapEvery){for(let i=0;i<N;i++){D(i);W(i,'A');C();W(i,'B')}}
   else{for(const p of ['A','B']){for(let i=0;i<N;i++){D(i);W(i,p)}if(p==='A')C()}}
   return out}
@@ -1157,5 +1158,6 @@ enhanceHome();renderTimetable();renderAccess();refreshConsole();if(accessState()
 <script src="assets/live-config.js"></script>
 <script src="assets/live.js"></script>
 <script src="assets/timetable.js"></script>
+<script src="assets/timer-layout.js"></script>
 
 </body></html>

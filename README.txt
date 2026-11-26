@@ -90,3 +90,9 @@ v47 - Bushido: Kanit Italic (SIL OFL, bundled in assets/bushido/fonts) for headi
 v48 - Bushido: stronger button frame (thicker bronze rim, bright edge, dark inner line) over the red/black texture.
 
 v49 - New app icon: the supplied art as a clean square with the bronze rim (mobile/store/app-icon-source.png). Applied to PWA, iOS and Android assets via mobile/scripts/make-icons.py. Native splash screens now use the high-res logo.
+
+v50 (PREVIEW BRANCH — not on main) - Adaptive timer screen + pre-start review:
+ * assets/timer-layout.js/.css: layouts by screen (Big clock phone, Cockpit iPad landscape, Coach card tablet portrait, sideways-phone layout) or manual (Ring, Big clock, Phase colour, Coach card, Cockpit).
+ * Pre-start screen (brief by default) with layout, coach on/off, coach picture (head & shoulders / full body / name only) and asset checklist; same options via the Display button on the timer.
+ * Coach hints (off by default), "Skip to last 10s", swap wording A ⇄ B.
+ * Coach art upgraded to the higher-resolution Planner-3 originals (same cartoon set; matching full-length + portrait for all 8 coaches).

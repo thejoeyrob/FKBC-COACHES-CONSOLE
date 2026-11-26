@@ -210,3 +210,9 @@ html.bushido :is(.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.acti
   filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 0 9px rgba(255,40,70,.5)) drop-shadow(0 5px 7px rgba(0,0,0,.6))!important}
 html.bushido .homeAction{filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
 html.bushido .homeAction.primary{filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 0 10px rgba(255,40,70,.5)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
+
+/* every view gets a supplied texture (the base styles point some views at files this folder cannot resolve) */
+html.bushido body[data-view]{--bgimg:url(bushido/bg-timer.jpg)}
+html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-phone.jpg)}
+html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}
+@media (min-width:820px){html.bushido body[data-view]{--bgimg:url(bushido/bg-wide.jpg)}html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-pad.jpg)}html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}}
