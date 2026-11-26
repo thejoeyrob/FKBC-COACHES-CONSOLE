@@ -160,3 +160,21 @@ html.bushido .modalBox{background:var(--plateHi)!important;-webkit-backdrop-filt
 html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.chatRooms,.chatMain,.nextCardHome,.emptyPlan,.doneCard,.nextCard,.whoWidget,.ttSess,.ckBlock,.ttLessonBox,.tipBox,.settingGroup,.pageTitle){
   background:var(--plate)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 html.bushido .libItem,html.bushido .classCard{background:rgba(0,0,0,.4)!important}
+
+/* ---- home tiles: the supplied rim art (bronze edge + inner red glow) sits ON TOP of the texture.
+   The texture is clipped inside the rim (padding-box + matching radius) so it never spills over the border. ---- */
+html.bushido .homeAction{
+  border:0 solid transparent!important;border-radius:24px!important;
+  border-image:url(bushido/btn-idle.webp) 50 76 50 76 / 17px 21px stretch!important;
+  background:linear-gradient(rgba(6,3,3,.5),rgba(6,3,3,.62)),url(bushido/bg-red.jpg) center/cover no-repeat!important;
+  background-clip:padding-box!important;background-origin:padding-box!important;
+  box-shadow:none!important;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))!important;padding:8px 2px!important}
+html.bushido .homeAction.primary{
+  border-image-source:url(bushido/btn-glow.webp)!important;
+  background:linear-gradient(rgba(60,0,10,.06),rgba(60,0,10,.26)),url(bushido/bg-red.jpg) center/cover no-repeat!important;
+  background-clip:padding-box!important;box-shadow:none!important;filter:drop-shadow(0 0 10px rgba(255,40,70,.5)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
+/* bottom-nav play button: texture kept inside its bronze ring */
+html.bushido .navBtn.timerNav{background-clip:padding-box!important;background-origin:padding-box!important}
+/* tighten the texture inside the rim curve */
+html.bushido .homeAction{border-width:5px!important;border-style:solid!important;border-color:transparent!important;border-radius:17px!important}
+html.bushido .homeAction.primary{border-width:5px!important}

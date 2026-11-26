@@ -82,3 +82,5 @@ All emoji / system glyph icons (previous, next, restart, pause, bell, gloves…)
 
 v44 - Home line-up shows all 8 coaches on phones (no sideways scroll); crisp high-res logo (from versions/consult-arcade) in both themes.
 Bushido: single bottom navigation (top bar keeps live status + coach), red brush texture behind the timer.
+
+v46 - Bushido home tiles: the supplied rim art (bronze edge + inner glow) overlays the red/black texture, which is clipped inside the rim.
