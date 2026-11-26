@@ -216,3 +216,10 @@ html.bushido body[data-view]{--bgimg:url(bushido/bg-timer.jpg)}
 html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-phone.jpg)}
 html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}
 @media (min-width:820px){html.bushido body[data-view]{--bgimg:url(bushido/bg-wide.jpg)}html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-pad.jpg)}html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}}
+
+/* home hero: no frame image — same plate as the panels below it */
+html.bushido .homeHero{
+  border:1px solid var(--rim)!important;border-image:none!important;border-radius:16px!important;
+  background:linear-gradient(180deg,rgba(12,7,6,.8),rgba(5,3,3,.86))!important;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),inset 0 1px 0 rgba(226,187,126,.14),0 16px 38px rgba(0,0,0,.55)!important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);overflow:hidden}
