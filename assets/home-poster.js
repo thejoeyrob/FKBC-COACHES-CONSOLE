@@ -64,3 +64,21 @@
   // re-render when the coach identity changes (sign-in) or the window is resized
   setInterval(function () { var h = $('posterHello'); if (h && me() && h.textContent.indexOf(me().name) < 0) render(); }, 1500);
 })();
+
+/* ---- a Home button on every page except Home, at every screen size (top bar, always reachable) ---- */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function ensure() {
+    var bar = $('fkbcConsoleBar'); if (!bar) return false;
+    if (!$('topHomeBtn')) {
+      var b = document.createElement('button'); b.id = 'topHomeBtn'; b.type = 'button'; b.className = 'btn small topHome'; b.setAttribute('aria-label', 'Home');
+      b.innerHTML = (typeof ico === 'function' ? ico('home', 18) : '') + '<span>Home</span>';
+      b.onclick = function () { if (typeof showView === 'function') showView('home'); };
+      bar.insertBefore(b, bar.firstChild);
+    }
+    sync(); return true;
+  }
+  function sync() { var b = $('topHomeBtn'); if (b) b.style.display = (typeof currentView !== 'undefined' && currentView === 'home') ? 'none' : ''; }
+  var prev = window.showView; window.showView = function (n) { var r = prev.apply(this, arguments); try { ensure(); sync(); } catch (e) {} return r; };
+  var n = 0, iv = setInterval(function () { if (ensure() || ++n > 40) clearInterval(iv); }, 150);
+})();
