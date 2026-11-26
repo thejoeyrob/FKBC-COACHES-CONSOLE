@@ -146,7 +146,7 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 /* ---- options panel + pre-start ---- */
 .tvOpts{display:flex;flex-direction:column;gap:10px}.tvOptRow{display:flex;flex-direction:column;gap:4px;min-width:0}.tvOptRow>label,.tvOptHead,.psH{font:700 .68rem system-ui;letter-spacing:.18em;text-transform:uppercase;color:#e2bb7e}
 .tvOptRow select{width:100%}.tvAutoNote{font:600 .8rem system-ui;color:#c9bba9;margin-top:-4px;min-height:1em}
-.tvOptGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tvOptGrid.dim{opacity:.4}
+.tvOptGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.tvOptGrid.dim{opacity:.4}
 .tvChecks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px}
 .tvChk{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(200,151,90,.35);border-radius:12px;background:rgba(8,5,5,.5);font:600 .9rem system-ui;cursor:pointer}
 .tvChk.big{padding:12px 14px}.tvChk small{display:block;color:#b6a692;letter-spacing:0;text-transform:none;font:500 .74rem system-ui;margin-top:2px}

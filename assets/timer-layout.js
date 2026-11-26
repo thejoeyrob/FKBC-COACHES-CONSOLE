@@ -23,7 +23,7 @@
   function raw() { return (state.settings.tv = state.settings.tv || {}); }
   function layoutOf(s) {   // the 5 fields that make up a "layout"
     var show = boolShow(Object.assign({}, PRESETS.more, s.show || {}));
-    return { style: s.style || 'auto', coach: s.coach == null ? (state.settings.coachArt !== false) : !!s.coach, coachImg: s.coachImg || 'hs', coachSide: s.coachSide || 'left', show: show };
+    return { style: s.style || 'auto', coach: s.coach == null ? (state.settings.coachArt !== false) : !!s.coach, coachImg: (s.coachImg === 'hs' && s.coachZoom === 'whole') ? 'hsw' : (s.coachImg || 'hs'), coachSide: s.coachSide || 'left', show: show };
   }
   function cfg() { var s = raw(); var c = layoutOf(s); c.mode = s.mode || 'more'; c.saved = s.saved || [null, null, null]; c.lessonOnly = !!s.lessonOnly; return c; }
   function put(layout, mode, extra) {
@@ -108,18 +108,20 @@
   function build(root, style, c, p, opts) {
     var W = window.innerWidth, H = window.innerHeight, land = W > H, M = Math.round(Math.max(10, H * 0.03));
     var co = coachOf(p), haveCoach = c.coach && co && p.type !== 'break';
+    var kind = c.coachImg === 'hsw' ? 'hs' : c.coachImg;   // 'hs' = head & shoulders close-up, 'hsw' = same picture, whole figure
     var layer = haveCoach && c.coachImg !== 'none';
     var side = sideFor(c, p), dir = side === 'left' ? -1 : 1;
     var cw = 0, bw = 0, shift = 0, hsS = 0, hsT = 0, hsL = 0;
     if (layer) {
       if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; bw = cw; }   // landscape: at most a third of the screen, clock on the other side
       else { cw = W; bw = W; shift = 0; }   // portrait: centred, whole figure in view, behind the content
-      if (c.coachImg === 'hs') {
+      if (kind === 'hs') {
         var hb = HSBOX[co.id] || [0.15, 0, 0.85, 0.97], fw = hb[2] - hb[0], fh = hb[3] - hb[1];
-        var tw = land ? Math.max(120, cw - 12) : W * 0.98;
+        var zoom = c.coachImg === 'hsw' ? 1 : (land ? 1.22 : 1.3);   // close-up by default: the face stays fully in view, the outer shoulders may run off the sides
+        var tw = (land ? Math.max(120, cw - 12) : W * 0.98) * zoom;
         var size = Math.min(tw / fw, (H - M - 12) / fh), figW = size * fw;
         hsS = size; hsT = M - hb[1] * size;
-        hsL = land ? (side === 'left' ? 6 - hb[0] * size : cw - 6 - hb[2] * size) : (W - figW) / 2 - hb[0] * size;
+        hsL = (land ? (cw - figW) / 2 : (W - figW) / 2) - hb[0] * size;   // figure centred in its space
       }
     }
     var techs = [], sec = state.lesson.sections[p.sectionIndex]; if (sec && sec.kind !== 'break') techs = techList(sec);
@@ -157,7 +159,7 @@
     // coach image layer: always behind the content, at the side, full height
     if (layer) {
       var src = c.coachImg === 'full' ? co.full : co.portrait;
-      h += '<div class="tvCoach ' + c.coachImg + ' side-' + side + (opts.still ? ' still' : '') + '"><img class="tvCoachImg" src="' + esc(src) + '" alt=""></div>';
+      h += '<div class="tvCoach ' + kind + ' side-' + side + (opts.still ? ' still' : '') + '"><img class="tvCoachImg" src="' + esc(src) + '" alt=""></div>';
     }
     root.innerHTML = h;
     root.className = 'tv tv-' + style + (land ? ' land' : ' port') + (layer ? ' hasCoach side-' + side : '') + ' coach-' + (c.coach ? c.coachImg : 'off') + (spawn ? ' spawning' : '');
@@ -255,7 +257,7 @@
       + '<div class="tvOptRow"><label>Layout style</label><select data-o="style" class="libInput">' + STYLES.map(function (s) { return '<option value="' + s[0] + '"' + (c.style === s[0] ? ' selected' : '') + '>' + s[1] + '</option>'; }).join('') + '</select></div>'
       + '<div class="tvAutoNote tvoNote"></div>'
       + '<label class="tvChk big"><input type="checkbox" data-o="coach"' + (c.coach ? ' checked' : '') + '><span>Show coach <small>name and picture on the timer and Up next</small></span></label>'
-      + '<div class="tvOptGrid' + (c.coach ? '' : ' dim') + '"><div class="tvOptRow"><label>Coach picture</label><select data-o="coachImg" class="libInput"><option value="hs"' + (c.coachImg === 'hs' ? ' selected' : '') + '>Head &amp; shoulders</option><option value="full"' + (c.coachImg === 'full' ? ' selected' : '') + '>Full body</option><option value="none"' + (c.coachImg === 'none' ? ' selected' : '') + '>Off — name only</option></select></div>'
+      + '<div class="tvOptGrid' + (c.coach ? '' : ' dim') + '"><div class="tvOptRow"><label>Coach picture</label><select data-o="coachImg" class="libInput"><option value="hs"' + (c.coachImg === 'hs' ? ' selected' : '') + '>Head &amp; shoulders close-up</option><option value="hsw"' + (c.coachImg === 'hsw' ? ' selected' : '') + '>Head &amp; shoulders wide</option><option value="full"' + (c.coachImg === 'full' ? ' selected' : '') + '>Full body</option><option value="none"' + (c.coachImg === 'none' ? ' selected' : '') + '>Off — name only</option></select></div>'
       + '<div class="tvOptRow"><label>Coach side</label><select data-o="coachSide" class="libInput"><option value="left"' + (c.coachSide === 'left' ? ' selected' : '') + '>Left (timer right)</option><option value="right"' + (c.coachSide === 'right' ? ' selected' : '') + '>Right (timer left)</option><option value="alt"' + (c.coachSide === 'alt' ? ' selected' : '') + '>Alternate each section</option></select></div></div>'
       + '<div class="tvOptHead">Show on the timer</div><div class="tvChecks">' + ASSETS.map(function (a) { return '<label class="tvChk"><input type="checkbox" data-asset="' + a[0] + '"' + (c.show[a[0]] ? ' checked' : '') + '><span>' + a[1] + '</span></label>'; }).join('') + '</div>'
       + '<div class="tvOptHead">Keep this arrangement</div><div class="tvSaveRow">' + save + '</div>'
