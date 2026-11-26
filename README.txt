@@ -86,3 +86,5 @@ Bushido: single bottom navigation (top bar keeps live status + coach), red brush
 v46 - Bushido home tiles: the supplied rim art (bronze edge + inner glow) overlays the red/black texture, which is clipped inside the rim.
 
 v47 - Bushido: Kanit Italic (SIL OFL, bundled in assets/bushido/fonts) for headings, timer clock and button labels; sizes tuned to stay inside frames.
+
+v48 - Bushido: stronger button frame (thicker bronze rim, bright edge, dark inner line) over the red/black texture.

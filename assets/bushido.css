@@ -62,11 +62,11 @@ html.bushido .pageTitle .eyebrow{font-size:.62rem}
 /* ---------- buttons: the supplied pill skins (idle = dark red, active = glowing red) ---------- */
 html.bushido :is(.btn,.homeAction,.modeBtn,.chipTab,.tab,.stepper button){
   background:none!important;border:0 solid transparent!important;border-radius:0!important;
-  border-image:url(bushido/btn-idle.webp) 50 76 50 76 fill / 13px 20px stretch!important;
+  border-image:url(bushido/btn-idle-f.webp) 50 76 50 76 fill / 13px 20px stretch!important;
   color:var(--bone)!important;box-shadow:none!important;text-shadow:0 1px 2px #000;filter:drop-shadow(0 5px 7px rgba(0,0,0,.55))}
 html.bushido :is(.btn.small,.chipTab,.tab,.modeBtn){border-image-width:11px 17px!important}
 html.bushido :is(.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active,.navBtn.active.pill,.seg button.on){
-  border-image-source:url(bushido/btn-glow.webp)!important;color:#fff!important;filter:drop-shadow(0 0 9px rgba(255,40,70,.5)) drop-shadow(0 5px 7px rgba(0,0,0,.55))}
+  border-image-source:url(bushido/btn-glow-f.webp)!important;color:#fff!important;filter:drop-shadow(0 0 9px rgba(255,40,70,.5)) drop-shadow(0 5px 7px rgba(0,0,0,.55))}
 html.bushido .homeAction{border-image-width:16px 20px!important;font-family:system-ui;letter-spacing:.07em}
 html.bushido .btn:active,html.bushido .homeAction:active{transform:scale(.97)}
 html.bushido .btn.danger{color:#ff8a9a!important}
@@ -168,12 +168,12 @@ html.bushido .libItem,html.bushido .classCard{background:rgba(0,0,0,.4)!importan
    The texture is clipped inside the rim (padding-box + matching radius) so it never spills over the border. ---- */
 html.bushido .homeAction{
   border:0 solid transparent!important;border-radius:24px!important;
-  border-image:url(bushido/btn-idle.webp) 50 76 50 76 / 17px 21px stretch!important;
+  border-image:url(bushido/btn-idle-f.webp) 50 76 50 76 / 17px 21px stretch!important;
   background:linear-gradient(rgba(6,3,3,.5),rgba(6,3,3,.62)),url(bushido/bg-red.jpg) center/cover no-repeat!important;
   background-clip:padding-box!important;background-origin:padding-box!important;
   box-shadow:none!important;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))!important;padding:8px 2px!important}
 html.bushido .homeAction.primary{
-  border-image-source:url(bushido/btn-glow.webp)!important;
+  border-image-source:url(bushido/btn-glow-f.webp)!important;
   background:linear-gradient(rgba(60,0,10,.06),rgba(60,0,10,.26)),url(bushido/bg-red.jpg) center/cover no-repeat!important;
   background-clip:padding-box!important;box-shadow:none!important;filter:drop-shadow(0 0 10px rgba(255,40,70,.5)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
 /* bottom-nav play button: texture kept inside its bronze ring */
@@ -202,3 +202,11 @@ html.bushido .clock{font-size:clamp(3.4rem,17vw,6rem)!important;letter-spacing:0
 html.bushido .coachMini span{font-size:.4rem!important;letter-spacing:.02em!important}
 html.bushido .heroH1{font-size:clamp(1.3rem,6.2vw,2rem)!important;white-space:nowrap}
 html.bushido .homeAction{font-size:.68rem!important}
+
+/* definitive frame: bronze rim + a fine bright outline so the button edge reads clearly over the texture */
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button){
+  filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 5px 7px rgba(0,0,0,.6))!important}
+html.bushido :is(.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active){
+  filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 0 9px rgba(255,40,70,.5)) drop-shadow(0 5px 7px rgba(0,0,0,.6))!important}
+html.bushido .homeAction{filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
+html.bushido .homeAction.primary{filter:drop-shadow(0 0 .5px #f0cd90) drop-shadow(0 0 1px rgba(200,151,90,.85)) drop-shadow(0 0 10px rgba(255,40,70,.5)) drop-shadow(0 6px 8px rgba(0,0,0,.6))!important}
