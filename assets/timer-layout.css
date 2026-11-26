@@ -188,3 +188,16 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
   -webkit-mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
   mask-image:linear-gradient(90deg,transparent calc(var(--b0) * 1%),#000 calc(var(--b0) * 1% + 9%),#000 calc(var(--b2) * 1% - 9%),transparent calc(var(--b2) * 1%)),linear-gradient(180deg,#000 86%,transparent);
   -webkit-mask-composite:source-in;mask-composite:intersect}
+
+/* a translucent dark plate under the title and the clock separates them from the coach picture */
+.tvTitle,.tvClock{background:rgba(8,4,4,.3);border-radius:22px;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.tvTitle{padding:8px 12px}.tvClock{padding:8px 10px}
+.hasCoach .tvTitle,.hasCoach .tvClock{background:rgba(8,4,4,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.hasCoach .tvHead{background:linear-gradient(180deg,rgba(8,4,4,.72),rgba(8,4,4,0));border-radius:16px;padding:4px 6px 12px}
+.tv-wash.tv-wash .tvClock{background:rgba(8,4,4,.22)}
+.tv-land .tvTitle{padding:4px 10px}.tv-land .tvClock{padding:4px}
+.hasCoach .tvTitle,.hasCoach .tvClock{background:rgba(8,4,4,.36);-webkit-backdrop-filter:none;backdrop-filter:none}
+.tvTitle,.tvClock{-webkit-backdrop-filter:none;backdrop-filter:none}
+.hasCoach .tvCircle:before{content:"";position:absolute;inset:7%;border-radius:50%;background:radial-gradient(circle,rgba(6,2,2,.62) 0 62%,rgba(6,2,2,0) 100%);z-index:0}
+.tv-big.hasCoach .tvCircle:before,.tv-wash.hasCoach .tvCircle:before{inset:0;border-radius:24px}
+.tvCore,.tvSvg{z-index:1}

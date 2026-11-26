@@ -15,7 +15,7 @@
     all:     { tech: 1, hints: 1, next: 1, stats: 1, timeline: 1, dots: 1, list: 1 }
   };
   var PRESET_NAMES = { minimal: 'Minimal content', more: 'More content', all: 'All content', custom: 'Custom' };
-  var STYLES = [['auto', 'Auto — best for this screen'], ['ring', 'Ring (classic)'], ['big', 'Big clock'], ['wash', 'Phase colour'], ['card', 'Coach card'], ['cockpit', 'Cockpit (large screens)']];
+  var STYLES = [['auto', 'Timer wheel — arranged for this screen'], ['ring', 'Timer wheel — simple stack'], ['big', 'Big clock'], ['wash', 'Phase colour'], ['card', 'Coach card'], ['cockpit', 'Cockpit (large screens)']];
   var ASSETS = [['tech', 'Now / technique detail'], ['hints', 'Coach hints'], ['next', 'Up next & then'], ['stats', 'Elapsed, left & finish time'],
     ['timeline', 'Lesson timeline'], ['dots', 'Round dots'], ['list', 'Technique list (large screens)']];
   var boolShow = function (o) { var r = {}; KEYS.forEach(function (k) { r[k] = !!o[k]; }); return r; };
@@ -57,9 +57,9 @@
     if (h < 520 && w > h) return 'land';
     if (w >= 900 && w > h) return 'cockpit';
     if (w >= 700) return 'card';
-    return 'big';
+    return 'ring';   // the timer wheel is the default everywhere; the screen size only changes how it is arranged
   }
-  function autoName() { var st = resolveStyle({ style: 'auto' }); return { land: 'Sideways phone', cockpit: 'Cockpit', card: 'Coach card', big: 'Big clock' }[st] || st; }
+  function autoName() { var st = resolveStyle({ style: 'auto' }); return { land: 'Timer wheel — sideways phone', cockpit: 'Timer wheel — cockpit', card: 'Timer wheel — coach card', ring: 'Timer wheel — phone' }[st] || st; }
 
   // where the figure sits inside each head & shoulders picture [left, top, right, bottom] as fractions — lets us size by the figure, not by the transparent margins
   var HSBOX = {"joe":[0.137,0,0.863,0.97],"jack":[0.117,0,0.882,0.97],"paul":[0.21,0,0.788,0.97],"bigjohn":[0.147,0,0.852,0.97],"justin":[0.218,0.138,0.79,0.805],"gracie":[0.255,0,0.743,0.97],"john":[0.213,0.09,0.787,0.85],"eden":[0.238,0.087,0.738,0.855]};
