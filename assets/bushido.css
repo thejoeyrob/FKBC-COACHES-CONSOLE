@@ -7,7 +7,7 @@ html.bushido{
   --panel:#140e0d;--panel2:#1b1210;--black:#0b0807;--black2:#120c0b;--black3:#1a110f;
   --red:#d8183a;--red2:#8f0b20;--red3:#ff4a63;--consoleRed:#c8102e;--consoleRed2:#8f0b20;--consolePanel:#140e0d;--consolePanel2:#1b1210;--consoleLine:rgba(200,151,90,.3);
   --crim:#c8102e;--crim2:#8f0b20;--glass:rgba(14,9,8,.8);--glass2:rgba(14,9,8,.9);
-  --tbg:url(bushido/bg-timer.jpg);
+  --tbg:url(bushido/bg-red.jpg);
   color-scheme:dark;
 }
 html.bushido body{background:#080505!important;color:var(--bone)}
@@ -25,7 +25,6 @@ html.bushido body:after{opacity:.05}
   html.bushido body{--bgimg:url(bushido/bg-wide.jpg)}
   html.bushido body[data-view="home"]{--bgimg:url(bushido/bg-pad.jpg)}
   html.bushido body[data-view="timetable"]{--bgimg:url(bushido/bg-red.jpg)}
-  html.bushido{--tbg:url(bushido/bg-wide.jpg)}
 }
 
 /* ---------- type ---------- */
@@ -98,7 +97,7 @@ html.bushido .whoWidget .av,html.bushido .av{border-color:var(--bz)!important}
 
 /* ---------- timer ---------- */
 html.bushido .timerStage{
-  background:linear-gradient(180deg,rgba(8,5,5,.45),rgba(8,5,5,.78)),var(--tbg) center/cover no-repeat,#080505!important}
+  background:linear-gradient(180deg,rgba(8,4,4,.38),rgba(8,4,4,.7)),var(--tbg) center/cover no-repeat,#080505!important}
 html.bushido .timerStage:before{opacity:.9;background:radial-gradient(circle at 68% 36%,var(--phGlow),transparent 36%)!important}
 html.bushido .clock{color:var(--bone);text-shadow:0 0 30px var(--phGlow),0 4px 22px rgba(0,0,0,.8)}
 html.bushido .timerTop,html.bushido .timerBottom{background:none!important}
@@ -141,3 +140,13 @@ html.bushido .homeAction.primary{background:linear-gradient(rgba(60,0,10,.08),rg
 html.bushido .homeAction .ic{color:var(--bz2);width:26px;height:26px}
 html.bushido .homeAction span{color:var(--bone)}
 html.bushido :is(.chipTab,.tab,.modeBtn){display:inline-flex;align-items:center;justify-content:center;gap:6px}
+
+/* one navigation only: the bottom bar. The top bar keeps just the live status and who is signed in. */
+html.bushido #fkbcConsoleBar .consoleModes,html.bushido #fkbcConsoleBar .consoleLogo{display:none!important}
+html.bushido #fkbcConsoleBar{display:flex!important;align-items:center;justify-content:space-between;gap:10px;padding:6px 10px!important;min-height:0}
+html.bushido #fkbcConsoleBar .livePill{margin:0}
+/* clear, high-resolution logo that stands out from the artwork */
+html.bushido .homeLogo,html.bushido #fkbcBrandRow .brandLogo{width:min(340px,80vw)!important;max-height:none!important;height:auto;
+  filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 3px rgba(0,0,0,.95)) drop-shadow(0 4px 16px rgba(0,0,0,.95))}
+html.bushido #fkbcBrandRow .brandLogo{width:auto!important;height:50px}
+html.bushido .homeTag{display:inline-block;background:rgba(6,3,3,.62);padding:5px 11px;border-radius:9px;border:1px solid var(--rim)}

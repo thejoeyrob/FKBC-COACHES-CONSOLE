@@ -79,3 +79,6 @@ Off by default. Turn on with  ?theme=bushido  (remembered) or Settings > Appeara
 
 v43 - Bushido preview refinements: original heading font restored, calmer text sizes, darker content plates, textured home tiles.
 All emoji / system glyph icons (previous, next, restart, pause, bell, gloves…) replaced with the app's own line icons, in both themes.
+
+v44 - Home line-up shows all 8 coaches on phones (no sideways scroll); crisp high-res logo (from versions/consult-arcade) in both themes.
+Bushido: single bottom navigation (top bar keeps live status + coach), red brush texture behind the timer.
