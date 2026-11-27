@@ -46,3 +46,8 @@
 #fkbcConsoleBar .topHome{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;white-space:nowrap}
 #fkbcConsoleBar .topHome span{font-size:.78rem}
 @media(min-width:900px){html.bushido #fkbcConsoleBar .consoleModes{display:flex!important}}
+
+/* carousel: JS positions every figure each frame, so no CSS transition; figures shrink toward the middle line as they move outward */
+.posterStage .pc{transition:none!important;transform-origin:50% 50%!important;bottom:38px!important;height:calc(100% - 38px)!important;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.posterStage{touch-action:pan-y}
+.posterHint{display:none!important;position:absolute;left:0;right:0;bottom:-18px;text-align:center;font:600 .6rem system-ui;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,234,220,.6);pointer-events:none;z-index:29}
