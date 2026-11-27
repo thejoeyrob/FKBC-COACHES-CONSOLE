@@ -1,0 +1,105 @@
+/* FKBC Bushido — one frame style, one texture source.
+ * Every panel, pop-up, bar and button uses the same bronze border (same colour, style and thickness).
+ * Textures are crops of the supplied red/black brush artwork, at native quality, rotated/flipped and taken from
+ * different areas so no two neighbours repeat. */
+html.bushido{
+  --frw:1.5px;--frc:rgba(212,165,104,.85);--frr:16px;--frb:13px;
+  --T:bushido/tx/;
+}
+/* ---------- backgrounds (page level): different crop + orientation per screen ---------- */
+html.bushido body{--bgimg:url(bushido/tx/bg-d.webp)}
+html.bushido body[data-view="home"]{--bgimg:url(bushido/tx/bg-c.webp)}
+html.bushido body[data-view="timetable"]{--bgimg:url(bushido/tx/bg-d.webp)}
+html.bushido body[data-view="library"]{--bgimg:url(bushido/tx/bg-c.webp)}
+html.bushido body[data-view="planner"]{--bgimg:url(bushido/tx/bg-d.webp)}
+html.bushido body[data-view="chat"]{--bgimg:url(bushido/tx/bg-c.webp)}
+@media (min-width:820px),(orientation:landscape){
+  html.bushido body{--bgimg:url(bushido/tx/bg-a.webp)}
+  html.bushido body[data-view="home"]{--bgimg:url(bushido/tx/bg-b.webp)}
+  html.bushido body[data-view="timetable"]{--bgimg:url(bushido/tx/bg-b.webp)}
+  html.bushido body[data-view="library"]{--bgimg:url(bushido/tx/bg-a.webp)}
+  html.bushido body[data-view="chat"]{--bgimg:url(bushido/tx/bg-b.webp)}
+}
+html.bushido body:before{
+  background:linear-gradient(180deg,rgba(8,5,5,.34) 0%,rgba(8,5,5,.58) 60%,rgba(8,5,5,.8) 100%),var(--bgimg) center/cover no-repeat!important}
+html.bushido body[data-view="home"]:before{
+  background:linear-gradient(180deg,rgba(8,5,5,0) 0%,rgba(8,5,5,.18) 40%,rgba(8,5,5,.62) 80%,rgba(8,5,5,.8) 100%),var(--bgimg) center/cover no-repeat!important}
+html.bushido{--tbg:url(bushido/tx/t-r1.webp)}
+html.bushido .timerStage{background:linear-gradient(180deg,rgba(8,4,4,.3),rgba(8,4,4,.58)),url(bushido/tx/bg-d.webp) center/cover no-repeat,#080505!important}
+@media (orientation:landscape){html.bushido .timerStage{background:linear-gradient(180deg,rgba(8,4,4,.3),rgba(8,4,4,.58)),url(bushido/tx/bg-a.webp) center/cover no-repeat,#080505!important}}
+
+/* ---------- ONE frame for every window: panels, pop-ups, hero, page titles, bars, dialogs ---------- */
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.chatRooms,.chatMain,.nextCardHome,.libItem,.emptyPlan,.doneCard,.nextCard,.whoWidget,.ttSess,.ckBlock,.ttLessonBox,.tipBox,.settingGroup,.homeHero,.modalBox,.pageTitle,.plannerTop,#fkbcConsoleBar,.bottomNav,.gsDlg,.classCard,.accessCard,.libGroup){
+  border:var(--frw) solid var(--frc)!important;border-image:none!important;border-radius:var(--frr)!important;
+  outline:0;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 14px 34px rgba(0,0,0,.55)!important}
+/* the coloured accent bars become an inner edge so the border itself stays identical everywhere */
+html.bushido :is(.sec2,.classCard,.tipBox){box-shadow:inset 4px 0 0 var(--accent,var(--bz)),inset 0 0 0 1px rgba(0,0,0,.6),0 14px 34px rgba(0,0,0,.55)!important}
+html.bushido .modalBox{padding:0!important;overflow:hidden}
+html.bushido .pageTitle{padding:12px 18px!important;min-height:0}
+html.bushido .dayCard.today{outline:0;box-shadow:inset 0 0 0 1px var(--bz2),inset 0 0 0 1px rgba(0,0,0,.6),0 14px 34px rgba(0,0,0,.55)!important}
+
+/* ---------- textures on the plates (darkened for reading, never flat) — cycling crops ---------- */
+html.bushido{--plateA:linear-gradient(rgba(8,5,5,.66),rgba(8,5,5,.74))}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.chatRooms,.chatMain,.nextCardHome,.emptyPlan,.doneCard,.nextCard,.whoWidget,.ttSess,.ckBlock,.ttLessonBox,.tipBox,.settingGroup,.libGroup,.classCard){
+  background:var(--plateA),var(--tx,url(bushido/tx/t-d1.webp)) center/cover no-repeat!important}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.libGroup,.classCard):nth-child(4n+1){--tx:url(bushido/tx/t-d1.webp)}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.libGroup,.classCard):nth-child(4n+2){--tx:url(bushido/tx/t-d3.webp)}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.libGroup,.classCard):nth-child(4n+3){--tx:url(bushido/tx/t-m3.webp)}
+html.bushido :is(.panel,.sec2,.dayCard,.profile,.savedItem,.libGroup,.classCard):nth-child(4n){--tx:url(bushido/tx/t-d4.webp)}
+html.bushido :is(.nextCard,.whoWidget,.doneCard,.chatMain,.settingGroup){--tx:url(bushido/tx/t-d2.webp)}
+html.bushido :is(.chatRooms,.ckBlock,.tipBox){--tx:url(bushido/tx/t-m1.webp)}
+html.bushido .libItem{background:rgba(0,0,0,.42)!important}
+html.bushido .homeHero{background:linear-gradient(180deg,rgba(8,5,5,.42),rgba(8,5,5,.72)),url(bushido/tx/t-m2.webp) center/cover no-repeat!important}
+html.bushido .modalBox{background:linear-gradient(rgba(8,5,5,.8),rgba(8,5,5,.86)),url(bushido/tx/t-d2.webp) center/cover no-repeat!important}
+html.bushido #pickModal .modalBox{background:linear-gradient(rgba(8,5,5,.8),rgba(8,5,5,.86)),url(bushido/tx/t-d4.webp) center/cover no-repeat!important}
+html.bushido #runEditModal .modalBox,html.bushido #savedModal .modalBox{background:linear-gradient(rgba(8,5,5,.8),rgba(8,5,5,.86)),url(bushido/tx/t-d1.webp) center/cover no-repeat!important}
+html.bushido .gsDlg{background:linear-gradient(rgba(8,5,5,.8),rgba(8,5,5,.88)),url(bushido/tx/t-d3.webp) center/cover no-repeat!important}
+html.bushido .modalHead,html.bushido .modalFoot{background:rgba(8,5,5,.62)!important}
+html.bushido .pageTitle{background:linear-gradient(90deg,rgba(8,5,5,.5),rgba(8,5,5,.74)),url(bushido/tx/t-r3.webp) center/cover no-repeat!important}
+html.bushido #fkbcConsoleBar,html.bushido .plannerTop{background:linear-gradient(rgba(8,5,5,.55),rgba(8,5,5,.7)),url(bushido/tx/t-m4.webp) center/cover no-repeat!important}
+html.bushido .bottomNav{background:linear-gradient(rgba(8,5,5,.5),rgba(8,5,5,.66)),url(bushido/tx/t-m2.webp) center/cover no-repeat!important}
+html.bushido .accessCard{background:linear-gradient(rgba(8,5,5,.78),rgba(8,5,5,.86)),url(bushido/tx/t-d4.webp) center/cover no-repeat!important}
+
+/* ---------- buttons: same frame, texture inside — dark/red-black when idle, bright red when on/primary ---------- */
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button,.homeAction){
+  border:var(--frw) solid var(--frc)!important;border-image:none!important;border-radius:var(--frb)!important;
+  background:linear-gradient(rgba(6,3,3,.34),rgba(6,3,3,.44)),var(--tx,url(bushido/tx/t-m1.webp)) center/cover no-repeat!important;
+  background-clip:padding-box!important;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 4px 9px rgba(0,0,0,.5)!important;filter:none!important;text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.8)}
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button):nth-child(4n+1){--tx:url(bushido/tx/t-m1.webp)}
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button):nth-child(4n+2){--tx:url(bushido/tx/t-m3.webp)}
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button):nth-child(4n+3){--tx:url(bushido/tx/t-m4.webp)}
+html.bushido :is(.btn,.chipTab,.tab,.modeBtn,.stepper button):nth-child(4n){--tx:url(bushido/tx/t-m2.webp)}
+html.bushido .homeAction:nth-child(6n+1){--tx:url(bushido/tx/t-r1.webp)}
+html.bushido .homeAction:nth-child(6n+2){--tx:url(bushido/tx/t-r3.webp)}
+html.bushido .homeAction:nth-child(6n+3){--tx:url(bushido/tx/t-r5.webp)}
+html.bushido .homeAction:nth-child(6n+4){--tx:url(bushido/tx/t-r2.webp)}
+html.bushido .homeAction:nth-child(6n+5){--tx:url(bushido/tx/t-r6.webp)}
+html.bushido .homeAction:nth-child(6n){--tx:url(bushido/tx/t-r4.webp)}
+html.bushido :is(.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active,.seg button.on){
+  background:linear-gradient(rgba(60,0,10,.04),rgba(60,0,10,.22)),var(--txr,url(bushido/tx/t-r2.webp)) center/cover no-repeat!important;
+  background-clip:padding-box!important;border-color:#e6bd84!important;color:#fff!important;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),0 0 14px rgba(255,40,70,.5),0 4px 9px rgba(0,0,0,.5)!important}
+html.bushido :is(.btn.red,.btn.primary,.chipTab.on,.tab.active,.modeBtn.active):nth-child(3n+1){--txr:url(bushido/tx/t-r1.webp)}
+html.bushido :is(.btn.red,.btn.primary,.chipTab.on,.tab.active,.modeBtn.active):nth-child(3n+2){--txr:url(bushido/tx/t-r5.webp)}
+html.bushido :is(.btn.red,.btn.primary,.chipTab.on,.tab.active,.modeBtn.active):nth-child(3n){--txr:url(bushido/tx/t-r3.webp)}
+html.bushido .homeAction{border-radius:var(--frr)!important}
+html.bushido .btn:active,html.bushido .homeAction:active{transform:scale(.97)}
+/* play button + selected nav keep the same bronze edge */
+html.bushido .navBtn.timerNav{background:linear-gradient(rgba(60,0,10,.04),rgba(60,0,10,.2)),url(bushido/tx/t-r2.webp) center/cover no-repeat!important;border:var(--frw) solid var(--frc)!important;background-clip:padding-box!important;
+  box-shadow:0 0 0 5px rgba(8,5,5,.92),0 0 20px rgba(255,40,70,.5),0 12px 26px rgba(0,0,0,.6)!important}
+html.bushido .navBtn.active{box-shadow:inset 0 0 0 var(--frw) var(--frc)!important;border-radius:var(--frb)}
+/* inputs share the same edge */
+html.bushido :is(input:not([type=checkbox]):not([type=radio]),select,textarea){border:var(--frw) solid rgba(212,165,104,.55)!important;border-radius:11px!important}
+
+/* win over the older skin rules: no image borders, no outline filters anywhere */
+html.bushido body :is(.btn,.chipTab,.tab,.modeBtn,.stepper button,.homeAction,.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active,.seg button.on,.navBtn.active.pill){
+  border-image:none!important;border-image-source:none!important;filter:none!important;border-style:solid!important}
+html.bushido body :is(.panel,.sec2,.dayCard,.profile,.savedItem,.modalBox,.homeHero,.pageTitle,.gsDlg){border-image:none!important;border-image-source:none!important;filter:none!important}
+
+/* play button: the symbol is pressed into the surface (dark, with a light lower lip and a shadowed upper edge) */
+html.bushido #bottomTimer{color:rgba(14,0,3,.9)!important}
+html.bushido #bottomTimer .ic,html.bushido #bottomTimer svg{
+  color:rgba(14,0,3,.9)!important;fill:rgba(14,0,3,.9)!important;stroke:rgba(14,0,3,.9)!important;
+  filter:drop-shadow(0 1.6px 0 rgba(255,150,140,.5)) drop-shadow(0 -1.2px 1px rgba(0,0,0,.85)) drop-shadow(0 0 3px rgba(0,0,0,.45))!important}
+html.bushido #bottomTimer .nicon{color:rgba(14,0,3,.9);text-shadow:0 1.6px 0 rgba(255,150,140,.5),0 -1.2px 1px rgba(0,0,0,.85)}
