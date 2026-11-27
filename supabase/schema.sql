@@ -211,3 +211,25 @@ revoke all on public.checkins from anon;
 do $$ begin
   begin alter publication supabase_realtime add table public.checkins; exception when duplicate_object then null; end;
 end $$;
+
+-- ---------- coach profile details (belt / grade, qualifications, short bio) ----------
+create table if not exists public.coach_profiles (
+  coach_id text primary key check (char_length(coach_id) between 1 and 32),
+  belt text not null default '' check (char_length(belt) <= 40),
+  quals text not null default '' check (char_length(quals) <= 200),
+  bio text not null default '' check (char_length(bio) <= 400),
+  updated_at timestamptz not null default now()
+);
+alter table public.coach_profiles enable row level security;
+drop policy if exists cp_read on public.coach_profiles;
+drop policy if exists cp_insert on public.coach_profiles;
+drop policy if exists cp_update on public.coach_profiles;
+create policy cp_read on public.coach_profiles for select to authenticated using (private.is_member());
+-- you edit your own card; an admin can edit anyone's
+create policy cp_insert on public.coach_profiles for insert to authenticated with check (private.is_member() and (coach_id = private.my_coach() or private.is_admin()));
+create policy cp_update on public.coach_profiles for update to authenticated using (private.is_member() and (coach_id = private.my_coach() or private.is_admin())) with check (private.is_member() and (coach_id = private.my_coach() or private.is_admin()));
+grant select, insert, update on public.coach_profiles to authenticated;
+revoke all on public.coach_profiles from anon;
+do $$ begin
+  begin alter publication supabase_realtime add table public.coach_profiles; exception when duplicate_object then null; end;
+end $$;

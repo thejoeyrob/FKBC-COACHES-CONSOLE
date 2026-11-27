@@ -1,0 +1,10 @@
+.profile.pf{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.pf .pfRow{display:flex;align-items:center;justify-content:center;gap:7px;font:600 .82rem/1.3 system-ui;color:var(--text,#f3eadc);max-width:100%}
+.pf .pfBelt span{font-weight:800}.pf .pfQual{font-weight:500;color:var(--muted,#b6a692)}
+.pf .pfEmpty{color:var(--muted,#8d7f6d);font-style:italic;font-weight:500;opacity:.75}
+.pf .pfDot{width:22px;height:9px;border-radius:3px;border:1px solid rgba(255,255,255,.55);display:inline-block;flex:none}
+.pf .pfBio{margin:2px 0 0;padding:7px 10px;border-radius:10px;background:rgba(0,0,0,.35);border:1px solid rgba(212,165,104,.3);font:500 .78rem/1.4 system-ui;color:var(--soft,#eadfce);max-width:100%;overflow-wrap:anywhere}
+.pf .pfEdit{margin-top:4px}
+.pfForm{display:flex;flex-direction:column;gap:12px}.pfForm label{display:flex;flex-direction:column;gap:5px;font:700 .8rem system-ui;color:var(--muted,#b6a692)}
+.pfForm input,.pfForm select,.pfForm textarea{width:100%;box-sizing:border-box;font-size:16px;padding:10px;border-radius:10px;background:#0d0a09;color:#f3eadc;border:1px solid rgba(212,165,104,.5)}
+.pfForm textarea{resize:none}.pfForm small{float:right;font-weight:500}

@@ -267,6 +267,29 @@
   };
   L.pullCheckins = pullCheckins;
 
+  /* ---------- coach profile details (belt, qualifications, short bio) ---------- */
+  var KPR = 'fkbc_profiles', KPRQ = 'fkbc_profiles_q';
+  var prRefresh = function () { try { if (window.FKProfiles) window.FKProfiles.refresh(); } catch (e) {} };
+  async function pullProfiles() {
+    var r = await sb.from('coach_profiles').select('coach_id,belt,quals,bio'); if (r.error) throw r.error;
+    var m = {}; r.data.forEach(function (x) { m[x.coach_id] = { belt: x.belt, quals: x.quals, bio: x.bio }; });
+    var q = jget(KPRQ, {}); Object.keys(q).forEach(function (k) { m[k] = q[k]; });
+    jset(KPR, m); prRefresh();
+  }
+  async function flushProfiles() {
+    var q = jget(KPRQ, {}), ids = Object.keys(q); if (!ids.length || !L.member) return;
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i], v = q[id];
+      try { var r = await sb.from('coach_profiles').upsert({ coach_id: id, belt: v.belt, quals: v.quals, bio: v.bio, updated_at: new Date().toISOString() }); if (!r.error) delete q[id]; } catch (e) {}
+    }
+    jset(KPRQ, q);
+  }
+  L.saveProfile = async function (id, v) {
+    var m = jget(KPR, {}); m[id] = v; jset(KPR, m); var q = jget(KPRQ, {}); q[id] = v; jset(KPRQ, q); prRefresh();
+    if (L.member) { try { await flushProfiles(); await pullProfiles(); } catch (e) {} }
+  };
+  L.pullProfiles = pullProfiles;
+
   /* ---------- realtime ---------- */
   function subscribe() {
     try { if (L.channel) sb.removeChannel(L.channel); } catch (e) {}
@@ -278,6 +301,7 @@
       .on('postgres_changes', { event: '*', schema: 'public', table: 'timetable' }, function () { pullTimetable().catch(function () {}); })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'club_library' }, function () { pullLibrary().catch(function () {}); })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'checkins' }, function () { pullCheckins().catch(function () {}); })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'coach_profiles' }, function () { pullProfiles().catch(function () {}); })
       .subscribe(function (st) {
         // instant push is a bonus: if it is blocked (some Wi-Fi blocks it) we keep working by checking every few seconds
         if (st === 'SUBSCRIBED') { L.rt = true; catchUp(); }   // anything sent before the live connection was up (or while it was down) is fetched now
@@ -285,13 +309,13 @@
       });
   }
   async function catchUp() {
-    var jobs = [pullMessages, pullLessons, pullTimetable, pullLibrary, flushCheckins, pullCheckins];
+    var jobs = [pullMessages, pullLessons, pullTimetable, pullLibrary, flushCheckins, pullCheckins, flushProfiles, pullProfiles];
     for (var i = 0; i < jobs.length; i++) { try { await jobs[i](); } catch (e) {} }
     flushPending();
   }
   async function afterJoin() {
     setStatus('live');
-    var jobs = [pullMessages, function () { return pullLessons(true); }, pullTimetable, pullLibrary, flushCheckins, pullCheckins];
+    var jobs = [pullMessages, function () { return pullLessons(true); }, pullTimetable, pullLibrary, flushCheckins, pullCheckins, flushProfiles, pullProfiles];
     for (var i = 0; i < jobs.length; i++) { try { await jobs[i](); } catch (e) { /* one table failing must not stop the rest */ } }
     subscribe(); L.ready = true;
     flushPending(); syncLessons(); pushLibrary();
