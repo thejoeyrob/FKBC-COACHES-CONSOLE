@@ -86,7 +86,7 @@ html.bushido :is(.btn.red,.btn.primary,.chipTab.on,.tab.active,.modeBtn.active):
 html.bushido .homeAction{border-radius:var(--frr)!important}
 html.bushido .btn:active,html.bushido .homeAction:active{transform:scale(.97)}
 /* play button + selected nav keep the same bronze edge */
-html.bushido .navBtn.timerNav{background:linear-gradient(rgba(60,0,10,.04),rgba(60,0,10,.2)),url(bushido/tx/t-r4.webp) center/cover no-repeat!important;border:var(--frw) solid var(--frc)!important;background-clip:padding-box!important;
+html.bushido .navBtn.timerNav{background:linear-gradient(rgba(60,0,10,.04),rgba(60,0,10,.2)),url(bushido/tx/t-r2.webp) center/cover no-repeat!important;border:var(--frw) solid var(--frc)!important;background-clip:padding-box!important;
   box-shadow:0 0 0 5px rgba(8,5,5,.92),0 0 20px rgba(255,40,70,.5),0 12px 26px rgba(0,0,0,.6)!important}
 html.bushido .navBtn.active{box-shadow:inset 0 0 0 var(--frw) var(--frc)!important;border-radius:var(--frb)}
 /* inputs share the same edge */
@@ -96,3 +96,10 @@ html.bushido :is(input:not([type=checkbox]):not([type=radio]),select,textarea){b
 html.bushido body :is(.btn,.chipTab,.tab,.modeBtn,.stepper button,.homeAction,.btn.red,.btn.primary,.homeAction.primary,.chipTab.on,.tab.active,.modeBtn.active,.seg button.on,.navBtn.active.pill){
   border-image:none!important;border-image-source:none!important;filter:none!important;border-style:solid!important}
 html.bushido body :is(.panel,.sec2,.dayCard,.profile,.savedItem,.modalBox,.homeHero,.pageTitle,.gsDlg){border-image:none!important;border-image-source:none!important;filter:none!important}
+
+/* play button: the symbol is pressed into the surface (dark, with a light lower lip and a shadowed upper edge) */
+html.bushido #bottomTimer{color:rgba(14,0,3,.9)!important}
+html.bushido #bottomTimer .ic,html.bushido #bottomTimer svg{
+  color:rgba(14,0,3,.9)!important;fill:rgba(14,0,3,.9)!important;stroke:rgba(14,0,3,.9)!important;
+  filter:drop-shadow(0 1.6px 0 rgba(255,150,140,.5)) drop-shadow(0 -1.2px 1px rgba(0,0,0,.85)) drop-shadow(0 0 3px rgba(0,0,0,.45))!important}
+html.bushido #bottomTimer .nicon{color:rgba(14,0,3,.9);text-shadow:0 1.6px 0 rgba(255,150,140,.5),0 -1.2px 1px rgba(0,0,0,.85)}
