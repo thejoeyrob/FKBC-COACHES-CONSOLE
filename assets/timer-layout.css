@@ -180,7 +180,7 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 
 /* head & shoulders: sized by the figure so the whole head and shoulders are always in view — nothing is cut inside the screen */
 .tvCoach.hs.side-left,.tvCoach.hs.side-right{-webkit-mask-image:none;mask-image:none}
-.tvCoach.hs .tvCoachImg{top:var(--hsT);left:var(--hsL);bottom:auto;width:var(--hsS);height:var(--hsS);object-fit:fill;object-position:center;
+.tvCoach.hs .tvCoachImg{top:var(--hsT);left:var(--hsL);bottom:auto;width:var(--hsS);height:var(--hsH,var(--hsS));object-fit:fill;object-position:center;
   -webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}
 /* portrait: the picture is centred behind the timer content (it still slides on from its chosen side) */
 .port .tvCoach,.port .tvCoach.side-right,.port .tvCoach.side-left{left:0;right:auto;width:100%}
@@ -211,3 +211,6 @@ body.tvMiniOn .plannerTop{top:calc(var(--tvMiniH) + 6px)!important}
 #tvRoot::-webkit-scrollbar{display:none}
 @media (min-height:521px){#tvRoot>.tvClock{min-height:min(300px,40vh)}}
 #tvRoot:not(.tv-card):not(.tv-cockpit):not(.tv-land)>.tvDock{position:sticky;bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);z-index:6;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 10px);margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px) - 10px);background:linear-gradient(0deg,rgba(8,4,4,.92) 62%,rgba(8,4,4,0))}
+
+/* originals (uncropped) have their own transparent margin: no side fade, bottom fade only */
+.tvCoach.hs.noedge .tvCoachImg{-webkit-mask-image:linear-gradient(180deg,#000 88%,transparent);mask-image:linear-gradient(180deg,#000 88%,transparent)}

@@ -1,5 +1,5 @@
 /* FKBC Coaches Console — service worker (offline use). Bump CACHE when any file changes. */
-const CACHE = 'fkbc-console-v71';
+const CACHE = 'fkbc-console-v72';
 const ASSETS = [
   './', './index.html', './manifest.webmanifest', './assets/sfx.js', './assets/live.js', './assets/timetable.js', './assets/bushido.js', './assets/timer-layout.js', './assets/timer-layout.css', './assets/home-poster.js', './assets/home-poster.css', './assets/app-shell.js', './assets/app-shell.css', './assets/grading.js', './assets/grading.css', './assets/bushido.css', './assets/live-config.js', './assets/vendor/supabase.js', './assets/library-data.js', './assets/img/gym-bg.webp', './assets/img/bg-arena.webp', './assets/img/bg-gym.webp', './assets/img/bg-streets.webp',
   './assets/bushido/bg-pad.jpg', './assets/bushido/bg-phone.jpg', './assets/bushido/bg-red.jpg', './assets/bushido/bg-timer.jpg', './assets/bushido/bg-wide.jpg', './assets/bushido/btn-glow.webp', './assets/bushido/btn-glow-f.webp', './assets/bushido/btn-idle.webp', './assets/bushido/btn-idle-f.webp', './assets/bushido/frame-banner.jpg', './assets/bushido/frame-portrait.jpg', './assets/bushido/frame-section.jpg', './assets/bushido/frame-wide.jpg', './assets/bushido/icon-192.png',

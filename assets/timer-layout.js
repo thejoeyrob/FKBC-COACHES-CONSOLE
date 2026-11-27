@@ -62,7 +62,8 @@
   function autoName() { var st = resolveStyle({ style: 'auto' }); return { land: 'Timer wheel — sideways phone', cockpit: 'Timer wheel — cockpit', card: 'Timer wheel — coach card', ring: 'Timer wheel — phone' }[st] || st; }
 
   // where the figure sits inside each head & shoulders picture [left, top, right, bottom] as fractions — lets us size by the figure, not by the transparent margins
-  var HSBOX = {"joe":[0.137,0,0.863,0.97],"jack":[0.117,0,0.882,0.97],"paul":[0.21,0,0.788,0.97],"bigjohn":[0.147,0,0.852,0.97],"justin":[0.218,0.138,0.79,0.805],"gracie":[0.255,0,0.743,0.97],"john":[0.213,0.09,0.787,0.85],"eden":[0.238,0.087,0.738,0.855]};
+  var ASP = {"jack":1.31,"paul":1.31,"gracie":1.31};   // portrait height/width (originals are 580x760, uncropped)
+  var HSBOX = {"joe":[0.137,0,0.863,0.97],"jack":[0.034,0.026,0.966,0.974],"paul":[0.034,0.03,0.966,0.974],"bigjohn":[0.147,0,0.852,0.97],"justin":[0.218,0.138,0.79,0.805],"gracie":[0.034,0.026,0.966,0.974],"john":[0.213,0.09,0.787,0.85],"eden":[0.238,0.087,0.738,0.855]};
 
   /* ================= helpers ================= */
   var PHC = { work: '#e11d3f', demo: '#d2a21f', rest: '#3a86c8', break: '#2fa66a' };
@@ -111,16 +112,16 @@
     var kind = c.coachImg === 'hsw' ? 'hs' : c.coachImg;   // 'hs' = head & shoulders close-up, 'hsw' = same picture, whole figure
     var layer = haveCoach && c.coachImg !== 'none';
     var side = sideFor(c, p), dir = side === 'left' ? -1 : 1;
-    var cw = 0, bw = 0, shift = 0, hsS = 0, hsT = 0, hsL = 0;
+    var cw = 0, bw = 0, shift = 0, hsS = 0, hsT = 0, hsL = 0, hsH = 0;
     if (layer) {
       if (land) { cw = c.coachImg === 'full' ? Math.min(W / 3, (H - 2 * M) * 0.5) : W / 3; bw = cw; }   // landscape: at most a third of the screen, clock on the other side
       else { cw = W; bw = W; shift = 0; }   // portrait: centred, whole figure in view, behind the content
       if (kind === 'hs') {
-        var hb = HSBOX[co.id] || [0.15, 0, 0.85, 0.97], fw = hb[2] - hb[0], fh = hb[3] - hb[1];
+        var hb = HSBOX[co.id] || [0.15, 0, 0.85, 0.97], asp = ASP[co.id] || 1, fw = hb[2] - hb[0], fh = (hb[3] - hb[1]) * asp;
         var zoom = c.coachImg === 'hsw' ? 1 : (land ? 1.22 : 1.3);   // close-up by default: the face stays fully in view, the outer shoulders may run off the sides
         var tw = (land ? Math.max(120, cw - 12) : W * 0.98) * zoom;
         var size = Math.min(tw / fw, (H - M - 12) / fh), figW = size * fw;
-        hsS = size; hsT = M - hb[1] * size;
+        hsS = size; hsT = M - hb[1] * asp * size; hsH = size * asp;
         hsL = (land ? (cw - figW) / 2 : (W - figW) / 2) - hb[0] * size;   // figure centred in its space
       }
     }
@@ -159,13 +160,13 @@
     // coach image layer: always behind the content, at the side, full height
     if (layer) {
       var src = c.coachImg === 'full' ? co.full : co.portrait;
-      h += '<div class="tvCoach ' + kind + ' side-' + side + (opts.still ? ' still' : '') + '"><img class="tvCoachImg" src="' + esc(src) + '" alt=""></div>';
+      h += '<div class="tvCoach ' + kind + (ASP[co.id] ? ' noedge' : '') + ' side-' + side + (opts.still ? ' still' : '') + '"><img class="tvCoachImg" src="' + esc(src) + '" alt=""></div>';
     }
     root.innerHTML = h;
     root.className = 'tv tv-' + style + (land ? ' land' : ' port') + (layer ? ' hasCoach side-' + side : '') + ' coach-' + (c.coach ? c.coachImg : 'off') + (spawn ? ' spawning' : '');
     root.style.setProperty('--M', M + 'px'); root.style.setProperty('--cw', Math.round(cw) + 'px'); root.style.setProperty('--bw', Math.round(bw) + 'px'); root.style.setProperty('--dir', dir); root.style.setProperty('--shift', shift + '%');
     var hbx = HSBOX[co && co.id] || [0.15, 0, 0.85, 0.97]; root.style.setProperty('--b0', (hbx[0] * 100).toFixed(1)); root.style.setProperty('--b2', (hbx[2] * 100).toFixed(1));
-    root.style.setProperty('--hsS', Math.round(hsS) + 'px'); root.style.setProperty('--hsT', Math.round(hsT) + 'px'); root.style.setProperty('--hsL', Math.round(hsL) + 'px');
+    root.style.setProperty('--hsS', Math.round(hsS) + 'px'); root.style.setProperty('--hsH', Math.round(hsH) + 'px'); root.style.setProperty('--hsT', Math.round(hsT) + 'px'); root.style.setProperty('--hsL', Math.round(hsL) + 'px');
     if (style === 'card' || style === 'cockpit' || style === 'land') {
       var g = gridFor(style, f); root.style.gridTemplateColumns = g.cols; root.style.gridTemplateAreas = g.areas; root.style.gridTemplateRows = g.trows;
     } else { root.style.gridTemplateColumns = root.style.gridTemplateAreas = root.style.gridTemplateRows = ''; }
