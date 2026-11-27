@@ -8,7 +8,7 @@
   var on = true; try { on = localStorage.getItem(K) !== 'classic'; } catch (e) {}   // the new look is the default; 'classic' is the only way back
   if (on) {
     R.classList.add('bushido');
-    document.write('<link rel="stylesheet" id="bushidoCss" href="assets/bushido.css">');
+    document.write('<link rel="stylesheet" id="bushidoCss" href="assets/bushido.css"><link rel="stylesheet" id="bushidoTex" href="assets/bushido-tex.css">');
     var tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.setAttribute('content', '#0b0807');
     var ic = document.querySelector('link[rel="icon"]'); if (ic) ic.setAttribute('href', 'assets/bushido/icon-192.png');
   }
